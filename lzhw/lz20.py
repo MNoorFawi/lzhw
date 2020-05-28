@@ -7,6 +7,7 @@ def lz20(data):
        it glues the sequences together for the huffman coding to code them based on occurrences."""
 
     data = list(map(str, data))
+    data = [i.replace(" ", "---") for i in data]
     i = 1
     sequences = []
     start = 0

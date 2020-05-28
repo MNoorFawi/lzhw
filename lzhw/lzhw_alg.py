@@ -26,7 +26,8 @@ class LZHW:
         return int(bitstring, 2)
 
     def decompress(self):
-        return " ".join(huffman_decode(self.sequences, self.compressed)).split()
+        decomp = " ".join(huffman_decode(self.sequences, self.compressed)).split()
+        return [i.replace("---", " ") for i in decomp]
 
     def size(self):
         return getsizeof(self.compressed)

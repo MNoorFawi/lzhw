@@ -164,7 +164,7 @@ Let's now write the compressed dataframe into a file and compare the sizes of th
 comp_gc.save_to_file("gc_compressed.txt")
 ``` 
 
-Checking the size of the compressed file, it is **134 KB**. Meaning that in total we saved around **39%**.
+Checking the size of the compressed file, it is **87 KB**. Meaning that in total we saved around **60%**.
 Future versions will be optimized to save more space.
 
 Let's now check when we reload the file, will we lose any information or not.

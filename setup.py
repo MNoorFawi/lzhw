@@ -8,8 +8,8 @@ with open("requirements.txt") as rq:
 
 setup(
       name="lzhw",
-      version="1.0.0", 
-      description="Big lists and/or pandas dataframes compression using an optimized algorithm (lzhw) developed from Lempel-Ziv, Huffman and LZ-Welch techniques",
+      version="1.0.1", 
+      description="Compression using an optimized algorithm (lzhw) developed from Lempel-Ziv, Huffman and LZ-Welch techniques",
       packages=["lzhw"],
       install_requires=requirements,
       long_description=readme,

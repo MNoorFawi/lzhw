@@ -1,0 +1,7 @@
+include setup.py
+include requirements.txt
+include README.md
+include MANIFEST.in
+include *.py
+include LICENSE
+include tox.ini

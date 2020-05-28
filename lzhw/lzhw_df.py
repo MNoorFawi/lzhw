@@ -2,10 +2,11 @@ from .lzhw_alg import LZHW
 from pickle import dump, load, HIGHEST_PROTOCOL
 from .compress_util import huffman_decode
 import pandas as pd
+from .lzw import *
 
 class CompressedDF:
     def __init__(self, df, selected_columns = "all"):
-        self.columns = df.columns
+        self.columns = list(df.columns)
         if selected_columns == "all":
             selected = range(df.shape[1])
         else:
@@ -17,7 +18,7 @@ class CompressedDF:
 
     def save_to_file(self, file):
         with open(file, "wb") as output:
-            dump(self.columns, output, HIGHEST_PROTOCOL)
+            dump(lzw_compress(" ".join(self.columns)), output, HIGHEST_PROTOCOL)
             for i in range(len(self.columns)):
                 dump(self.compressed[i].compressed, output, HIGHEST_PROTOCOL)
                 dump(self.compressed[i].sequences, output, HIGHEST_PROTOCOL)
@@ -25,6 +26,7 @@ class CompressedDF:
 def decompress_df_from_file(file):
     with open(file, "rb") as input:
         cols = load(input)
+        cols = lzw_decompress(cols).split()
         df = {}
         for i in range(len(cols)):
             bit_string = load(input)

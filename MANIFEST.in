@@ -1,4 +1,6 @@
-include setup.py
+recursive-include lzhw *.py
+recursive-include examples *.xlsx
+
 include requirements.txt
 include README.md
 include MANIFEST.in

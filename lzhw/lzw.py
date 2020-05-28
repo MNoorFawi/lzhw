@@ -25,9 +25,11 @@ def lzw_compress(symbs):
             compressed.append(keys[w])
             break
     bits = bit_fill(compressed)
-    return byte_encode(bits)
+    return byte_encode(bits, to_bytes = False)
 
 def lzw_decompress(encoded):
+    if isinstance(encoded, int):
+        encoded = encoded.to_bytes(ceil(encoded.bit_length() / 8), "big")
     keys = int_to_ascii.copy()
     bits = byte_decode(encoded)
     n_extended_bytes = floor(len(bits) / 9)

@@ -186,14 +186,14 @@ Perfect! There is no information loss at all.
 In **lzhw_cli** folder, there is a python script that can work on command line to compress and decompress files.
 
 ```bash
-python lzhw_cli.py
+$python lzhw_cli.py
 
 usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT
 lzhw_cli.py: error: the following arguments are required: -f/--input, -o/--output
 ```
 
 ```bash
-python lzhw_cli.py -h
+$python lzhw_cli.py -h
 
 usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT
 
@@ -209,13 +209,13 @@ optional arguments:
 ```
 
 ```bash
-python lzhw_cli.py -f "file_to_compress" -o "output"
+$python lzhw_cli.py -f "file_to_compress" -o "output"
 
 compressed successfully
 ```
 
 ```bash
-python lzhw_cli.py -d -f "file_to_decompress" -o "output"
+$python lzhw_cli.py -d -f "file_to_decompress" -o "output"
 
 decompressed successfully
 ```

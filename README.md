@@ -14,9 +14,9 @@ pip install lzhw
 ```python
 import lzhw
 
-sample_data = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast", "Sunny", "Sunny",
-               "Rain", "Sunny", "Overcast", "Overcast", "Rain", "Rain", "Rain", "Sunny", "Sunny", 
-			   "Overcaste"]
+sample_data = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast", 
+			   "Sunny", "Sunny", "Rain", "Sunny", "Overcast", "Overcast", "Rain", 
+			   "Rain", "Rain", "Sunny", "Sunny", "Overcaste"]
 
 compressed = lzhw.LZHW(sample_data)
 ## let's see how the compressed object looks like:
@@ -180,3 +180,13 @@ print(gc_original.shape == gc_original2.shape)
 ```
 
 Perfect! There is no information loss at all.
+
+## Using the lzhw Command Line Interface
+
+```bash
+python lzhw_cli.py -f "file_to_compress" -o "output"
+```
+
+```bash
+python lzhw_cli.py -d -f "file_to_decompress" -o "output"
+```

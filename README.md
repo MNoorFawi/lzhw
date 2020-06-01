@@ -219,5 +219,3 @@ $python lzhw_cli.py -d -f "file_to_decompress" -o "output"
 
 decompressed successfully
 ```
-
-

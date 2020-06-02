@@ -4,14 +4,16 @@ from .compress_util import huffman_decode, org_shaping
 import pandas as pd
 from lzw_c import *
 from tqdm import tqdm
+from operator import itemgetter 
 
 class CompressedDF:
     def __init__(self, df, selected_cols = "all"):
-        self.columns = list(df.columns)
+        #self.columns = list(df.columns)
         if selected_cols == "all":
             selected = range(df.shape[1])
         else:
             selected = selected_cols
+        self.columns = list(itemgetter(*selected)(df.columns)))
         self.compressed = []
         for i in tqdm(selected):
             comp_col = LZHW(list(df.iloc[:, i]))

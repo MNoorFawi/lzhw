@@ -2,7 +2,8 @@ from .lzhw_alg import LZHW
 from pickle import dump, load, HIGHEST_PROTOCOL
 from .compress_util import huffman_decode
 import pandas as pd
-from .lzw import *
+from lzw_c import *
+from tqdm import tqdm
 
 class CompressedDF:
     def __init__(self, df, selected_columns = "all"):
@@ -12,8 +13,8 @@ class CompressedDF:
         else:
             selected = selected_columns
         self.compressed = []
-        for i in selected:
-            comp_col = LZHW(df.iloc[:, i])
+        for i in tqdm(selected):
+            comp_col = LZHW(list(df.iloc[:, i]))
             self.compressed.append(comp_col)
 
     def save_to_file(self, file):
@@ -28,7 +29,7 @@ def decompress_df_from_file(file):
         cols = load(input)
         cols = lzw_decompress(cols).split()
         df = {}
-        for i in range(len(cols)):
+        for i in tqdm(range(len(cols))):
             bit_string = load(input)
             sequences = load(input)
             df[cols[i]] = " ".join(huffman_decode(sequences, bit_string)).split()

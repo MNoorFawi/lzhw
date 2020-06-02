@@ -1,17 +1,3 @@
-from libc.stdlib cimport malloc, free
-from libc.string cimport strcmp
-#from cpython.string cimport PyString_AsString
-
-cdef char ** to_cstring_array(list_str):
-    cdef char **ret = <char **>malloc(len(list_str) * sizeof(char *))
-    cdef int i
-    cdef bytes b
-    for i in range(len(list_str)):
-        #ret[i] = PyString_AsString(list_str[i])
-        b = list_str[i].encode("UTF-8")
-        ret[i] = b
-    return ret
-
 ctypedef fused str_or_list:
     list
     str
@@ -32,7 +18,7 @@ cdef str glue_seq_l(str_or_list seq):
     cdef str hs = " ".join(seq)
     return hs
 
-cpdef list lz20(list data):
+cdef list lz20_c(list data):
     data = list(map(str, data))
     cdef str ch
     data = [ch.replace(" ", "---") for ch in data]
@@ -70,3 +56,7 @@ cpdef list lz20(list data):
             i += 1
 
     return sequences
+
+cpdef list lz20(list uncomp):
+    cdef list comp = lz20_c(uncomp)
+    return comp

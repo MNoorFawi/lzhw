@@ -1,4 +1,6 @@
 recursive-include lzhw *.py
+recursive-include lzhw *.pyx
+recursive-include lzhw *.c
 recursive-include lzhw_cli *.py
 recursive-include examples *.xlsx
 

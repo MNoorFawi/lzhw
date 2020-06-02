@@ -1,4 +1,4 @@
-from .lzw import *
+from lzw_c import *
 
 def glue_seq(seq, last_separate = False):
     if last_separate:

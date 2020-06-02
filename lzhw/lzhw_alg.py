@@ -1,7 +1,8 @@
 from collections import Counter
 from sys import getsizeof
 from pickle import dump, load, HIGHEST_PROTOCOL
-from .lz20 import lz20
+#from .lz20 import lz20
+from lz20c import lz20
 from .huffman_coding import huffman_coding
 from .compress_util import code_filling, huffman_decode
 

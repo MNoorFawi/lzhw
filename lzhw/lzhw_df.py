@@ -11,7 +11,7 @@ class CompressedDF:
         if selected_cols == "all":
             selected = range(df.shape[1])
         else:
-            selected = selected_columns
+            selected = selected_cols
         self.compressed = []
         for i in tqdm(selected):
             comp_col = LZHW(list(df.iloc[:, i]))

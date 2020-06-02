@@ -13,7 +13,7 @@ class CompressedDF:
             selected = range(df.shape[1])
         else:
             selected = selected_cols
-        self.columns = list(itemgetter(*selected)(df.columns)))
+        self.columns = list(itemgetter(*selected)(df.columns))
         self.compressed = []
         for i in tqdm(selected):
             comp_col = LZHW(list(df.iloc[:, i]))

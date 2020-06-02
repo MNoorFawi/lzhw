@@ -1198,7 +1198,7 @@ int __pyx_module_is_main_lz20c = 0;
 /* Implementation of 'lz20c' */
 static PyObject *__pyx_builtin_map;
 static const char __pyx_k_[] = " ";
-static const char __pyx_k__2[] = "---";
+static const char __pyx_k__2[] = "__";
 static const char __pyx_k_map[] = "map";
 static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
@@ -1208,7 +1208,7 @@ static const char __pyx_k_split[] = "split";
 static const char __pyx_k_replace[] = "replace";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s__2;
+static PyObject *__pyx_n_s__2;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_main;
@@ -1443,7 +1443,7 @@ static PyObject *__pyx_f_5lz20c_lz20_c(PyObject *__pyx_v_data) {
  * cdef list lz20_c(list data):
  *     data = list(map(str, data))             # <<<<<<<<<<<<<<
  *     cdef str ch
- *     data = [ch.replace(" ", "---") for ch in data]
+ *     data = [ch.replace(" ", "__") for ch in data]
  */
   __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1465,7 +1465,7 @@ static PyObject *__pyx_f_5lz20c_lz20_c(PyObject *__pyx_v_data) {
   /* "lz20c.pyx":24
  *     data = list(map(str, data))
  *     cdef str ch
- *     data = [ch.replace(" ", "---") for ch in data]             # <<<<<<<<<<<<<<
+ *     data = [ch.replace(" ", "__") for ch in data]             # <<<<<<<<<<<<<<
  *     cdef int i = 1
  *     cdef list sequences = []
  */
@@ -1483,7 +1483,7 @@ static PyObject *__pyx_f_5lz20c_lz20_c(PyObject *__pyx_v_data) {
     if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_ch, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_CallUnboundCMethod2(&__pyx_umethod_PyString_Type_replace, __pyx_v_ch, __pyx_kp_s_, __pyx_kp_s__2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_CallUnboundCMethod2(&__pyx_umethod_PyString_Type_replace, __pyx_v_ch, __pyx_kp_s_, __pyx_n_s__2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 24, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -1494,7 +1494,7 @@ static PyObject *__pyx_f_5lz20c_lz20_c(PyObject *__pyx_v_data) {
 
   /* "lz20c.pyx":25
  *     cdef str ch
- *     data = [ch.replace(" ", "---") for ch in data]
+ *     data = [ch.replace(" ", "__") for ch in data]
  *     cdef int i = 1             # <<<<<<<<<<<<<<
  *     cdef list sequences = []
  *     cdef list dst
@@ -1502,7 +1502,7 @@ static PyObject *__pyx_f_5lz20c_lz20_c(PyObject *__pyx_v_data) {
   __pyx_v_i = 1;
 
   /* "lz20c.pyx":26
- *     data = [ch.replace(" ", "---") for ch in data]
+ *     data = [ch.replace(" ", "__") for ch in data]
  *     cdef int i = 1
  *     cdef list sequences = []             # <<<<<<<<<<<<<<
  *     cdef list dst
@@ -1890,7 +1890,6 @@ static PyObject *__pyx_f_5lz20c_lz20(PyObject *__pyx_v_uncomp, CYTHON_UNUSED int
  * cpdef list lz20(list uncomp):
  *     cdef list comp = lz20_c(uncomp)             # <<<<<<<<<<<<<<
  *     return comp
- * 
  */
   __pyx_t_1 = __pyx_f_5lz20c_lz20_c(__pyx_v_uncomp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1901,7 +1900,6 @@ static PyObject *__pyx_f_5lz20c_lz20(PyObject *__pyx_v_uncomp, CYTHON_UNUSED int
  * cpdef list lz20(list uncomp):
  *     cdef list comp = lz20_c(uncomp)
  *     return comp             # <<<<<<<<<<<<<<
- * 
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_comp);
@@ -2023,7 +2021,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
+  {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},

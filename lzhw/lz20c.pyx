@@ -21,7 +21,7 @@ cdef str glue_seq_l(str_or_list seq):
 cdef list lz20_c(list data):
     data = list(map(str, data))
     cdef str ch
-    data = [ch.replace(" ", "---") for ch in data]
+    data = [ch.replace(" ", "__") for ch in data]
     cdef int i = 1
     cdef list sequences = []
     cdef list dst

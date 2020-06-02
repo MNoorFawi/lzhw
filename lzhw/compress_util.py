@@ -25,3 +25,7 @@ def huffman_decode(sequences, compressed):
         if bit_int in sequences:
             yield lzw_decompress(sequences[bit_int])
             bit = ""
+
+def org_shaping(seq, bits):
+    org = " ".join(huffman_decode(seq, bits)).split()
+    return [i.replace("__", " ") for i in org]

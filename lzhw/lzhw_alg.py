@@ -4,7 +4,7 @@ from pickle import dump, load, HIGHEST_PROTOCOL
 #from .lz20 import lz20
 from lz20c import lz20
 from .huffman_coding import huffman_coding
-from .compress_util import code_filling, huffman_decode
+from .compress_util import code_filling, huffman_decode, org_shaping
 
 # Putting everything together in one class
 # Lempel-Ziv-Huffman-Welch. I invented it :D
@@ -27,8 +27,8 @@ class LZHW:
         return int(bitstring, 2)
 
     def decompress(self):
-        decomp = " ".join(huffman_decode(self.sequences, self.compressed)).split()
-        return [i.replace("---", " ") for i in decomp]
+        decomp = org_shaping(self.sequences, self.compressed)
+        return decomp
 
     def size(self):
         return getsizeof(self.compressed)
@@ -49,4 +49,5 @@ def decompress_from_file(file):
     with open(file, "rb") as input:
         bit_string = load(input)
         sequences = load(input)
-    return " ".join(huffman_decode(sequences, bit_string)).split()
+    org =  org_shaping(sequences, bit_string)
+    return org

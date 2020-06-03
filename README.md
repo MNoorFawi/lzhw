@@ -22,6 +22,7 @@ Then we will have a shorter list with repeated sequences glued together, where *
 
 The function that performs lempel-ziv and returning a shorter list without the codes I named it **lz20** :D.
 ```python
+import lzhw
 lz20_ex = lzhw.lz20(example)
 print(lz20_ex)
 # ['to', 'be', 'or', 'not', 'to', 'be', 'or', 'to', 'be', 'or', 
@@ -29,6 +30,7 @@ print(lz20_ex)
 ```
 Now huffman coding will give us:
 ```python
+from collections import Counter
 huff20 = lzhw.huffman_coding(Counter(lz20_ex))
 print(huff20)
 # {'to': '10', 'be': '110', 'or': '01', 'not': '00', 
@@ -36,7 +38,7 @@ print(huff20)
 ```
 This will give us:
 ```python
-"".join([huff20.get(i) for i in lz20_ex])
+print("".join([huff20.get(i) for i in lz20_ex]))
 # 10110010010110011011001001011110001111101111000
 ```
 Which has a length of 47 bits.
@@ -354,7 +356,7 @@ import random
 random.seed(1311)
 example = random.choices(["A", "B", "C"], k = 20)
 print(example)
-['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 'A', 'B', 'B', 'C', 'C', 'B', 'C', 'C', 'B']
+#['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 'A', 'B', 'B', 'C', 'C', 'B', 'C', 'C', 'B']
 
 lz78_comp, symb_dict = lzhw.lz78(example)
 print(lz78_comp)
@@ -363,7 +365,7 @@ print(lz78_comp)
 
 print(symb_dict)
 # {'A': '1', 'A C': '2', 'C': '3', 'A A': '4', 'C C': '5', 
-   'C B': '6', 'B': '7', 'A B': '8', 'B C': '9', 'C B C': '10'}
+#  'C B': '6', 'B': '7', 'A B': '8', 'B C': '9', 'C B C': '10'}
 ```
 
 #### huffman_coding()
@@ -383,6 +385,6 @@ They perform **lempel-ziv-welch** compressing and decompressing
 print(lzhw.lzw_compress("Hello World"))
 # 723201696971929295664359987300
 
-print(lzhw.lzw_decompress(lzw.lzw_compress("Hello World")))
+print(lzhw.lzw_decompress(lzhw.lzw_compress("Hello World")))
 # Hello World
 ```

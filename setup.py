@@ -27,7 +27,7 @@ with open("requirements.txt") as rq:
 
 setup(
       name="lzhw",
-      version="1.1.2", 
+      version="1.1.3", 
       description="Compression using an optimized algorithm (lzhw) developed from Lempel-Ziv, Huffman and LZ-Welch techniques",
       packages=["lzhw"],
       install_requires=requirements,

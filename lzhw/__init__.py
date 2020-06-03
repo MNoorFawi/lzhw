@@ -4,3 +4,4 @@ from .huffman_coding import huffman_coding
 #from .lz20 import lz20
 from lz20c import lz20
 from .lz78 import lz78
+from lzw_c import lzw_compress, lzw_decompress

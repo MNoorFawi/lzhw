@@ -346,7 +346,8 @@ decompressed successfully
 
 Aside from the functions and classes discussed, the library also has some more compression functions that can be used as standalone.
 
-####lz78()
+#### lz78()
+
 **lz78** which performs the famous **lempel-ziv78** algorithm:
 ```python
 import random
@@ -365,7 +366,8 @@ print(symb_dict)
    'C B': '6', 'B': '7', 'A B': '8', 'B C': '9', 'C B C': '10'}
 ```
 
-####huffman_coding()
+#### huffman_coding()
+
 Huffman Coding function which takes a Counter object and encodes each symbol accordingly.
 ```python
 from collections import Counter
@@ -374,7 +376,8 @@ print(huffs)
 # {'A': '10', 'C': '0', 'B': '11'}
 ```
 
-####lzw_compress() and lzw_decompress()
+#### lzw_compress() and lzw_decompress()
+
 They perform **lempel-ziv-welch** compressing and decompressing
 ```python
 print(lzhw.lzw_compress("Hello World"))

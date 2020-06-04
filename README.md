@@ -5,6 +5,8 @@
 
 **Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
 
+#### Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
+
 ## How lzhw Works
 The library's main goal is to compress data frames, excel and csv files so that they consume less space to overcome memory errors.
 Also to enable dealing with large files that can cause memory errors when reading them in python or that cause slow operations.

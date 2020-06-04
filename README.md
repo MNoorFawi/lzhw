@@ -311,7 +311,8 @@ Here is the file:
 ```bash
 $python lzhw_cli.py
 
-usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT
+usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                   [-nh]
 lzhw_cli.py: error: the following arguments are required: -f/--input, -o/--output
 ```
 
@@ -319,7 +320,8 @@ Getting help to see what it does and its arguments:
 ```bash
 $python lzhw_cli.py -h
 
-usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT
+usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                   [-nh]
 
 Data Frame Compressor
 
@@ -330,6 +332,9 @@ optional arguments:
                         input file to be (de)compressed
   -o OUTPUT, --output OUTPUT
                         output where to save result
+  -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
+                        select specific columns by names or indices (1-based)
+  -nh, --no-header      skip header / data has no header
 ```
 
 How to compress:

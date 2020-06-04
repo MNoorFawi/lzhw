@@ -35,6 +35,8 @@ def decompress_df_from_file(file, selected_cols = "all"):
         if selected_cols == "all":
             selected = range(len(cols))
         else:
+            if any(isinstance(c, str) for c in selected_cols):
+                selected_cols = [i for i, v in enumerate(cols) if v in selected_cols]
             selected = selected_cols
         df = {}
         for i in tqdm(range(len(cols))):

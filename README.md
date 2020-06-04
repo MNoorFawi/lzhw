@@ -217,7 +217,8 @@ print(original)
 
 #### Compressing Bigger DataFrames
 
-Let's try to compress a real-world dataframe **german_credit.xlsx** file.
+Let's try to compress a real-world dataframe **german_credit.xlsx** file from [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)) [1].
+
 Original txt file is **219 KB** on desk.
 
 ```python
@@ -388,3 +389,7 @@ print(lzhw.lzw_compress("Hello World"))
 print(lzhw.lzw_decompress(lzhw.lzw_compress("Hello World")))
 # Hello World
 ```
+
+##### Reference
+###### 		[1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+

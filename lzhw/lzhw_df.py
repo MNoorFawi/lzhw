@@ -49,8 +49,8 @@ def decompress_df_from_file(file, selected_cols = "all"):
                     df[cols[i]] = lz77_decode(triplets)
                 else:
                     triplts = []
-                    for n, i in zip(sequences.keys(), range(len(triplets))):
-                        triplet = org_shaping(sequences[n], triplets[i])
+                    for n, t in zip(sequences.keys(), range(len(triplets))):
+                        triplet = org_shaping(sequences[n], triplets[t])
                         triplts.append(triplet)
                     df[cols[i]] = lz77_decode(triplts)
 

@@ -1,4 +1,5 @@
 # lzhw
+##### Compression library for data frames and tabular data files, csv,excel etc.
 
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
 [![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
@@ -19,69 +20,79 @@ example = ["to", "be", "or", "not", "to", "be", "or", "to", "be", "or", "not"] *
 print("".join(example))
 # tobeornottobeortobeornottobeornottobeortobeornot
 ```
-**lzhw** uses **lz78** to discover repeated sequences in the stream and construct a dictionary, but instead of returning their codes from the dictionary, it glues the sequence together in one cell.
-Then we will have a shorter list with repeated sequences glued together, where **Huffman Coding** can come to the game encoding them.
+**lzhw** uses [**lz77**](https://en.wikipedia.org/wiki/LZ77_and_LZ78) to discover repeated sequences in the stream and construct *triplets*, in that format **<offset,length,literal>** where *offset* is how many steps should we return back word to find the beginning of the current sequence and *length* is how many steps should we move and *literal* is the next value after the sequence.
 
-The function that performs lempel-ziv and returning a shorter list without the codes I named it **lz20** :D.
+Then we will have 3 shorter lists representing the stream, where [**Huffman Coding**](https://en.wikipedia.org/wiki/Huffman_coding) can come to the game encoding them.
+
+The function that performs lempel-ziv and returning the triplets called **lz77_compress**.
 ```python
 import lzhw
-lz20_ex = lzhw.lz20(example)
-print(lz20_ex)
-# ['to', 'be', 'or', 'not', 'to', 'be', 'or', 'to', 'be', 'or', 
-#  'not', 'to', 'be or', 'not', 'to be', 'or', 'to be or', 'not']
+lz77_ex = lzhw.lz77_compress(example)
+print(lz77_ex)
+# [(None, None, 321647), (None, None, 312421), (None, None, 319090), 
+#  (None, None, 163110516), (4, 3, 321647), (7, 6, 163110516), (11, 6, 163110516)]
 ```
-Now huffman coding will give us:
+Here all the **None**s values are originally "0s" but converted to None to save more space.
+The third item in each tuple is originally a string from the input stream but was compressed using **lzw_compress** function which applies [lempel-ziv-welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch) compression and stores the values as integer instead of original string for **extra space saving**.
+
+Now huffman coding will take the offsets list, lengths list and literal list and encode them based on most occurring values to give:
 ```python
+lz77_lists = list(zip(*lz77_ex))
+print(lz77_lists)
+# [(None, None, None, None, 4, 7, 11), (None, None, None, None, 3, 6, 6), 
+#  (321647, 312421, 319090, 163110516, 321647, 163110516, 163110516)]
+
+huffs = []
 from collections import Counter
-huff20 = lzhw.huffman_coding(Counter(lz20_ex))
-print(huff20)
-# {'to': '10', 'be': '110', 'or': '01', 'not': '00', 
-#  'be or': '11110', 'to be': '11111', 'to be or': '1110'}
+for i in range(len(lz77_lists)):
+    huff = lzhw.huffman_coding(Counter(lz77_lists[i]))
+    huffs.append(huff)
+print(huffs)
+# [{None: '1', 4: '010', 7: '011', 11: '00'}, {None: '1', 3: '00', 6: '01'}, 
+#  {321647: '11', 312421: '100', 319090: '101', 163110516: '0'}]
 ```
-This will give us:
+Now if we encode each value in the triplets with its corresponding value from the huffman dictionary and append everything together we will have:
 ```python
-print("".join([huff20.get(i) for i in lz20_ex]))
-# 10110010010110011011001001011110001111101111000
-```
-Which has a length of 47 bits.
+bits = []
+for i in range(len(huffs)):
+    bit = "".join([huffs[i].get(k) for k in lz77_lists[i]])
+    bits.append(bit)
+print(bits)
+# ['111101001100', '1111000101', '1110010101100']
 
-Then it uses **lempel-ziv-welch (lzw)** to compress the keys of the dictionaries so that no need to store them as strings, i.e. extra space saving.
+print(len("".join(bits)))
+# 35
+```
+Which has a length of **35** bits only!
+ 
+Using each algorithm alone can give us bigger number of bits, for example, using only huffman coding will give us:
 ```python
-from sys import getsizeof
-some_key = "to be or"
-print(getsizeof(some_key))
-# 57
+huff_alone = lzhw.huffman_coding(Counter(example))
+print(huff_alone)
+# {'to': '11', 'be': '01', 'or': '10', 'not': '00'}
 
-lzw_key = lzhw.lzw_compress(some_key)
-print(lzw_key)
-# 5794278370027331706482
+huff_bit = "".join([huff_alone.get(k) for k in example])
+print(huff_bit)
+# 11011000110110110110001101100011011011011000
 
-print(getsizeof(lzw_key))
-# 36
+print(len(huff_bit))
+# 44
 ```
-Let's see if we store the keys of the dictionary as string how much size they will have in comparison of the integer type.
-```python
-keys = list(huff20.keys())
-print(getsizeof(keys))
-# 144
+44 bits, 9 more bit!!! Big deal when dealing with bigger data.
 
-comp_keys = [lzhw.lzw_compress(k) for k in keys]
-print(getsizeof(comp_keys))
-# 128
-```
+The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both lempel-ziv77 and huffman coding, but I am not sure how the huffman coding further compresses the triplets. And also it doesn't use the lempel-ziv-welch for further compression.
 
 All of the steps can be done at once using **LZHW** class as follows and as shown in the Quick Start section:
 ```python
 lzhw_comp = lzhw.LZHW(example)
-print(lzhw_comp)
-# 110110010010110011011001001011110001111101111000 
-# the first 1 is a to save the preceeding 0s as compressed data is stored as an integer
 print(lzhw_comp.compressed)
-# 238786645532536
+# (8012, 1989, 15532) # this is how the compressed data looks like and stored
 
 print(lzhw_comp.sequences) # dictionary's keys and values are stored as integers as well
-# {6: 321647, 14: 312421, 5: 319090, 4: 163110516, 62: 41932445245042,
-#  63: 43170737996901, 30: 5794278370027331706482}
+# {21926886918376052: {3: 79217613925, 10: 564, 11: 567, 4: 287281}, 
+#  21821266153236584: {3: 79217613925, 4: 563, 5: 566}, 
+#  11172629419993383532: {7: 19812244050700343, 12: 19812175464916017, 
+#                        13: 38695657038082, 2: 5175286287971861424896}}
 ```
 
 ## Quick Start
@@ -99,12 +110,12 @@ sample_data = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast",
 
 compressed = lzhw.LZHW(sample_data)
 ## let's see how the compressed object looks like:
-print(compressed)
-# 1111101101010011111101101010011100000010
+print(compressed.compressed)
+# (506460, 128794, 105942)
 
 ## its size
 print(compressed.size())
-# 32
+# 72
 
 ## size of original
 from sys import getsizeof
@@ -112,7 +123,7 @@ print(getsizeof(sample_data))
 # 216
 
 print(compressed.space_saving())
-# space saving from original to compressed is 85%
+# space saving from original to compressed is 67%
 
 ## Let's decompress and check whether there is any information loss
 decomp = compressed.decompress()
@@ -120,7 +131,7 @@ print(decomp == sample_data)
 # True
 ```
 
-As we saw, the LZHW class has saved 85% of the space used to store the original list without any loss.
+As we saw, the LZHW class has saved 67% of the space used to store the original list without any loss. This percentage can get better with bigger data that may have repeated sequences.
 The class has also some useful helper methods as **space_saving**, **size**, and **decompress()** to revert back to original.
 
 Another example with numeric data.
@@ -138,18 +149,15 @@ print(numbers == list(map(int, comp_num.decompress()))) ## make it int again
 # True
 
 print(comp_num.space_saving())
-# space saving from original to compressed is 88%
+# space saving from original to compressed is 73%
 ```
 
 Let's look at how the compressed object is stored and how it looks like when printed:
-LZHW class has an attribute called **compressed** which is the integer of the encoded bitstring
+LZHW class has an attribute called **compressed** which is a tuple of integers representing the encoded triplets.
 
 ```python
-print(comp_num.compressed) # how the compressed is saved (as integer of the bit string)
-# 103596881534874
-
-print(comp_num)
-# 10111100011100010000111010100101101111110011010
+print(comp_num.compressed) # how the compressed is saved (as tuple of 3 integers)
+# (291314557, 351007, 116989796)
 ```
 
 We can also write the compressed data to files using **save_to_file** method, 
@@ -185,7 +193,7 @@ for i in range(len(comp_df.compressed)):
 	comp_space += comp_df.compressed[i].size()
 
 print(comp_space, getsizeof(df))
-# 56 712
+# 144 712
 
 ## Test information loss
 print(comp_df.compressed[0].decompress() == list(map(str, df.a)))
@@ -234,13 +242,13 @@ for i in range(len(comp_gc.compressed)):
 	comp_space += comp_gc.compressed[i].size()
 
 print(comp_space, getsizeof(gc_original))
-# 12932 548852
+# 4504 548852
 
 print(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0])))
 # True
 ```
 
-**Huge space saving, 97%, with no information loss!**
+**Huge space saving, 99%, with no information loss!**
 
 Let's now write the compressed dataframe into a file and compare the sizes of the files.
 
@@ -248,7 +256,7 @@ Let's now write the compressed dataframe into a file and compare the sizes of th
 comp_gc.save_to_file("gc_compressed.txt")
 ``` 
 
-Checking the size of the compressed file, it is **87 KB**. Meaning that in total we saved around **60%**.
+Checking the size of the compressed file, it is **55 KB**. Meaning that in total we saved around **74%**.
 Future versions will be optimized to save more space.
 
 Let's now check when we reload the file, will we lose any information or not.
@@ -265,7 +273,7 @@ print(gc_original.shape == gc_original2.shape)
 # True
 ```
 
-Perfect! There is no information loss at all.
+**Perfect! There is no information loss at all.**
 
 ## (De)Compressing specific columns from a dataframe
 
@@ -358,13 +366,14 @@ Aside from the functions and classes discussed, the library also has some more c
 
 #### lz78()
 
-**lz78** which performs the famous **lempel-ziv78** algorithm:
+**lz78** which performs the famous **lempel-ziv78** algorithm which differs from lempel-ziv77 in that instead of triplets it creates a dictionary for the previously seen sequences:
 ```python
 import random
 random.seed(1311)
 example = random.choices(["A", "B", "C"], k = 20)
 print(example)
-#['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 'A', 'B', 'B', 'C', 'C', 'B', 'C', 'C', 'B']
+#['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 
+# 'A', 'B', 'B', 'C', 'C', 'B', 'C', 'C', 'B']
 
 lz78_comp, symb_dict = lzhw.lz78(example)
 print(lz78_comp)
@@ -395,6 +404,38 @@ print(lzhw.lzw_compress("Hello World"))
 
 print(lzhw.lzw_decompress(lzhw.lzw_compress("Hello World")))
 # Hello World
+```
+
+#### lz20()
+I wanted to modify the lempel-ziv78 and instead of creating a dictionary and returing the codes in the output compressed stream, I wanted to glue the repeated sequences together to get a shorter list with more repeated sequences to further use it with huffman coding.
+
+I named this function lempel-ziv20 :D:
+```python
+lz20_ex = lzhw.lz20(example)
+print(lz20_ex)
+# ['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 
+#  'A', 'B', 'B', 'C', 'C B', 'C', 'C B']
+
+huff20 = lzhw.huffman_coding(Counter(lz20_ex))
+print(huff20)
+# {'A': '10', 'C': '0', 'B': '111', 'C B': '110'}
+```
+
+In data with repeated sequences it will give better huffman dictionaries.
+
+#### lz77_compress() and lz77_decompress()
+
+The main two functions in the library which apply the lempel-ziv77 algorithm:
+
+```python
+lz77_ex = lzhw.lz77_compress(example)
+print(lz77_ex)
+# [(None, None, 577), (1, 1, 579), (1, 1, 577), (4, 3, 579), 
+#  (None, None, 578), (1, 1, 577), (3, 2, 579), (7, 2, 579), (1, 1, 578)]
+
+lz77_decomp = lzhw.lz77_decompress(lz77_ex)
+print(lz77_decomp == example)
+# True
 ```
 
 ##### Reference

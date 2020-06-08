@@ -1,10 +1,10 @@
 from .lzhw_alg import LZHW
 from pickle import dump, load, HIGHEST_PROTOCOL
-from .compress_util import huffman_decode, org_shaping
+from .compress_util import lz77_decode, org_shaping
 import pandas as pd
 from lzw_c import *
 from tqdm import tqdm
-from operator import itemgetter 
+from operator import itemgetter
 
 class CompressedDF:
     def __init__(self, df, selected_cols = "all"):
@@ -40,10 +40,18 @@ def decompress_df_from_file(file, selected_cols = "all"):
             selected = selected_cols
         df = {}
         for i in tqdm(range(len(cols))):
-            bit_string = load(input)
+            triplets = load(input)
             sequences = load(input)
-            if i in selected:
-                df[cols[i]] = org_shaping(sequences, bit_string)
-            else:
+            if i not in selected:
                 continue
+            else:
+                if "lz77" in sequences:
+                    df[cols[i]] = lz77_decode(triplets)
+                else:
+                    triplts = []
+                    for n, i in zip(sequences.keys(), range(len(triplets))):
+                        triplet = org_shaping(sequences[n], triplets[i])
+                        triplts.append(triplet)
+                    df[cols[i]] = lz77_decode(triplts)
+
     return pd.DataFrame(df)

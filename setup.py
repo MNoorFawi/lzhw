@@ -10,12 +10,14 @@ except ImportError:
 if cython_exists:
     ext_modules=[
         Extension("lz20c", ["lzhw/lz20c.pyx"]),
-        Extension("lzw_c", ["lzhw/lzw_c.pyx"])
+        Extension("lzw_c", ["lzhw/lzw_c.pyx"]),
+        Extension("lz77c", ["lzhw/lz77c.pyx"])
     ]
 else:
     ext_modules = [
         Extension("lz20c", ["lzhw/lz20c.c"]),
-        Extension("lzw_c", ["lzhw/lzw_c.c"])
+        Extension("lzw_c", ["lzhw/lzw_c.c"]),
+        Extension("lz77c", ["lzhw/lz77c.c"])
     ]
 
 
@@ -27,7 +29,7 @@ with open("requirements.txt") as rq:
 
 setup(
       name="lzhw",
-      version="1.1.4", 
+      version="1.1.5",
       description="Compression using an optimized algorithm (lzhw) developed from Lempel-Ziv, Huffman and LZ-Welch techniques",
       packages=["lzhw"],
       install_requires=requirements,

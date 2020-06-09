@@ -1,16 +1,15 @@
-from bisect import insort
-from collections import deque
+from heapq import heapify, heappop, heappush
 
 ## to store codes for huffman coding
 class CodeHeap():
     def __init__(self):
-        self._container = deque([])
+        self._container = []
 
     def push(self, item):
-        insort(self._container, item)  # in by sort
+        heappush(self._container, item)  # in by sort
 
     def pop(self):
-        return self._container.popleft()  # FIFO
+        return heappop(self._container)#.popleft()  # FIFO
 
     def __getitem__(self, item):
         return self._container[item]

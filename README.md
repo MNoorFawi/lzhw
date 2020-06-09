@@ -1,5 +1,5 @@
 # lzhw
-##### Compression library for data frames and tabular data files, csv,excel etc.
+##### Compression library for data frames and tabular data files, csv, excel etc.
 
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
 [![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
@@ -256,7 +256,7 @@ Let's now write the compressed dataframe into a file and compare the sizes of th
 comp_gc.save_to_file("gc_compressed.txt")
 ``` 
 
-Checking the size of the compressed file, it is **55 KB**. Meaning that in total we saved around **74%**.
+Checking the size of the compressed file, it is **64 KB**. Meaning that in total we saved around **70%**.
 Future versions will be optimized to save more space.
 
 Let's now check when we reload the file, will we lose any information or not.

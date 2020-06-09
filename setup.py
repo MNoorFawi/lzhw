@@ -29,8 +29,8 @@ with open("requirements.txt") as rq:
 
 setup(
       name="lzhw",
-      version="1.1.5",
-      description="Compression library for data frames and tabular data files, csv,excel etc.",
+      version="1.1.6",
+      description="Compression library for data frames and tabular data files, csv, excel etc.",
       packages=["lzhw"],
       install_requires=requirements,
       long_description=readme,

@@ -16,7 +16,8 @@ class LZHW:
         self.__original_size = getsizeof(uncompressed)
         uncompressed = list(map(str, uncompressed))
         lz77_triplets = lz77_compress(uncompressed)
-        if len(lz77_triplets) / len(uncompressed) >= 1.5:
+        if len(lz77_triplets) / len(uncompressed) >= 1.5: # this is a placeholder for future
+                                                          # enhancement for data with no repeated sequences
             self.sequences = {"lz77": True}
             self.compressed = list(zip(*lz77_triplets))
         else:

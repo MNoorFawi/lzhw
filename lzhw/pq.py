@@ -1,4 +1,4 @@
-from heapq import heapify, heappop, heappush
+from heapq import heappop, heappush
 
 ## to store codes for huffman coding
 class CodeHeap():

@@ -16,7 +16,7 @@ class LZHW:
         self.__original_size = getsizeof(uncompressed)
         uncompressed = list(map(str, uncompressed))
         lz77_triplets = lz77_compress(uncompressed)
-        if len(lz77_triplets) / len(uncompressed) >= 0.8:
+        if len(lz77_triplets) / len(uncompressed) >= 1.5:
             self.sequences = {"lz77": True}
             self.compressed = list(zip(*lz77_triplets))
         else:
@@ -25,7 +25,7 @@ class LZHW:
             self.__codes = {}
             names = [lzw_compress(n) for n in ["offset", "length", "literal"]]
             for n, l in zip(names, lz77_list):
-                seq_freq = Counter(l)
+                seq_freq = dict(Counter(l))
                 huff_coding = huffman_coding(seq_freq)
                 self.sequences[n], self.__codes[n] = code_filling(huff_coding)
             self.compressed = tuple([self.__encode(t, n) for t, n in zip(lz77_list, names)])

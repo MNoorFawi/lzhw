@@ -26,18 +26,18 @@ The function that performs lempel-ziv and returning the triplets called **lz77_c
 import lzhw
 lz77_ex = lzhw.lz77_compress(example)
 print(lz77_ex)
-# [(None, None, 321647), (None, None, 312421), (None, None, 319090), 
-#  (None, None, 163110516), (4, 3, 321647), (7, 6, 163110516), (11, 6, 163110516)]
+# [(None, None, 'to'), (None, None, 'be'), (None, None, 'or'), 
+# (None, None, 'not'), (4, 3, 'to'), (7, 6, 'not'), (11, 6, 'not')]
 ```
 Here all the **None**s values are originally "0s" but converted to None to save more space.
-The third item in each tuple is originally a string from the input stream but was compressed using **lzw_compress** function which applies [lempel-ziv-welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch) compression and stores the values as integer instead of original string for **extra space saving**.
 
 Now huffman coding will take the offsets list, lengths list and literal list and encode them based on most occurring values to give:
 ```python
 lz77_lists = list(zip(*lz77_ex))
 print(lz77_lists)
-# [(None, None, None, None, 4, 7, 11), (None, None, None, None, 3, 6, 6), 
-#  (321647, 312421, 319090, 163110516, 321647, 163110516, 163110516)]
+# [(None, None, None, None, 4, 7, 11), 
+#  (None, None, None, None, 3, 6, 6), 
+#  ('to', 'be', 'or', 'not', 'to', 'not', 'not')]
 
 huffs = []
 from collections import Counter
@@ -46,7 +46,7 @@ for i in range(len(lz77_lists)):
     huffs.append(huff)
 print(huffs)
 # [{None: '1', 4: '010', 7: '011', 11: '00'}, {None: '1', 3: '00', 6: '01'}, 
-#  {321647: '11', 312421: '100', 319090: '101', 163110516: '0'}]
+#  {'to': '11', 'be': '100', 'or': '101', 'not': '0'}]
 ```
 Now if we encode each value in the triplets with its corresponding value from the huffman dictionary and append everything together we will have:
 ```python
@@ -85,9 +85,8 @@ lzhw_comp = lzhw.LZHW(example)
 print(lzhw_comp.compressed)
 # (8012, 1989, 15532) # this is how the compressed data looks like and stored
 
-print(lzhw_comp.sequences) # dictionary's keys and values are stored as integers as well
-# {21926886918376052: {3: 79217613925, 10: 564, 11: 567, 4: 287281}, 
-#  21821266153236584: {3: 79217613925, 4: 563, 5: 566}, 
-#  11172629419993383532: {7: 19812244050700343, 12: 19812175464916017, 
-#                        13: 38695657038082, 2: 5175286287971861424896}}
+print(lzhw_comp.sequences) 
+# {'offset': {3: None, 10: 4, 11: 7, 4: 11}, 
+#  'length': {3: None, 4: 3, 5: 6}, 
+#  'literal': {7: 'to', 12: 'be', 13: 'or', 2: 'not'}}
 ```

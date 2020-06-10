@@ -35,7 +35,7 @@ print(huffs)
 
 #### lzw_compress() and lzw_decompress()
 
-They perform **lempel-ziv-welch** compressing and decompressing
+They perform [lempel-ziv-welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch) compressing and decompressing
 ```python
 print(lzhw.lzw_compress("Hello World"))
 # 723201696971929295664359987300
@@ -68,8 +68,8 @@ The main two functions in the library which apply the lempel-ziv77 algorithm:
 ```python
 lz77_ex = lzhw.lz77_compress(example)
 print(lz77_ex)
-# [(None, None, 577), (1, 1, 579), (1, 1, 577), (4, 3, 579), 
-#  (None, None, 578), (1, 1, 577), (3, 2, 579), (7, 2, 579), (1, 1, 578)]
+# [(None, None, 'A'), (1, 1, 'C'), (1, 1, 'A'), (4, 3, 'C'), 
+#  (None, None, 'B'), (1, 1, 'A'), (3, 2, 'C'), (7, 2, 'C'), (1, 1, 'B')]
 
 lz77_decomp = lzhw.lz77_decompress(lz77_ex)
 print(lz77_decomp == example)

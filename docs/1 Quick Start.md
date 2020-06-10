@@ -16,7 +16,7 @@ sample_data = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast",
 compressed = lzhw.LZHW(sample_data)
 ## let's see how the compressed object looks like:
 print(compressed.compressed)
-# (506460, 128794, 105942)
+# (506460, 128794, 112504)
 
 ## its size
 print(compressed.size())
@@ -62,7 +62,7 @@ LZHW class has an attribute called **compressed** which is a tuple of integers r
 
 ```python
 print(comp_num.compressed) # how the compressed is saved (as tuple of 3 integers)
-# (291314557, 351007, 116989796)
+# (8198555, 620206, 3059308)
 ```
 
 We can also write the compressed data to files using **save_to_file** method, 

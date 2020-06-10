@@ -4,7 +4,7 @@ from pickle import dump, load, HIGHEST_PROTOCOL
 from lz77c import lz77_compress
 from .huffman_coding import huffman_coding
 from .compress_util import lz77_decode, code_filling, org_shaping
-from lzw_c import *
+#from lzw_c import *
 
 # Putting everything together in one class
 # Lempel-Ziv-Huffman-Welch. I invented it :D
@@ -14,7 +14,7 @@ class LZHW:
 
     def _compress(self, uncompressed):
         self.__original_size = getsizeof(uncompressed)
-        uncompressed = list(map(str, uncompressed))
+        uncompressed = [i.replace(" ", "__") for i in map(str, uncompressed)]
         lz77_triplets = lz77_compress(uncompressed)
         if len(lz77_triplets) / len(uncompressed) >= 1.5: # this is a placeholder for future
                                                           # enhancement for data with no repeated sequences
@@ -24,7 +24,8 @@ class LZHW:
             lz77_list = list(zip(*lz77_triplets))
             self.sequences = {}
             self.__codes = {}
-            names = [lzw_compress(n) for n in ["offset", "length", "literal"]]
+            #names = [lzw_compress(n) for n in ["offset", "length", "literal"]]
+            names = ["offset", "length", "literal"]
             for n, l in zip(names, lz77_list):
                 seq_freq = dict(Counter(l))
                 huff_coding = huffman_coding(seq_freq)

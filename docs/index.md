@@ -1,4 +1,5 @@
 # lzhw (DataFrame Compression)
+
 ##### Compression library for data frames and tabular data files, csv, excel etc.
 
 [![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
@@ -17,7 +18,8 @@ example = ["to", "be", "or", "not", "to", "be", "or", "to", "be", "or", "not"] *
 print("".join(example))
 # tobeornottobeortobeornottobeornottobeortobeornot
 ```
-**lzhw** uses [**lempel-zivz77**](https://en.wikipedia.org/wiki/LZ77_and_LZ78) to discover repeated sequences in the stream and construct *triplets*, in that format **<offset,length,literal>** where *offset* is how many steps should we return back word to find the beginning of the current sequence and *length* is how many steps should we move and *literal* is the next value after the sequence.
+**lzhw** uses [**lempel-ziv77**](https://en.wikipedia.org/wiki/LZ77_and_LZ78) to discover repeated sequences in the stream and construct *triplets*, in that format **<offset,length,literal>**. 
+Where *offset* is how many steps should we return back word to find the beginning of the current sequence and *length* is how many steps should we move and *literal* is the next value after the sequence.
 
 Then we will have 3 shorter lists representing the stream, where [**Huffman Coding**](https://en.wikipedia.org/wiki/Huffman_coding) can come to the game encoding them.
 

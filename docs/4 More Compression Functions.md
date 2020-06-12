@@ -13,6 +13,7 @@ print(example)
 #['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 
 # 'A', 'B', 'B', 'C', 'C', 'B', 'C', 'C', 'B']
 
+import lzhw
 lz78_comp, symb_dict = lzhw.lz78(example)
 print(lz78_comp)
 # ['1', '1', 'C', '3', '1', 'A', '3', 'C', '3', 'B', 
@@ -74,4 +75,11 @@ print(lz77_ex)
 lz77_decomp = lzhw.lz77_decompress(lz77_ex)
 print(lz77_decomp == example)
 # True
+```
+
+Also we can selected how many elements we want to decompress from the original list instead of decompressing it all:
+
+```python
+print(lzhw.lz77_decompress(lz77_ex, 3))
+#['A', 'A', 'C']
 ```

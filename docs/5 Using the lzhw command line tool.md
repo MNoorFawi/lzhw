@@ -21,6 +21,7 @@ optional arguments:
                         output where to save result
   -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
                         select specific columns by names or indices (1-based)
+  -r ROWS, --rows ROWS  select specific rows to decompress (1-based)
   -nh, --no-header      skip header / data has no header
 ```
 As we can see, the tool takes an input file **"-f"**, and output **"-o"** where it should put the result whether it is compression or decompression based on the optional **"-d"** argument which selects decompression.
@@ -29,6 +30,8 @@ The tool as well takes a **"-c"** argument which is the Columns in case we want 
 This argument accepts names and indices seperated by coma.
 
 The **"-nh"**, --no-header, argument to specify if the data has no header.
+
+The **"-r"**, --rows, argument is to specify number of rows to decompress, in case we don't need to decompress all rows.
 
 #### Compress
 How to compress:
@@ -60,7 +63,7 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 48,5951,2,2,22,1,1,1,1,Bad,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
 12,2096,2,3,49,1,2,1,1,Good,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0
 ```
-It looks awful :D but it's decompressed.
+It looks awful in the command line :D but it's decompressed.
 
 Now let's say that we only interested in decompressing the first two columns that we don't remember how they were spelled.
 ```bash
@@ -83,3 +86,27 @@ Duration,Amount
 36,6948
 12,3059
 ```
+
+We can also use the **-r** argument to decompress specific rows from the data frame.
+
+```bash
+$python lzhw_cli.py -d -f "gc_comp.txt" -o "gc_subset_de.csv" -r 4
+100%|████████████████████████████████████████████████████| 62/62 [00:00<00:00, 369.69it/s]
+decompressed successfully
+```
+
+Here we only decompressed the firt 4 rows, 1-based, including the header.
+
+Let's look how the data looks like:
+
+```bash
+$cat "gc_subset_de.csv"
+
+Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCredits,NumberPeopleMaintenance,Telephone,ForeignWorker,Class,CheckingAccountStatus.lt.0,CheckingAccountStatus.0.to.200,CheckingAccountStatus.gt.200,CheckingAccountStatus.none,CreditHistory.NoCredit.AllPaid,CreditHistory.ThisBank.AllPaid,CreditHistory.PaidDuly,CreditHistory.Delay,CreditHistory.Critical,Purpose.NewCar,Purpose.UsedCar,Purpose.Furniture.Equipment,Purpose.Radio.Television,Purpose.DomesticAppliance,Purpose.Repairs,Purpose.Education,Purpose.Vacation,Purpose.Retraining,Purpose.Business,Purpose.Other,SavingsAccountBonds.lt.100,SavingsAccountBonds.100.to.500,SavingsAccountBonds.500.to.1000,SavingsAccountBonds.gt.1000,SavingsAccountBonds.Unknown,EmploymentDuration.lt.1,EmploymentDuration.1.to.4,EmploymentDuration.4.to.7,EmploymentDuration.gt.7,EmploymentDuration.Unemployed,Personal.Male.Divorced.Seperated,Personal.Female.NotSingle,Personal.Male.Single,Personal.Male.Married.Widowed,Personal.Female.Single,OtherDebtorsGuarantors.None,OtherDebtorsGuarantors.CoApplicant,OtherDebtorsGuarantors.Guarantor,Property.RealEstate,Property.Insurance,Property.CarOther,Property.Unknown,OtherInstallmentPlans.Bank,OtherInstallmentPlans.Stores,OtherInstallmentPlans.None,Housing.Rent,Housing.Own,Housing.ForFree,Job.UnemployedUnskilled,Job.UnskilledResident,Job.SkilledEmployee,Job.Management.SelfEmp.HighlyQualified
+6,1169,4,4,67,2,1,0,1,Good,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
+48,5951,2,2,22,1,1,1,1,Bad,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
+12,2096,2,3,49,1,2,1,1,Good,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0
+42,7882,2,4,45,1,2,1,1,Good,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,1,0,0,1,0
+```
+
+All data is now 5 rows only including the header.

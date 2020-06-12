@@ -16,6 +16,9 @@ parser.add_argument("-o", "--output", help="output where to save result",
 parser.add_argument("-c", "--columns", nargs="+",
                     help="select specific columns by names or indices (1-based)", type=str,
                     required=False)
+parser.add_argument("-r", "--rows",
+                    help="select specific rows to decompress (1-based)", type=str,
+                    required=False)
 parser.add_argument("-nh", "--no-header", help="skip header / data has no header",
                     action="store_true", default=False)
 args = vars(parser.parse_args())
@@ -28,10 +31,15 @@ if args["columns"]:
 else:
     cols = "all"
 
+if args["rows"]:
+    n_rows = int(args["rows"])
+else:
+    n_rows = 0
+
 if args["decompress"]:
     if cols != "all":
         cols = [int(i) - 1 for i in cols.split(",")]
-    decompressed = lzhw.decompress_df_from_file(file, cols)
+    decompressed = lzhw.decompress_df_from_file(file, cols, n_rows)
     if "xls" in output:
         decompressed.to_excel(output, index=False)
     if "csv" in output:

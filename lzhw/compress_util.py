@@ -34,7 +34,7 @@ def org_shaping(seq, bits):
         org = [eval(i) for i in org]
     return org
 
-def lz77_decode(triplets):
+def lz77_decode(triplets, n_rows):
     triplets = list(zip(triplets[0], triplets[1], triplets[2]))
-    decomp = lz77_decompress(triplets)
+    decomp = lz77_decompress(triplets, n_rows)
     return decomp

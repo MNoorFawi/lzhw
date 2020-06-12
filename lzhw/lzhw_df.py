@@ -27,7 +27,7 @@ class CompressedDF:
                 dump(self.compressed[i].compressed, output, HIGHEST_PROTOCOL)
                 dump(self.compressed[i].sequences, output, HIGHEST_PROTOCOL)
 
-def decompress_df_from_file(file, selected_cols = "all"):
+def decompress_df_from_file(file, selected_cols = "all", n_rows = 0):
     with open(file, "rb") as input:
         cols = load(input)
         cols = lzw_decompress(cols).split()
@@ -46,12 +46,14 @@ def decompress_df_from_file(file, selected_cols = "all"):
                 continue
             else:
                 if "lz77" in sequences:
-                    df[cols[i]] = lz77_decode(triplets)
+                    df[cols[i]] = lz77_decode(triplets, n_rows)
                 else:
                     triplts = []
                     for n, t in zip(sequences.keys(), range(len(triplets))):
                         triplet = org_shaping(sequences[n], triplets[t])
                         triplts.append(triplet)
-                    df[cols[i]] = lz77_decode(triplts)
-
+                    df[cols[i]] = lz77_decode(triplts, n_rows)
+    
+    if n_rows > 0:
+        df = {k: v[:n_rows] for k, v in df.items()}
     return pd.DataFrame(df)

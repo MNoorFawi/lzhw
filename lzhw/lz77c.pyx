@@ -3,6 +3,7 @@ from cpython cimport int as Integer
 
 ctypedef fused str_num:
     Integer
+    int
     str
     double
     float
@@ -60,7 +61,7 @@ cpdef list lz77_compress(list data):
     cdef list triplets = lz77compress(data)
     return triplets
 
-cdef list lz77decompress(list compressed):
+cdef list lz77decompress(list compressed, int n_rows):
     cdef tuple triplet
     cdef str decomp
     cdef list decompressed = []
@@ -88,8 +89,10 @@ cdef list lz77decompress(list compressed):
                 decompressed.append(decomp)
                 current_location += 1
         decompressed.append(literal)
+        if n_rows > 0 and len(decompressed) >= n_rows:
+            break
     return decompressed
 
-cpdef list lz77_decompress(list compressed):
-    cdef list decompressed = lz77decompress(compressed)
+cpdef list lz77_decompress(list compressed, int n_rows = 0):
+    cdef list decompressed = lz77decompress(compressed, n_rows)
     return decompressed

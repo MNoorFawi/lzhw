@@ -38,15 +38,15 @@ class LZHW:
         # saving compressed object as an integer from the bit string to save more space
         return int(bitstring, 2)
 
-    def decompress(self):
+    def decompress(self, n_rows = 0):
         if "lz77" in self.sequences:
-            decomp = lz77_decode(self.compressed)
+            decomp = lz77_decode(self.compressed, n_rows)
         else:
             triplets = []
             for n, i in zip(self.sequences.keys(), range(len(self.compressed))):
                 triplet = org_shaping(self.sequences[n], self.compressed[i])
                 triplets.append(triplet)
-            decomp = lz77_decode(triplets)
+            decomp = lz77_decode(triplets, n_rows)
         return decomp
 
     def size(self):
@@ -61,18 +61,18 @@ class LZHW:
             dump(self.compressed, output, HIGHEST_PROTOCOL)
             dump(self.sequences, output, HIGHEST_PROTOCOL)
 
-def decompress_from_file(file):
+def decompress_from_file(file, n_rows = 0):
     with open(file, "rb") as input:
         triplets = load(input)
         sequences = load(input)
 
     if "lz77" in sequences:
-        original = lz77_decode(triplets)
+        original = lz77_decode(triplets, n_rows)
     else:
         triplts = []
         for n, i in zip(sequences.keys(), range(len(triplets))):
             triplet= org_shaping(sequences[n], triplets[i])
             triplts.append(triplet)
-        original = lz77_decode(triplts)
+        original = lz77_decode(triplts, n_rows)
 
     return original

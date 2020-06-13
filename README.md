@@ -1,7 +1,7 @@
 # lzhw
 ##### Compression library for data frames and tabular data files, csv, excel etc.
 
-![](https://github.com/mnoorfawi/lzhw/img/lzhw_logo.jpg)
+![](https://github.com/MNoorFawi/lzhw/blob/master/img/lzhw_logo.jpg)
 
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
 [![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)

@@ -63,6 +63,8 @@ compressed successfully
 ```
 #### Decompress
 Now it's time to decompress:
+
+**If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel.**
 ```bash
 lzhw -d -f "gc_comp.txt" -o "gc_decompressed.csv"
 

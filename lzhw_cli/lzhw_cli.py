@@ -5,6 +5,36 @@ import pandas as pd
 import argparse
 import csv
 import os
+from subprocess import call
+
+## This script and the solution to convert xlsx into csv was thanks to the answer found here:
+## https://stackoverflow.com/questions/28766133/faster-way-to-read-excel-files-to-pandas-dataframe
+## and here: https://stackoverflow.com/questions/1858195/convert-xls-to-csv-on-command-line
+vbscript="""if WScript.Arguments.Count < 3 Then
+    WScript.Echo "Please specify the source and the destination files. Usage: ExcelToCsv <xls/xlsx source file> <csv destination file> <worksheet number (starts at 1)>"
+    Wscript.Quit
+End If
+
+csv_format = 6
+
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+src_file = objFSO.GetAbsolutePathName(Wscript.Arguments.Item(0))
+dest_file = objFSO.GetAbsolutePathName(WScript.Arguments.Item(1))
+worksheet_number = CInt(WScript.Arguments.Item(2))
+
+Dim oExcel
+Set oExcel = CreateObject("Excel.Application")
+
+Dim oBook
+Set oBook = oExcel.Workbooks.Open(src_file)
+oBook.Worksheets(worksheet_number).Activate
+
+oBook.SaveAs dest_file, csv_format
+
+oBook.Close False
+oExcel.Quit
+"""
 
 parser = argparse.ArgumentParser(description="Data Frame Compressor")
 parser.add_argument("-d", "--decompress", help="decompress input into output",
@@ -51,8 +81,15 @@ if args["decompress"]:
 
 else:
     if "xls" in file:
+        print("Reading files, Can take 1 minute or something ...")
+        f = open("excel_to_csv.vbs", "w")
+        f.write(vbscript)
+        f.close()
+        csv_file = file.split(".xls")[0] + "1" + ".csv"
+        call(["cscript.exe", "excel_to_csv.vbs", file, csv_file, "1"])
+        os.remove("excel_to_csv.vbs")
         if args["columns"]:
-            command = f"in2csv {file} | csvcut -c {cols}"
+            command = f"csvcut -c {cols} {csv_file}"
             csvdf = csv.reader(os.popen(command).read().splitlines())
             if args["no_header"]:
                 h = None
@@ -60,9 +97,11 @@ else:
                 h = next(csvdf)
             data = pd.DataFrame(csvdf, columns=h)
         else:
-            data = pd.read_excel(file)
+            data = pd.read_csv(csv_file)
+        os.remove(csv_file)
 
     elif "csv" in file:
+        print("Reading files ...")
         if args["columns"]:
             command = f"csvcut -c {cols} {file}"
             csvdf = csv.reader(os.popen(command).read().splitlines())

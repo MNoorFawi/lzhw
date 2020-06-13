@@ -1,14 +1,17 @@
 # Using the lzhw Command Line tool
 
 In **lzhw_cli** folder, there is a python script that can work on command line tool to compress and decompress files without having to open it in python.
-The tool allows to compress and decompress files from and to any form, csv,xlsx etc.
+
+Also a downloadable exe tool is available in this [link](https://drive.google.com/file/d/1QHJrPcjZSKYCWVbbVmo_Xkb1lc0MeUoo/view?usp=sharing). 
+**The tool allows to compress and decompress files from and to any form, csv,xlsx etc without any dependencies or installations.**
+
+The tool now works perfectly on Windows and Mac version is being developed.
 
 Here is the file and its help argument to see how it works and its arguments:
 ```bash
-$python lzhw_cli.py -h
+$lzhw -h
 
-usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
-                   [-nh]
+usage: lzhw [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]] [-r ROWS] [-nh]
 
 Data Frame Compressor
 
@@ -35,21 +38,27 @@ The **"-r"**, --rows, argument is to specify number of rows to decompress, in ca
 
 #### Compress
 How to compress:
+
+The tool can be used through command line. 
+For those who are new to command line, the easiest way to start it is to put the **lzhw.exe** tool in the same folder with the sheet you want to compress.
+Then go to the folder's directory at the top where you see the directory path and one click then type **cmd**, black command line will open to you where you can type the examples below.
+  
+
 ```bash
-$python lzhw_cli.py -f "examples/german_credit.xlsx" -o "gc_comp.txt"
+$lzhw -f "german_credit.xlsx" -o "gc_comp.txt"
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 647.30it/s]
 compressed successfully
 ```
 Let's say we are interested only in compressing the Age, Duration and Amount columns
 ```bash
-$python lzhw_cli.py -f "example/german_credit.xlsx" -o "gc_subset.txt" -c Age,Duration,Amount
+$lzhw -f "german_credit.xlsx" -o "gc_subset.txt" -c Age,Duration,Amount
 100%|███████████████████████████████████████████████████| 3/3 [00:00<00:00, 249.99it/s]
 compressed successfully
 ```
 #### Decompress
 Now it's time to decompress:
 ```bash
-$python lzhw_cli.py -d -f "gc_comp.txt" -o "gc_decompressed.csv"
+$lzhw -d -f "gc_comp.txt" -o "gc_decompressed.csv"
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 690.45it/s]
 decompressed successfully
 ```
@@ -67,7 +76,7 @@ It looks awful in the command line :D but it's decompressed.
 
 Now let's say that we only interested in decompressing the first two columns that we don't remember how they were spelled.
 ```bash
-$python lzhw_cli.py -d -f "gc_comp.txt" -o "gc_subset_de.csv" -c 1,2 
+$lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -c 1,2 
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 5651.84it/s]
 decompressed successfully
 ```
@@ -90,7 +99,7 @@ Duration,Amount
 We can also use the **-r** argument to decompress specific rows from the data frame.
 
 ```bash
-$python lzhw_cli.py -d -f "gc_comp.txt" -o "gc_subset_de.csv" -r 4
+$lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -r 4
 100%|████████████████████████████████████████████████████| 62/62 [00:00<00:00, 369.69it/s]
 decompressed successfully
 ```

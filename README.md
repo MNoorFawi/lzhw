@@ -1,12 +1,18 @@
 # lzhw
 ##### Compression library for data frames and tabular data files, csv, excel etc.
 
-![](https://github.com/MNoorFawi/lzhw/blob/master/img/lzhw_logo.jpg)
+![lzhw logo](./img/lzhw_logo.jpg)
 
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
 [![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
 
 **Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
+
+**lzhw** has a command line tool that can be downloaded from [here](https://drive.google.com/file/d/1QHJrPcjZSKYCWVbbVmo_Xkb1lc0MeUoo/view?usp=sharing) and can work from command line with no prior python installation.
+
+**Manual on how to use it available [here](https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/)**.
+
+It works on Windows and soon a Mac version will be available.
 
 #### Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
 

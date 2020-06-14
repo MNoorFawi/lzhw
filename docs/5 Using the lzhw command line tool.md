@@ -15,7 +15,8 @@ Output
 ```bash
 usage: lzhw [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]] [-r ROWS] [-nh]
 
-Data Frame Compressor
+LZHW is a tabular data compression tool. It is used to compress excel, csv and
+any flat file. Version: 0.0.5
 
 optional arguments:
   -h, --help            show this help message and exit

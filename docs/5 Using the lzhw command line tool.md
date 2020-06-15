@@ -1,7 +1,7 @@
 # Using the lzhw Command Line tool
 
 In **lzhw_cli** folder, there is a python script that can work on command line tool to compress and decompress files without having to open it in python.
-
+#### LZHW Compression Tool
 Also a downloadable exe tool is available in this [link](https://drive.google.com/file/d/1QHJrPcjZSKYCWVbbVmo_Xkb1lc0MeUoo/view?usp=sharing). 
 **The tool allows to compress and decompress files from and to any form, csv,xlsx etc without any dependencies or installations.**
 

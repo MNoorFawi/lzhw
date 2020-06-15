@@ -1,5 +1,6 @@
 # (De)Compressing specific columns or rows from a dataframe
 
+#### (De)Compressing in Chunks
 With **lzhw** you can choose what columns you are interested in compressing from a data frame.
 **CompressedDF** class has an argument **selected_cols**.
 ```python

@@ -1,11 +1,11 @@
 # Quick Start
 
 Here is a quick walkthrough to get started with the library.
-
+#### Installation
 ```bash
 pip install lzhw
 ```
-
+#### LZHW Class
 ```python
 import lzhw
 
@@ -56,7 +56,7 @@ print(numbers == list(map(int, comp_num.decompress()))) ## make it int again
 print(comp_num.space_saving())
 # space saving from original to compressed is 73%
 ```
-
+#### A Long List to 3 Numbers
 Let's look at how the compressed object is stored and how it looks like when printed:
 LZHW class has an attribute called **compressed** which is a tuple of integers representing the encoded triplets.
 
@@ -64,7 +64,7 @@ LZHW class has an attribute called **compressed** which is a tuple of integers r
 print(comp_num.compressed) # how the compressed is saved (as tuple of 3 integers)
 # (8198555, 620206, 3059308)
 ```
-
+#### Writing to & Reading from Files
 We can also write the compressed data to files using **save_to_file** method, 
 and read it back and decompress it using **decompress_from_file** function.
 

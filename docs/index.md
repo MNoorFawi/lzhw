@@ -1,6 +1,6 @@
 # lzhw (DataFrame Compression)
 
-##### Compression library for data frames and tabular data files, csv, excel etc.
+**Compression library for data frames and tabular data files, csv, excel etc.**
 
 ![lzhw logo](./img/lzhw_logo.jpg)
 
@@ -15,6 +15,8 @@
 It works on Windows and soon a Mac version will be available.
 
 ## How lzhw Works
+
+#### Overview
 The library's main goal is to compress data frames, excel and csv files so that they consume less space to overcome memory errors.
 Also to enable dealing with large files that can cause memory errors when reading them in python or that cause slow operations.
 With **lzhw**, we can read compressed files and do operations **column by column** only on columns that we are interesred in. 
@@ -26,6 +28,7 @@ example = ["to", "be", "or", "not", "to", "be", "or", "to", "be", "or", "not"] *
 print("".join(example))
 # tobeornottobeortobeornottobeornottobeortobeornot
 ```
+#### Lempel-Ziv77 with Huffman Coding
 **lzhw** uses [**lempel-ziv77**](https://en.wikipedia.org/wiki/LZ77_and_LZ78) to discover repeated sequences in the stream and construct *triplets*, in that format <**offset,length,literal**>. 
 Where *offset* is how many steps should we return back word to find the beginning of the current sequence and *length* is how many steps should we move and *literal* is the next value after the sequence.
 
@@ -71,7 +74,7 @@ print(len("".join(bits)))
 # 35
 ```
 Which has a length of **35** bits only!
- 
+#### Better than Huffman Alone
 Using each algorithm alone can give us bigger number of bits, for example, using only huffman coding will give us:
 ```python
 huff_alone = lzhw.huffman_coding(Counter(example))
@@ -86,9 +89,13 @@ print(len(huff_bit))
 # 44
 ```
 44 bits, 9 more bit!!! Big deal when dealing with bigger data.
+#### DEFLATE Note
+The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both LZSS, which is a variant of LZ77, and huffman coding, but I am not sure how the huffman coding further compresses the triplets. I believe it compresses the triplets altogether not as 3 separate lists as lzhw.
+ And also it doesn't use the lempel-ziv-welch for further compression.
 
-The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both lempel-ziv77 and huffman coding, but I am not sure how the huffman coding further compresses the triplets. And also it doesn't use the lempel-ziv-welch for further compression.
+DEFLATE Algorithm may be more complicated than lzhw, discussed here, but the latter is designed specifically for **tabular data** types to help in **data science** and **data analysis** projects, so it is not universal as the former.
 
+#### Putting all together with LZHW Class
 All of the steps can be done at once using **LZHW** class as follows and as shown in the Quick Start section:
 ```python
 lzhw_comp = lzhw.LZHW(example)

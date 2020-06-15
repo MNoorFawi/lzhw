@@ -8,7 +8,7 @@
 
 **Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
 
-**lzhw** has a command line tool that can be downloaded from [here](https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing) and can work from command line with no prior python installation.
+**lzhw has a command line tool that can be downloaded from [here](https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing) and can work from command line with no prior python installation.**
 
 **Manual on how to use it available [here](https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/)**.
 
@@ -93,7 +93,7 @@ print(len(huff_bit))
 The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both LZSS, which is a variant of LZ77, and huffman coding, but I am not sure how the huffman coding further compresses the triplets. I believe it compresses the triplets altogether not as 3 separate lists as lzhw.
  And also it doesn't use the lempel-ziv-welch for further compression.
 
-DEFLATE Algorithm may be more complicated than lzhw, discussed here, but the latter is designed specifically for **tabular data** types to help in **data science** and **data analysis** projects, so it is not universal as the former.
+DEFLATE Algorithm may be more complicated than lzhw, discussed here, but the latter is designed specifically for **tabular data** types to help in **data science** and **data analysis** projects.
 
 #### Putting all together with LZHW Class
 All of the steps can be done at once using **LZHW** class as follows and as shown in the Quick Start section:

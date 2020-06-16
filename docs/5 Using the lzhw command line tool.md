@@ -16,7 +16,7 @@ Output
 usage: lzhw [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]] [-r ROWS] [-nh]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.5
+any flat file. Version: 0.0.6
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -27,8 +27,9 @@ optional arguments:
                         output where to save result
   -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
                         select specific columns by names or indices (1-based)
+                        to compress or decompress
   -r ROWS, --rows ROWS  select specific rows to decompress (1-based)
-  -nh, --no-header      skip header / data has no header
+  -nh, --no-header      skip header / data to be compressed has no header
 ```
 As we can see, the tool takes an input file **"-f"**, and output **"-o"** where it should put the result whether it is compression or decompression based on the optional **"-d"** argument which selects decompression.
 
@@ -51,6 +52,10 @@ Then go to the folder's directory at the top where you see the directory path an
 lzhw -f "german_credit.xlsx" -o "gc_comp.txt"
 ```
 ```bash
+Reading files, Can take 1 minute or something ...
+Microsoft (R) Windows Script Host Version 5.812
+Copyright (C) Microsoft Corporation. All rights reserved.
+
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 647.30it/s]
 compressed successfully
 ```
@@ -65,7 +70,7 @@ compressed successfully
 #### Decompress
 Now it's time to decompress:
 
-**If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel.**
+**If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel directly and then save the file as excel if excel type is necessary. This is because python is not that fast in writing data to excel as well as the tool sometimes has "Corrupted Files" issues with excel.**
 ```bash
 lzhw -d -f "gc_comp.txt" -o "gc_decompressed.csv"
 

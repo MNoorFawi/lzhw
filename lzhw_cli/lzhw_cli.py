@@ -54,11 +54,13 @@ def csv_reader(file, cols, col_arg, nh_arg):
     else:
         cols_used = None
 
-    return pd.read_csv(file, header=h, usecols=cols_used)
+    data = pd.read_csv(file, header = h, usecols = cols_used)
+    data.columns = list(map(str, data.columns))
+    return data
 
 def main():
 
-    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.5")
+    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.6")
     parser.add_argument("-d", "--decompress", help="decompress input into output",
                         action="store_true", default=False)
     parser.add_argument("-f", "--input", help="input file to be (de)compressed",
@@ -71,7 +73,7 @@ def main():
     parser.add_argument("-r", "--rows",
                         help="select specific rows to decompress (1-based)", type=str,
                         required=False)
-    parser.add_argument("-nh", "--no-header", help="skip header / data has no header",
+    parser.add_argument("-nh", "--no-header", help="skip header / data to be compressed has no header",
                         action="store_true", default=False)
     args = vars(parser.parse_args())
 
@@ -79,7 +81,7 @@ def main():
     output = args["output"]
 
     if args["columns"]:
-        cols = args["columns"][0]#.split(",")
+        cols = args["columns"][0]
     else:
         cols = "all"
 
@@ -95,8 +97,17 @@ def main():
                 cols = [int(i) - 1 for i in cols]
 
         decompressed = lzhw.decompress_df_from_file(file, cols, n_rows)
+        decompressed.fillna("", inplace = True)
+        decompressed = decompressed.replace("nan", "", regex = True)
         if "xls" in output:
-            decompressed.to_excel(output, index=False)
+            #decompressed.reset_index(drop = True, inplace = True)
+            options = {}
+            options["strings_to_formulas"] = False
+            options["strings_to_urls"] = False
+            writer = pd.ExcelWriter(output, engine = "xlsxwriter", options = options)
+            decompressed.to_excel(writer, output.split(".xls")[0], index = False)
+            writer.save()
+            #decompressed.to_excel(output, index=False, encoding = "utf8")
         if "csv" in output:
             decompressed.to_csv(output, index=False)
         else:

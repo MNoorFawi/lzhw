@@ -1,0 +1,532 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.4">
+    
+    
+      
+        <title>Compressing DataFrames - lzhw</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c4007cdc.min.css">
+      
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#compressing-dataframes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="lzhw" class="md-header-nav__button md-logo" aria-label="lzhw">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            lzhw
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Compressing DataFrames
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="lzhw" class="md-nav__button md-logo" aria-label="lzhw">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    lzhw
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="lzhw (DataFrame Compression)" class="md-nav__link">
+      lzhw (DataFrame Compression)
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../1%20Quick%20Start/" title="Quick Start" class="md-nav__link">
+      Quick Start
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Compressing DataFrames
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Compressing DataFrames" class="md-nav__link md-nav__link--active">
+      Compressing DataFrames
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-dataframe-to-compresseddf" class="md-nav__link">
+    From DataFrame to CompressedDF
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-and-loading-compressed-dataframes" class="md-nav__link">
+    Saving and Loading Compressed DataFrames
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compressing-bigger-dataframes" class="md-nav__link">
+    Compressing Bigger DataFrames
+  </a>
+  
+    <nav class="md-nav" aria-label="Compressing Bigger DataFrames">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    Reference
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" title="(De)Compressing specific columns or rows from a dataframe" class="md-nav__link">
+      (De)Compressing specific columns or rows from a dataframe
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../4%20More%20Compression%20Functions/" title="More Compression Functions" class="md-nav__link">
+      More Compression Functions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../5%20Using%20the%20lzhw%20command%20line%20tool/" title="Using the lzhw Command Line tool" class="md-nav__link">
+      Using the lzhw Command Line tool
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-dataframe-to-compresseddf" class="md-nav__link">
+    From DataFrame to CompressedDF
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saving-and-loading-compressed-dataframes" class="md-nav__link">
+    Saving and Loading Compressed DataFrames
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compressing-bigger-dataframes" class="md-nav__link">
+    Compressing Bigger DataFrames
+  </a>
+  
+    <nav class="md-nav" aria-label="Compressing Bigger DataFrames">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    Reference
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="compressing-dataframes">Compressing DataFrames</h1>
+<h4 id="from-dataframe-to-compresseddf">From DataFrame to CompressedDF</h4>
+<p>lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.</p>
+<pre><code class="python">import pandas as pd
+
+df = pd.DataFrame({&quot;a&quot;: [1, 1, 2, 2, 1, 3, 4, 4],
+                   &quot;b&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;]})
+comp_df = lzhw.CompressedDF(df)
+# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00&lt;00:00, 2003.97it/s]
+</code></pre>
+
+<p>Let's check space saved by compression</p>
+<pre><code class="python">comp_space = 0
+for i in range(len(comp_df.compressed)):
+    comp_space += comp_df.compressed[i].size()
+
+print(comp_space, getsizeof(df))
+# 144 712
+
+## Test information loss
+print(comp_df.compressed[0].decompress() == list(map(str, df.a)))
+# True
+</code></pre>
+
+<h4 id="saving-and-loading-compressed-dataframes">Saving and Loading Compressed DataFrames</h4>
+<p>With lzhw we can save a data frame into a compressed file and then read it again 
+using <strong>save_to_file</strong> method and <strong>decompress_df_from_file</strong> function.</p>
+<pre><code class="python">## Save to file
+comp_df.save_to_file(&quot;comp_df.txt&quot;)
+
+## Load the file
+original = lzhw.decompress_df_from_file(&quot;comp_df.txt&quot;)
+# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00&lt;00:00, 2004.93it/s]
+
+print(original)
+#   a  b
+#0  1  A
+#1  1  A
+#2  2  B
+#3  2  B
+#4  1  A
+#5  3  C
+#6  4  D
+#7  4  D
+</code></pre>
+
+<h4 id="compressing-bigger-dataframes">Compressing Bigger DataFrames</h4>
+<p>Let's try to compress a real-world dataframe <strong>german_credit.xlsx</strong> file from <a href="https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)">UCI Machine Learning Repository</a> [1].</p>
+<p>Original txt file is <strong>219 KB</strong> on desk.</p>
+<pre><code class="python">gc_original = pd.read_excel(&quot;examples/german_credit.xlsx&quot;)
+comp_gc = lzhw.CompressedDF(gc_original)
+# 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 257.95it/s]
+
+## Compare sizes in Python:
+comp_space = 0
+for i in range(len(comp_gc.compressed)):
+    comp_space += comp_gc.compressed[i].size()
+
+print(comp_space, getsizeof(gc_original))
+# 4504 548852
+
+print(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0])))
+# True
+</code></pre>
+
+<p><strong>Huge space saving, 99%, with no information loss!</strong></p>
+<p>Let's now write the compressed dataframe into a file and compare the sizes of the files.</p>
+<pre><code class="python">comp_gc.save_to_file(&quot;gc_compressed.txt&quot;)
+</code></pre>
+
+<p>Checking the size of the compressed file, it is <strong>44 KB</strong>. Meaning that in total we saved around <strong>79%</strong>.
+Future versions will be optimized to save more space.</p>
+<p>Let's now check when we reload the file, will we lose any information or not.</p>
+<pre><code class="python">## Load the file
+gc_original2 = lzhw.decompress_df_from_file(&quot;gc_compressed.txt&quot;)
+# 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 259.46it/s]
+
+print(list(gc_original2.iloc[:, 13]) == list(map(str, gc_original.iloc[:, 13])))
+# True
+
+print(gc_original.shape == gc_original2.shape)
+# True
+</code></pre>
+
+<p><strong>Perfect! There is no information loss at all.</strong></p>
+<h5 id="reference">Reference</h5>
+<pre><code>    [1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../1%20Quick%20Start/" title="Quick Start" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Quick Start
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" title="(De)Compressing specific columns or rows from a dataframe" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                (De)Compressing specific columns or rows from a dataframe
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.83fe6e3c.min.js"></script>
+      <script src="../assets/javascripts/bundle.7e1cb91c.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.37585f48.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

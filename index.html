@@ -1,0 +1,552 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.4">
+    
+    
+      
+        <title>lzhw</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.c4007cdc.min.css">
+      
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lzhw-dataframe-compression" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="." title="lzhw" class="md-header-nav__button md-logo" aria-label="lzhw">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            lzhw
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              lzhw (DataFrame Compression)
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="lzhw" class="md-nav__button md-logo" aria-label="lzhw">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    lzhw
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        lzhw (DataFrame Compression)
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="." title="lzhw (DataFrame Compression)" class="md-nav__link md-nav__link--active">
+      lzhw (DataFrame Compression)
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-lzhw-works" class="md-nav__link">
+    How lzhw Works
+  </a>
+  
+    <nav class="md-nav" aria-label="How lzhw Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lempel-ziv77-with-huffman-coding" class="md-nav__link">
+    Lempel-Ziv77 with Huffman Coding
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#better-than-huffman-alone" class="md-nav__link">
+    Better than Huffman Alone
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deflate-note" class="md-nav__link">
+    DEFLATE Note
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#putting-all-together-with-lzhw-class" class="md-nav__link">
+    Putting all together with LZHW Class
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="1%20Quick%20Start/" title="Quick Start" class="md-nav__link">
+      Quick Start
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="2%20Compressing%20DataFrames/" title="Compressing DataFrames" class="md-nav__link">
+      Compressing DataFrames
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" title="(De)Compressing specific columns or rows from a dataframe" class="md-nav__link">
+      (De)Compressing specific columns or rows from a dataframe
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="4%20More%20Compression%20Functions/" title="More Compression Functions" class="md-nav__link">
+      More Compression Functions
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="5%20Using%20the%20lzhw%20command%20line%20tool/" title="Using the lzhw Command Line tool" class="md-nav__link">
+      Using the lzhw Command Line tool
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-lzhw-works" class="md-nav__link">
+    How lzhw Works
+  </a>
+  
+    <nav class="md-nav" aria-label="How lzhw Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lempel-ziv77-with-huffman-coding" class="md-nav__link">
+    Lempel-Ziv77 with Huffman Coding
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#better-than-huffman-alone" class="md-nav__link">
+    Better than Huffman Alone
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deflate-note" class="md-nav__link">
+    DEFLATE Note
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#putting-all-together-with-lzhw-class" class="md-nav__link">
+    Putting all together with LZHW Class
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="lzhw-dataframe-compression">lzhw (DataFrame Compression)</h1>
+<p><strong>Compression library for data frames and tabular data files, csv, excel etc.</strong></p>
+<p><img alt="lzhw logo" src="img/lzhw_logo.jpg" /></p>
+<p><a href="https://travis-ci.com/MNoorFawi/lzhw"><img alt="Build Status" src="https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master" /></a></p>
+<p><strong>Compression</strong> library to compress big lists and/or pandas dataframes using an <strong>optimized algorithm (lzhw)</strong> developed from Lempel-Ziv, Huffman and LZ-Welch techniques.</p>
+<p><strong>lzhw has a command line tool that can be downloaded from <a href="https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing">here</a> and can work from command line with no prior python installation.</strong></p>
+<p><strong>Manual on how to use it available <a href="https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/">here</a></strong>.</p>
+<p>It works on Windows and soon a Mac version will be available.</p>
+<h2 id="how-lzhw-works">How lzhw Works</h2>
+<h4 id="overview">Overview</h4>
+<p>The library's main goal is to compress data frames, excel and csv files so that they consume less space to overcome memory errors.
+Also to enable dealing with large files that can cause memory errors when reading them in python or that cause slow operations.
+With <strong>lzhw</strong>, we can read compressed files and do operations <strong>column by column</strong> only on columns that we are interesred in. </p>
+<p>The algorithm is a mix of the famous <strong>lempel-ziv and huffman coding</strong> algorithm with some use of <strong>lempel-ziv-welch</strong> algorithm.
+The algorithm starts with an input stream for example this one:</p>
+<pre><code class="python">example = [&quot;to&quot;, &quot;be&quot;, &quot;or&quot;, &quot;not&quot;, &quot;to&quot;, &quot;be&quot;, &quot;or&quot;, &quot;to&quot;, &quot;be&quot;, &quot;or&quot;, &quot;not&quot;] * 2
+print(&quot;&quot;.join(example))
+# tobeornottobeortobeornottobeornottobeortobeornot
+</code></pre>
+
+<h4 id="lempel-ziv77-with-huffman-coding">Lempel-Ziv77 with Huffman Coding</h4>
+<p><strong>lzhw</strong> uses <a href="https://en.wikipedia.org/wiki/LZ77_and_LZ78"><strong>lempel-ziv77</strong></a> to discover repeated sequences in the stream and construct <em>triplets</em>, in that format &lt;<strong>offset,length,literal</strong>&gt;. 
+Where <em>offset</em> is how many steps should we return back word to find the beginning of the current sequence and <em>length</em> is how many steps should we move and <em>literal</em> is the next value after the sequence.</p>
+<p>Then we will have 3 shorter lists representing the stream, where <a href="https://en.wikipedia.org/wiki/Huffman_coding"><strong>Huffman Coding</strong></a> can come to the game encoding them.</p>
+<p>The function that performs lempel-ziv and returning the triplets called <strong>lz77_compress</strong>.</p>
+<pre><code class="python">import lzhw
+lz77_ex = lzhw.lz77_compress(example)
+print(lz77_ex)
+# [(None, None, 'to'), (None, None, 'be'), (None, None, 'or'), 
+# (None, None, 'not'), (4, 3, 'to'), (7, 6, 'not'), (11, 6, 'not')]
+</code></pre>
+
+<p>Here all the <strong>None</strong>s values are originally "0s" but converted to None to save more space.</p>
+<p>Now huffman coding will take the offsets list, lengths list and literal list and encode them based on most occurring values to give:</p>
+<pre><code class="python">lz77_lists = list(zip(*lz77_ex))
+print(lz77_lists)
+# [(None, None, None, None, 4, 7, 11), 
+#  (None, None, None, None, 3, 6, 6), 
+#  ('to', 'be', 'or', 'not', 'to', 'not', 'not')]
+
+huffs = []
+from collections import Counter
+for i in range(len(lz77_lists)):
+    huff = lzhw.huffman_coding(Counter(lz77_lists[i]))
+    huffs.append(huff)
+print(huffs)
+# [{None: '1', 4: '010', 7: '011', 11: '00'}, {None: '1', 3: '00', 6: '01'}, 
+#  {'to': '11', 'be': '100', 'or': '101', 'not': '0'}]
+</code></pre>
+
+<p>Now if we encode each value in the triplets with its corresponding value from the huffman dictionary and append everything together we will have:</p>
+<pre><code class="python">bits = []
+for i in range(len(huffs)):
+    bit = &quot;&quot;.join([huffs[i].get(k) for k in lz77_lists[i]])
+    bits.append(bit)
+print(bits)
+# ['111101001100', '1111000101', '1110010101100']
+
+print(len(&quot;&quot;.join(bits)))
+# 35
+</code></pre>
+
+<p>Which has a length of <strong>35</strong> bits only!</p>
+<p>Then <a href="https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch">Lempel-Ziv-Welch</a>, <strong>lzw_compress()</strong>, is used to further compress the dictionaries produces by Huffman. </p>
+<h4 id="better-than-huffman-alone">Better than Huffman Alone</h4>
+<p>Using each algorithm alone can give us bigger number of bits, for example, using only huffman coding will give us:</p>
+<pre><code class="python">huff_alone = lzhw.huffman_coding(Counter(example))
+print(huff_alone)
+# {'to': '11', 'be': '01', 'or': '10', 'not': '00'}
+
+huff_bit = &quot;&quot;.join([huff_alone.get(k) for k in example])
+print(huff_bit)
+# 11011000110110110110001101100011011011011000
+
+print(len(huff_bit))
+# 44
+</code></pre>
+
+<p>44 bits, 9 more bit!!! Big deal when dealing with bigger data.</p>
+<h4 id="deflate-note">DEFLATE Note</h4>
+<p>The techniques may seem similar to the <a href="https://en.wikipedia.org/wiki/DEFLATE"><strong>DEFLATE</strong></a> algorithm which uses both LZSS, which is a variant of LZ77, and huffman coding, but I am not sure how the huffman coding further compresses the triplets. I believe it compresses the triplets altogether not as 3 separate lists as lzhw.
+ And also it doesn't use the lempel-ziv-welch for further compression.</p>
+<p>DEFLATE Algorithm may be more complicated than lzhw, discussed here, but the latter is designed specifically for <strong>tabular data</strong> types to help in <strong>data science</strong> and <strong>data analysis</strong> projects.</p>
+<h4 id="putting-all-together-with-lzhw-class">Putting all together with LZHW Class</h4>
+<p>All of the steps can be done at once using <strong>LZHW</strong> class as follows and as shown in the Quick Start section:</p>
+<pre><code class="python">lzhw_comp = lzhw.LZHW(example)
+print(lzhw_comp.compressed)
+# (8012, 1989, 15532) # this is how the compressed data looks like and stored
+
+print(lzhw_comp.sequences) 
+# {'offset': {3: None, 10: 4, 11: 7, 4: 11}, 
+#  'length': {3: None, 4: 3, 5: 6}, 
+#  'literal_str': {7: 321647, 12: 312421, 13: 319090, 2: 163110516}}
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+        
+          <a href="1%20Quick%20Start/" title="Quick Start" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Quick Start
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/vendor.83fe6e3c.min.js"></script>
+      <script src="assets/javascripts/bundle.7e1cb91c.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: ".",
+          features: [],
+          search: Object.assign({
+            worker: "assets/javascripts/worker/search.37585f48.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

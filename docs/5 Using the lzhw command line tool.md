@@ -17,7 +17,7 @@ usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
                    [-r ROWS] [-nh]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.7
+any flat file. Version: 0.0.8
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -54,6 +54,8 @@ lzhw -f "german_credit.xlsx" -o "gc_comp.txt"
 ```
 ```bash
 Reading files, Can take 1 minute or something ...
+Running CScript.exe to convert xls file to csv for better performance
+
 Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
@@ -67,6 +69,8 @@ lzhw -f "german_credit.xlsx" -o "gc_subset.txt" -c Age,Duration,Amount
 ```
 ```bash
 Reading files, Can take 1 minute or something ...
+Running CScript.exe to convert xls file to csv for better performance
+
 Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
@@ -147,3 +151,6 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 ```
 
 All data is now 5 rows only including the header.
+
+P.S. The tool takes a couple of seconds from 10 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. 
+

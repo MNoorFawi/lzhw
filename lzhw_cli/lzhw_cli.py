@@ -60,7 +60,7 @@ def csv_reader(file, cols, col_arg, nh_arg):
 
 def main():
 
-    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.7")
+    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.8")
     parser.add_argument("-d", "--decompress", help="decompress input into output",
                         action="store_true", default=False)
     parser.add_argument("-f", "--input", help="input file to be (de)compressed",
@@ -118,7 +118,8 @@ def main():
 
     else:
         if "xls" in file:
-            print("Reading files, Can take 1 minute or something ...")
+            print("Reading files, Can take 1 minute or something ...",
+                  "\nRunning CScript.exe to convert xls file to csv for better performance", "\n")
             f = open("excel_to_csv.vbs", "w")
             f.write(vbscript)
             f.close()

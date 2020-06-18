@@ -16,7 +16,7 @@ def code_filling(huff_codes, n):
         if n == "literal_str":
             sequences[cd] = lzw_compress(str(seq))
         elif n == "literal":
-            sequences[cd] = eval(seq)
+            sequences[cd] = eval(seq) if seq != "nan" else seq
         else:
             sequences[cd] = seq
         codes[seq] = code

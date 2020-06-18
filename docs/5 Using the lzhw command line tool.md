@@ -13,10 +13,11 @@ lzhw -h
 ```
 Output
 ```bash
-usage: lzhw [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]] [-r ROWS] [-nh]
+usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                   [-r ROWS] [-nh]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.6
+any flat file. Version: 0.0.7
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -57,15 +58,21 @@ Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 647.30it/s]
-compressed successfully
+Creating gc_comp.txt file ...
+Compressed Successfully
 ```
 Let's say we are interested only in compressing the Age, Duration and Amount columns
 ```bash
 lzhw -f "german_credit.xlsx" -o "gc_subset.txt" -c Age,Duration,Amount
 ```
 ```bash
+Reading files, Can take 1 minute or something ...
+Microsoft (R) Windows Script Host Version 5.812
+Copyright (C) Microsoft Corporation. All rights reserved.
+
 100%|███████████████████████████████████████████████████| 3/3 [00:00<00:00, 249.99it/s]
-compressed successfully
+Creating gc_subset.txt file ...
+Compressed Successfully
 ```
 #### Decompress
 Now it's time to decompress:
@@ -75,7 +82,8 @@ Now it's time to decompress:
 lzhw -d -f "gc_comp.txt" -o "gc_decompressed.csv"
 
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 690.45it/s]
-decompressed successfully
+Creating gc_decompressed.csv file ...
+Decompressed Successfully
 ```
 Look at how the **-d** argument is used.
 
@@ -95,7 +103,8 @@ Now let's say that we only interested in decompressing the first two columns tha
 lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -c 1,2 
 
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 5651.84it/s]
-decompressed successfully
+Creating gc_subset_de.csv file ...
+Decompressed Successfully
 ```
 Now let's have a look at the decompressed file:
 ```bash
@@ -119,7 +128,8 @@ We can also use the **-r** argument to decompress specific rows from the data fr
 lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -r 4
 
 100%|████████████████████████████████████████████████████| 62/62 [00:00<00:00, 369.69it/s]
-decompressed successfully
+Creating gc_subset_de.csv file ...
+Decompressed Successfully
 ```
 
 Here we only decompressed the firt 4 rows, 1-based, including the header.

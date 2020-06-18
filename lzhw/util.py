@@ -18,5 +18,12 @@ def byte_decode(enc, from_bytes = True):
 def byte2int(bits, ext_bytes):
     return [int(bits[i * 9:(i + 1) * 9], 2) for i in range(ext_bytes)]
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
 ascii_to_int = {i.to_bytes(1, "big"): i for i in range(256)}
 int_to_ascii = {i: b for b, i in ascii_to_int.items()}

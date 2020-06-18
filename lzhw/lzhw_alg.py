@@ -3,8 +3,8 @@ from sys import getsizeof
 from pickle import dump, load, HIGHEST_PROTOCOL
 from lz77c import lz77_compress
 from .huffman_coding import huffman_coding
-from .compress_util import lz77_decode, code_filling, org_shaping
-#from lzw_c import *
+from .compress_util import lzhw_decompress, code_filling
+from .util import is_number
 
 # Putting everything together in one class
 # Lempel-Ziv-Huffman-Welch. I invented it :D
@@ -14,6 +14,7 @@ class LZHW:
 
     def _compress(self, uncompressed):
         self.__original_size = getsizeof(uncompressed)
+        is_num = is_number(uncompressed[0])
         uncompressed = [i.replace(" ", "__") for i in map(str, uncompressed)]
         lz77_triplets = lz77_compress(uncompressed)
         if len(lz77_triplets) / len(uncompressed) >= 1.5: # this is a placeholder for future
@@ -24,12 +25,14 @@ class LZHW:
             lz77_list = list(zip(*lz77_triplets))
             self.sequences = {}
             self.__codes = {}
-            #names = [lzw_compress(n) for n in ["offset", "length", "literal"]]
-            names = ["offset", "length", "literal"]
+            if is_num:
+                names = ["offset", "length", "literal"]
+            else:
+                names = ["offset", "length", "literal_str"]
             for n, l in zip(names, lz77_list):
                 seq_freq = dict(Counter(l))
                 huff_coding = huffman_coding(seq_freq)
-                self.sequences[n], self.__codes[n] = code_filling(huff_coding)
+                self.sequences[n], self.__codes[n] = code_filling(huff_coding, n)
             self.compressed = tuple([self.__encode(t, n) for t, n in zip(lz77_list, names)])
 
     def __encode(self, triplets, n):
@@ -39,14 +42,7 @@ class LZHW:
         return int(bitstring, 2)
 
     def decompress(self, n_rows = 0):
-        if "lz77" in self.sequences:
-            decomp = lz77_decode(self.compressed, n_rows)
-        else:
-            triplets = []
-            for n, i in zip(self.sequences.keys(), range(len(self.compressed))):
-                triplet = org_shaping(self.sequences[n], self.compressed[i])
-                triplets.append(triplet)
-            decomp = lz77_decode(triplets, n_rows)
+        decomp = lzhw_decompress(self.sequences, self.compressed, n_rows)
         return decomp
 
     def size(self):
@@ -66,13 +62,5 @@ def decompress_from_file(file, n_rows = 0):
         triplets = load(input)
         sequences = load(input)
 
-    if "lz77" in sequences:
-        original = lz77_decode(triplets, n_rows)
-    else:
-        triplts = []
-        for n, i in zip(sequences.keys(), range(len(triplets))):
-            triplet= org_shaping(sequences[n], triplets[i])
-            triplts.append(triplet)
-        original = lz77_decode(triplts, n_rows)
-
+    original = lzhw_decompress(sequences, triplets, n_rows)
     return original

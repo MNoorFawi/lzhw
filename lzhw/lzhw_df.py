@@ -1,6 +1,6 @@
 from .lzhw_alg import LZHW
 from pickle import dump, load, HIGHEST_PROTOCOL
-from .compress_util import lz77_decode, org_shaping
+from .compress_util import lzhw_decompress
 import pandas as pd
 from lzw_c import *
 from tqdm import tqdm
@@ -8,7 +8,6 @@ from operator import itemgetter
 
 class CompressedDF:
     def __init__(self, df, selected_cols = "all"):
-        #self.columns = list(df.columns)
         if selected_cols == "all":
             selected = range(df.shape[1])
         else:
@@ -45,14 +44,7 @@ def decompress_df_from_file(file, selected_cols = "all", n_rows = 0):
             if i not in selected:
                 continue
             else:
-                if "lz77" in sequences:
-                    df[cols[i]] = lz77_decode(triplets, n_rows)
-                else:
-                    triplts = []
-                    for n, t in zip(sequences.keys(), range(len(triplets))):
-                        triplet = org_shaping(sequences[n], triplets[t])
-                        triplts.append(triplet)
-                    df[cols[i]] = lz77_decode(triplts, n_rows)
+                df[cols[i]] = lzhw_decompress(sequences, triplets, n_rows)
     
     if n_rows > 0:
         df = {k: v[:n_rows] for k, v in df.items()}

@@ -60,7 +60,7 @@ def csv_reader(file, cols, col_arg, nh_arg):
 
 def main():
 
-    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.6")
+    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.7")
     parser.add_argument("-d", "--decompress", help="decompress input into output",
                         action="store_true", default=False)
     parser.add_argument("-f", "--input", help="input file to be (de)compressed",
@@ -113,7 +113,8 @@ def main():
         else:
             with open(output, "w") as o:
                 decompressed.to_string(o, index=False)
-        print("decompressed successfully")
+        print(f"Creating {output} file ...")
+        print("Decompressed Successfully")
 
     else:
         if "xls" in file:
@@ -130,6 +131,7 @@ def main():
             os.remove(csv_file)
 
         elif "csv" in file:
+            print("Reading files ...")
             data = csv_reader(file, cols, args["columns"], args["no_header"])
 
         else:
@@ -138,7 +140,8 @@ def main():
 
         comp_df = lzhw.CompressedDF(data)
         comp_df.save_to_file(output)
-        print("compressed successfully")
+        print(f"Creating {output} file ...")
+        print("Compressed Successfully")
 
 if __name__ == "__main__":
     main()

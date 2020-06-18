@@ -74,6 +74,9 @@ print(len("".join(bits)))
 # 35
 ```
 Which has a length of **35** bits only!
+
+Then [Lempel-Ziv-Welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch), **lzw_compress()**, is used to further compress the dictionaries produces by Huffman. 
+
 #### Better than Huffman Alone
 Using each algorithm alone can give us bigger number of bits, for example, using only huffman coding will give us:
 ```python
@@ -105,5 +108,5 @@ print(lzhw_comp.compressed)
 print(lzhw_comp.sequences) 
 # {'offset': {3: None, 10: 4, 11: 7, 4: 11}, 
 #  'length': {3: None, 4: 3, 5: 6}, 
-#  'literal': {7: 'to', 12: 'be', 13: 'or', 2: 'not'}}
+#  'literal_str': {7: 321647, 12: 312421, 13: 319090, 2: 163110516}}
 ```

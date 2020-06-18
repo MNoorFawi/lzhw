@@ -73,6 +73,8 @@ print(len("".join(bits)))
 # 35
 ```
 Which has a length of **35** bits only!
+
+Then [Lempel-Ziv-Welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch), **lzw_compress()**, is used to further compress the dictionaries produces by Huffman. 
  
 Using each algorithm alone can give us bigger number of bits, for example, using only huffman coding will give us:
 ```python
@@ -100,7 +102,7 @@ print(lzhw_comp.compressed)
 print(lzhw_comp.sequences) 
 # {'offset': {3: None, 10: 4, 11: 7, 4: 11}, 
 #  'length': {3: None, 4: 3, 5: 6}, 
-#  'literal': {7: 'to', 12: 'be', 13: 'or', 2: 'not'}}
+#  'literal_str': {7: 321647, 12: 312421, 13: 319090, 2: 163110516}}
 ```
 
 ## Quick Start
@@ -371,10 +373,10 @@ Getting help to see what it does and its arguments:
 $python lzhw_cli.py -h
 
 usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
-                   [-nh]
+                   [-r ROWS] [-nh]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.5
+any flat file. Version: 0.0.7
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -385,8 +387,9 @@ optional arguments:
                         output where to save result
   -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
                         select specific columns by names or indices (1-based)
+                        to compress or decompress
   -r ROWS, --rows ROWS  select specific rows to decompress (1-based)
-  -nh, --no-header      skip header / data has no header
+  -nh, --no-header      skip header / data to be compressed has no header
 ```
 
 How to compress:

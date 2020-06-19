@@ -3,7 +3,9 @@
 In **lzhw_cli** folder, there is a python script that can work on command line tool to compress and decompress files without having to open it in python.
 #### LZHW Compression Tool
 **Also a downloadable exe tool is available in this [link](https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing).**
-**The tool allows to compress and decompress files from and to any form, csv,xlsx etc without any dependencies or installations.**
+**The tool allows to compress and decompress files from and to any form, csv, excel etc without any dependencies or installations.**
+
+**The library works in parallel and most of its code is compiled to C code, so it is pretty fast**.
 
 The tool now works perfectly on Windows and Mac version is being developed.
 
@@ -17,7 +19,7 @@ usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
                    [-r ROWS] [-nh]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.8
+any flat file. Version: 0.0.9
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -35,7 +37,7 @@ optional arguments:
 As we can see, the tool takes an input file **"-f"**, and output **"-o"** where it should put the result whether it is compression or decompression based on the optional **"-d"** argument which selects decompression.
 
 The tool as well takes a **"-c"** argument which is the Columns in case we want only to compress or decompress specific columns from the input file instead of dealing with all the columns unnecessarily.
-This argument accepts names and indices seperated by coma.
+This argument accepts names and indices separated by coma.
 
 The **"-nh"**, --no-header, argument to specify if the data has no header.
 

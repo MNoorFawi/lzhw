@@ -1,5 +1,6 @@
 from lzw_c import *
 from lz77c import lz77_decompress
+from pickle import load
 
 def glue_seq(seq, last_separate = False):
     if last_separate:
@@ -58,3 +59,16 @@ def lzhw_decompress(sequences, triplets, n_rows):
             trplts.append(triplet)
         decomp = lz77_decode(trplts, n_rows)
     return decomp
+
+def _reader(input, cols_len, selected):
+    triplets = []
+    sequences = []
+    for i in range(cols_len):
+        triplet = load(input)
+        sequence = load(input)
+        if i not in selected:
+            continue
+        else:
+            triplets.append(triplet)
+            sequences.append(sequence)
+    return sequences, triplets

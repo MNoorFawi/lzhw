@@ -16,6 +16,7 @@ It works on Windows and soon a Mac version will be available.
 
 #### Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
 
+**Data Frames compression and decompression works in parallel**. 
 ## How lzhw Works
 The library's main goal is to compress data frames, excel and csv files so that they consume less space to overcome memory errors.
 Also to enable dealing with large files that can cause memory errors when reading them in python or that cause slow operations.
@@ -183,7 +184,7 @@ print(status == decomp_status)
 # True
 ```
 
-## Compressing DataFrames
+## Compressing DataFrames in Parallel
 
 lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.
 

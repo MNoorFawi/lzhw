@@ -5,6 +5,7 @@ import pandas as pd
 import argparse
 import os
 from subprocess import call
+from time import time
 
 ## This script and the solution to convert xlsx into csv was thanks to the answer found here:
 ## https://stackoverflow.com/questions/28766133/faster-way-to-read-excel-files-to-pandas-dataframe
@@ -60,7 +61,7 @@ def csv_reader(file, cols, col_arg, nh_arg):
 
 def main():
 
-    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.8")
+    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.9")
     parser.add_argument("-d", "--decompress", help="decompress input into output",
                         action="store_true", default=False)
     parser.add_argument("-f", "--input", help="input file to be (de)compressed",
@@ -91,6 +92,7 @@ def main():
         n_rows = 0
 
     if args["decompress"]:
+        start = time()
         if cols != "all":
             cols = cols.split(",")
             if is_number(cols[0]):
@@ -113,10 +115,13 @@ def main():
         else:
             with open(output, "w") as o:
                 decompressed.to_string(o, index=False)
+        print("Finalizing Decompression ...")
         print(f"Creating {output} file ...")
+        print("time taken: ", (time() - start) / 60, " minutes")
         print("Decompressed Successfully")
 
     else:
+        start = time()
         if "xls" in file:
             print("Reading files, Can take 1 minute or something ...",
                   "\nRunning CScript.exe to convert xls file to csv for better performance", "\n")
@@ -140,8 +145,10 @@ def main():
                 data = i.read()
 
         comp_df = lzhw.CompressedDF(data)
+        print("Finalizing Compression ...")
         comp_df.save_to_file(output)
         print(f"Creating {output} file ...")
+        print("time taken: ", (time() - start) / 60, " minutes")
         print("Compressed Successfully")
 
 if __name__ == "__main__":

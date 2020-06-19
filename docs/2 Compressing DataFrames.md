@@ -1,4 +1,4 @@
-# Compressing DataFrames
+# Compressing DataFrames in Parallel
 
 #### From DataFrame to CompressedDF
 lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.

@@ -1,6 +1,6 @@
 from .lzhw_alg import LZHW
 from pickle import dump, load, HIGHEST_PROTOCOL
-from .compress_util import lzhw_decompress, _reader
+from .compress_util import _reader
 import pandas as pd
 from lzw_c import *
 from operator import itemgetter

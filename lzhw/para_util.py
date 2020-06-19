@@ -1,6 +1,7 @@
 from joblib import Parallel, delayed
 from .lzhw_alg import LZHW
 from tqdm import tqdm
+from .compress_util import lzhw_decompress
 
 def lzhw_para(df, selected):
     compressed = Parallel(n_jobs=-1, max_nbytes = None)(delayed(

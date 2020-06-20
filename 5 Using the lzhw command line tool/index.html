@@ -174,8 +174,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../2%20Compressing%20DataFrames/" title="Compressing DataFrames" class="md-nav__link">
-      Compressing DataFrames
+    <a href="../2%20Compressing%20DataFrames/" title="Compressing DataFrames in Parallel" class="md-nav__link">
+      Compressing DataFrames in Parallel
     </a>
   </li>
 
@@ -272,6 +272,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6%20LZHW%20Comparison/" title="6 LZHW Comparison" class="md-nav__link">
+      6 LZHW Comparison
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -338,7 +350,8 @@
 <p>In <strong>lzhw_cli</strong> folder, there is a python script that can work on command line tool to compress and decompress files without having to open it in python.</p>
 <h4 id="lzhw-compression-tool">LZHW Compression Tool</h4>
 <p><strong>Also a downloadable exe tool is available in this <a href="https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing">link</a>.</strong>
-<strong>The tool allows to compress and decompress files from and to any form, csv,xlsx etc without any dependencies or installations.</strong></p>
+<strong>The tool allows to compress and decompress files from and to any form, csv, excel etc without any dependencies or installations.</strong></p>
+<p><strong>The tool works in parallel and most of its code is compiled to C code, so it is pretty fast</strong>. Next page in the documentation there is a comparison in performance with other tools.</p>
 <p>The tool now works perfectly on Windows and Mac version is being developed.</p>
 <p>Here is the file and its help argument to see how it works and its arguments:</p>
 <pre><code class="bash">lzhw -h
@@ -349,7 +362,7 @@
                    [-r ROWS] [-nh]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.8
+any flat file. Version: 0.0.9
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -367,7 +380,7 @@ optional arguments:
 
 <p>As we can see, the tool takes an input file <strong>"-f"</strong>, and output <strong>"-o"</strong> where it should put the result whether it is compression or decompression based on the optional <strong>"-d"</strong> argument which selects decompression.</p>
 <p>The tool as well takes a <strong>"-c"</strong> argument which is the Columns in case we want only to compress or decompress specific columns from the input file instead of dealing with all the columns unnecessarily.
-This argument accepts names and indices seperated by coma.</p>
+This argument accepts names and indices separated by coma.</p>
 <p>The <strong>"-nh"</strong>, --no-header, argument to specify if the data has no header.</p>
 <p>The <strong>"-r"</strong>, --rows, argument is to specify number of rows to decompress, in case we don't need to decompress all rows.</p>
 <h4 id="compress">Compress</h4>
@@ -384,12 +397,23 @@ Running CScript.exe to convert xls file to csv for better performance
 Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-100%|███████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 647.30it/s]
+100%|██████████████████████████████████████████████████████████████████| 62/62 [00:02&lt;00:00, 21.92it/s]
+Finalizing Compression ...
 Creating gc_comp.txt file ...
+time taken:  0.06792410214742024  minutes
 Compressed Successfully
 </code></pre>
 
-<p>Let's say we are interested only in compressing the Age, Duration and Amount columns</p>
+<p><strong>N.B. This error message can appear while compressing or decompressing</strong></p>
+<pre><code class="bash">lzhw.exe [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                [-r ROWS] [-nh]
+lzhw.exe: error: the following arguments are required: -f/--input, -o/--output
+</code></pre>
+
+<p><strong>It is totally fine, just press Enter and proceed or leave it until it tells you "Compressed Successsfully" or "Decompressed Successfully"</strong>.</p>
+<p>The error is due to some parallelization library bug that has nothing to do with the tool so it is ok.</p>
+<p><strong>N.B.2 The progress bar of columns compression, it doesn't mean that the tool has finished because it needs still to write the answers. So you need to wait until "Compressed Successfully" or "Decompressed Successfully" message appears.</strong></p>
+<p>Now, let's say we are interested only in compressing the Age, Duration and Amount columns</p>
 <pre><code class="bash">lzhw -f &quot;german_credit.xlsx&quot; -o &quot;gc_subset.txt&quot; -c Age,Duration,Amount
 </code></pre>
 
@@ -400,7 +424,9 @@ Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
 100%|███████████████████████████████████████████████████| 3/3 [00:00&lt;00:00, 249.99it/s]
+Finalizing Compression ...
 Creating gc_subset.txt file ...
+time taken:  0.03437713384628296  minutes
 Compressed Successfully
 </code></pre>
 
@@ -408,9 +434,12 @@ Compressed Successfully
 <p>Now it's time to decompress:</p>
 <p><strong>If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel directly and then save the file as excel if excel type is necessary. This is because python is not that fast in writing data to excel as well as the tool sometimes has "Corrupted Files" issues with excel.</strong></p>
 <pre><code class="bash">lzhw -d -f &quot;gc_comp.txt&quot; -o &quot;gc_decompressed.csv&quot;
+</code></pre>
 
-100%|███████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 690.45it/s]
+<pre><code class="bash">100%|███████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 690.45it/s]
+Finalizing Decompression ...
 Creating gc_decompressed.csv file ...
+time taken:  0.04818803866704305  minutes
 Decompressed Successfully
 </code></pre>
 
@@ -427,9 +456,12 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 <p>It looks awful in the command line :D but it's decompressed.</p>
 <p>Now let's say that we only interested in decompressing the first two columns that we don't remember how they were spelled.</p>
 <pre><code class="bash">lzhw -d -f &quot;gc_comp.txt&quot; -o &quot;gc_subset_de.csv&quot; -c 1,2 
+</code></pre>
 
-100%|███████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 5651.84it/s]
+<pre><code class="bash">100%|███████████████████████████████████████████████████| 2/2 [00:00&lt;00:00,  8.05it/s]
+Finalizing Decompression ...
 Creating gc_subset_de.csv file ...
+time taken:  0.0140968124071757  minutes
 Decompressed Successfully
 </code></pre>
 
@@ -452,11 +484,13 @@ Duration,Amount
 <pre><code class="bash">lzhw -d -f &quot;gc_comp.txt&quot; -o &quot;gc_subset_de.csv&quot; -r 4
 
 100%|████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 369.69it/s]
+Finalizing Decompression ...
 Creating gc_subset_de.csv file ...
+time taken:  0.04320337772369385  minutes
 Decompressed Successfully
 </code></pre>
 
-<p>Here we only decompressed the firt 4 rows, 1-based, including the header.</p>
+<p>Here we only decompressed the first 4 rows, 1-based, including the header.</p>
 <p>Let's look how the data looks like:</p>
 <pre><code class="bash">cat &quot;gc_subset_de.csv&quot;
 
@@ -468,7 +502,7 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 </code></pre>
 
 <p>All data is now 5 rows only including the header.</p>
-<p>P.S. The tool takes a couple of seconds from 10 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. </p>
+<p>P.S. The tool takes a couple of seconds from 8 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. </p>
                 
               
               
@@ -501,6 +535,20 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
             </div>
           </a>
         
+        
+          <a href="../6%20LZHW%20Comparison/" title="6 LZHW Comparison" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                6 LZHW Comparison
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
         
       </nav>
     </div>

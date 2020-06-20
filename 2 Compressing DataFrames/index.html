@@ -15,7 +15,7 @@
     
     
       
-        <title>Compressing DataFrames - lzhw</title>
+        <title>Compressing DataFrames in Parallel - lzhw</title>
       
     
     
@@ -48,7 +48,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#compressing-dataframes" class="md-skip">
+        <a href="#compressing-dataframes-in-parallel" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Compressing DataFrames
+              Compressing DataFrames in Parallel
             
           </span>
         </div>
@@ -183,14 +183,14 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Compressing DataFrames
+        Compressing DataFrames in Parallel
         <span class="md-nav__icon md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
         </span>
       </label>
     
-    <a href="./" title="Compressing DataFrames" class="md-nav__link md-nav__link--active">
-      Compressing DataFrames
+    <a href="./" title="Compressing DataFrames in Parallel" class="md-nav__link md-nav__link--active">
+      Compressing DataFrames in Parallel
     </a>
     
       
@@ -285,6 +285,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../6%20LZHW%20Comparison/" title="6 LZHW Comparison" class="md-nav__link">
+      6 LZHW Comparison
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -360,7 +372,7 @@
                   
                 
                 
-                <h1 id="compressing-dataframes">Compressing DataFrames</h1>
+                <h1 id="compressing-dataframes-in-parallel">Compressing DataFrames in Parallel</h1>
 <h4 id="from-dataframe-to-compresseddf">From DataFrame to CompressedDF</h4>
 <p>lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.</p>
 <pre><code class="python">import pandas as pd

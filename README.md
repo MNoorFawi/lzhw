@@ -14,97 +14,9 @@
 
 It works on Windows and soon a Mac version will be available.
 
-#### Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
+## Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
 
 **Data Frames compression and decompression works in parallel**. 
-## How lzhw Works
-The library's main goal is to compress data frames, excel and csv files so that they consume less space to overcome memory errors.
-Also to enable dealing with large files that can cause memory errors when reading them in python or that cause slow operations.
-With **lzhw**, we can read compressed files and do operations **column by column** only on columns that we are interesred in. 
-
-The algorithm is a mix of the famous **lempel-ziv and huffman coding** algorithm with some use of **lempel-ziv-welch** algorithm.
-The algorithm starts with an input stream for example this one:
-```python
-example = ["to", "be", "or", "not", "to", "be", "or", "to", "be", "or", "not"] * 2
-print("".join(example))
-# tobeornottobeortobeornottobeornottobeortobeornot
-```
-**lzhw** uses [**lempel-ziv77**](https://en.wikipedia.org/wiki/LZ77_and_LZ78) to discover repeated sequences in the stream and construct *triplets*, in that format **<offset,length,literal>**. 
-Where *offset* is how many steps should we return back word to find the beginning of the current sequence and *length* is how many steps should we move and *literal* is the next value after the sequence.
-
-Then we will have 3 shorter lists representing the stream, where [**Huffman Coding**](https://en.wikipedia.org/wiki/Huffman_coding) can come to the game encoding them.
-
-The function that performs lempel-ziv and returning the triplets called **lz77_compress**.
-```python
-import lzhw
-lz77_ex = lzhw.lz77_compress(example)
-print(lz77_ex)
-# [(None, None, 'to'), (None, None, 'be'), (None, None, 'or'), 
-# (None, None, 'not'), (4, 3, 'to'), (7, 6, 'not'), (11, 6, 'not')]
-```
-Here all the **None**s values are originally "0s" but converted to None to save more space.
-
-Now huffman coding will take the offsets list, lengths list and literal list and encode them based on most occurring values to give:
-```python
-lz77_lists = list(zip(*lz77_ex))
-print(lz77_lists)
-# [(None, None, None, None, 4, 7, 11), 
-#  (None, None, None, None, 3, 6, 6), 
-#  ('to', 'be', 'or', 'not', 'to', 'not', 'not')]
-
-huffs = []
-from collections import Counter
-for i in range(len(lz77_lists)):
-    huff = lzhw.huffman_coding(Counter(lz77_lists[i]))
-    huffs.append(huff)
-print(huffs)
-# [{None: '1', 4: '010', 7: '011', 11: '00'}, {None: '1', 3: '00', 6: '01'}, 
-#  {'to': '11', 'be': '100', 'or': '101', 'not': '0'}]
-```
-Now if we encode each value in the triplets with its corresponding value from the huffman dictionary and append everything together we will have:
-```python
-bits = []
-for i in range(len(huffs)):
-    bit = "".join([huffs[i].get(k) for k in lz77_lists[i]])
-    bits.append(bit)
-print(bits)
-# ['111101001100', '1111000101', '1110010101100']
-
-print(len("".join(bits)))
-# 35
-```
-Which has a length of **35** bits only!
-
-Then [Lempel-Ziv-Welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch), **lzw_compress()**, is used to further compress the dictionaries produces by Huffman. 
- 
-Using each algorithm alone can give us bigger number of bits, for example, using only huffman coding will give us:
-```python
-huff_alone = lzhw.huffman_coding(Counter(example))
-print(huff_alone)
-# {'to': '11', 'be': '01', 'or': '10', 'not': '00'}
-
-huff_bit = "".join([huff_alone.get(k) for k in example])
-print(huff_bit)
-# 11011000110110110110001101100011011011011000
-
-print(len(huff_bit))
-# 44
-```
-44 bits, 9 more bit!!! Big deal when dealing with bigger data.
-
-The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both lempel-ziv77 and huffman coding, but I am not sure how the huffman coding further compresses the triplets. And also it doesn't use the lempel-ziv-welch for further compression.
-
-All of the steps can be done at once using **LZHW** class as follows and as shown in the Quick Start section:
-```python
-lzhw_comp = lzhw.LZHW(example)
-print(lzhw_comp.compressed)
-# (8012, 1989, 15532) # this is how the compressed data looks like and stored
-
-print(lzhw_comp.sequences) 
-# {'offset': {3: None, 10: 4, 11: 7, 4: 11}, 
-#  'length': {3: None, 4: 3, 5: 6}, 
-#  'literal_str': {7: 321647, 12: 312421, 13: 319090, 2: 163110516}}
-```
 
 ## Quick Start
 
@@ -286,204 +198,165 @@ print(gc_original.shape == gc_original2.shape)
 
 **Perfect! There is no information loss at all.**
 
-## (De)Compressing specific columns or rows from a dataframe
+With **lzhw** also you can choose what columns you are interested in compressing from a data frame.
+**CompressedDF** class has an argument **selected_cols**. And how many rows you want to decompress with **n_rows** argument. 
 
-With **lzhw** you can choose what columns you are interested in compressing from a data frame.
-**CompressedDF** class has an argument **selected_cols**.
+Please see [documentation](https://mnoorfawi.github.io/lzhw/) for deeper look
+
+## LZHW Comparison with joblib algorithms
+
+I love [joblib](https://joblib.readthedocs.io/en/latest/index.html). I usually use it for **parallelism** for its great performance coming with a smooth simplicity.
+
+I once saw this [article](https://joblib.readthedocs.io/en/latest/auto_examples/compressors_comparison.html#sphx-glr-auto-examples-compressors-comparison-py) in its documentation and it is about measuring the performance between different compressors available in it.
+
+Because I am developing a compression library, I wanted to extend the code available in this article adding **lzhw** to the comparison, just to know where my library stands.
+
+joblib uses three main techniques in this article **Zlib, LZMA and LZ4**.
+
+I will use [1500000 Sales Records Data](http://eforexcel.com/wp/wp-content/uploads/2017/07/1500000%20Sales%20Records.zip).
+
+**We will look at Compression and Decompression Duration and The compressed file sizes.**
+
+*The downloaded compressed file is 53MB on the websites*
+
+I will reproduce the code in joblib documentation
 ```python
-gc_original = pd.read_excel("examples/german_credit.xlsx")
-comp_gc = lzhw.CompressedDF(gc_original, selected_cols = [0, 3, 4, 7])
-# 100%|███████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 401.11it/s]
-``` 
-Also when you have a compressed file that you want to decompress, you don't have to decompress it all, you can choose only specific columns and/or rows to decompress.
-By this you can deal with large compressed files and do operations **column by column** quickly and **avoid memory errors**
-**decompress_df_from_file** function has the same argument **selected_cols**.
-```python
-gc_original2 = lzhw.decompress_df_from_file("gc_compressed.txt", selected_cols = [0, 4])
-# 100%|████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 3348.53it/s]
+data = pd.read_csv("1500000 Sales Records.csv")
+print(data.shape)
 
-gc_original2.head()
-#	Duration	Age
-#0	       6	67
-#1	      48	22
-#2	      12	49
-#3	      42	45
-#4	      24	53
-```
-Let's compare this subset with the original df.
-```python
-gc_original.iloc[:, [0, 4]].head()
-#	Duration	Age
-#0	       6	67
-#1	      48	22
-#2	      12	49
-#3	      42	45
-#4	      24	53
-```
-Perfect!
+pickle_file = './pickle_data.joblib'
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f)
+raw_dump_duration = time.time() - start
+print("Raw dump duration: %0.3fs" % raw_dump_duration)
 
-*selected_cols* has "all" as its default value.
+raw_file_size = os.stat(pickle_file).st_size / 1e6
+print("Raw dump file size: %0.3fMB" % raw_file_size)
 
-**decompress_df_from_file** has another argument which is **n_rows** to specify the number of rows we would like to decompress only.
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+raw_load_duration = time.time() - start
+print("Raw load duration: %0.3fs" % raw_load_duration)
 
-The argument's default value is **0** to decompress all data frame, if specified it will decompress from start until desired number of rows.
-```python
-gc_original_subset = lzhw.decompress_df_from_file("gc_compressed.txt", n_rows = 6)
-# 100%|████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 914.21it/s]
+## ZLIB
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress='zlib')
+zlib_dump_duration = time.time() - start
+print("Zlib dump duration: %0.3fs" % zlib_dump_duration)
 
-print(gc_original_subset.shape)
-# (6, 62)
-```
+zlib_file_size = os.stat(pickle_file).st_size / 1e6
+print("Zlib file size: %0.3fMB" % zlib_file_size)
 
-This can be very helpful when reading very big data in chunks of rows and columns to avoid **MemoryError** and to apply **operations** and **online algorithms** **faster**.
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+zlib_load_duration = time.time() - start
+print("Zlib load duration: %0.3fs" % zlib_load_duration)
 
-```python
-gc_original_subset_smaller = lzhw.decompress_df_from_file("gc_compressed.txt", 
-                                                  selected_cols = [1, 4, 8, 9], 
-                                                  n_rows = 6)
-# 100%|████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 3267.86it/s]
+## LZMA
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress=('lzma', 3))
+lzma_dump_duration = time.time() - start
+print("LZMA dump duration: %0.3fs" % lzma_dump_duration)
 
-print(gc_original_subset_smaller.shape)
-# (6, 4)
+lzma_file_size = os.stat(pickle_file).st_size / 1e6
+print("LZMA file size: %0.3fMB" % lzma_file_size)
 
-print(gc_original_subset_smaller)
-#   Amount Age ForeignWorker Class
-# 0   1169  67             1  Good
-# 1   5951  22             1   Bad
-# 2   2096  49             1  Good
-# 3   7882  45             1  Good
-# 4   4870  53             1   Bad
-# 5   9055  35             1  Good
-```
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+lzma_load_duration = time.time() - start
+print("LZMA load duration: %0.3fs" % lzma_load_duration)
 
-## Using the lzhw Command Line Interface
+## LZ4
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress='lz4')
+lz4_dump_duration = time.time() - start
+print("LZ4 dump duration: %0.3fs" % lz4_dump_duration)
 
-In **lzhw_cli** folder, there is a python script that can work on command line to compress and decompress files.
+lz4_file_size = os.stat(pickle_file).st_size / 1e6
+print("LZ4 file size: %0.3fMB" % lz4_file_size)
 
-Here is the file:
-```bash
-$python lzhw_cli.py
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+lz4_load_duration = time.time() - start
+print("LZ4 load duration: %0.3fs" % lz4_load_duration)
 
-usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
-                   [-nh]
-lzhw_cli.py: error: the following arguments are required: -f/--input, -o/--output
-```
+## LZHW
+start = time.time()
+lzhw_data = lzhw.CompressedDF(data)
+lzhw_data.save_to_file("lzhw_data.txt")
+lzhw_compression_duration = time.time() - start
+print("LZHW compression duration: %0.3fs" % lzhw_compression_duration)
 
-Getting help to see what it does and its arguments:
-```bash
-$python lzhw_cli.py -h
+lzhw_file_size = os.stat("lzhw_data.txt").st_size / 1e6
+print("LZHW file size: %0.3fMB" % lzhw_file_size)
 
-usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
-                   [-r ROWS] [-nh]
+start = time.time()
+lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt")
+lzhw_d_duration = time.time() - start
+print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
 
-LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.7
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -d, --decompress      decompress input into output
-  -f INPUT, --input INPUT
-                        input file to be (de)compressed
-  -o OUTPUT, --output OUTPUT
-                        output where to save result
-  -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
-                        select specific columns by names or indices (1-based)
-                        to compress or decompress
-  -r ROWS, --rows ROWS  select specific rows to decompress (1-based)
-  -nh, --no-header      skip header / data to be compressed has no header
+# (1500000, 14)
+# Raw dump duration: 1.294s
+# Raw dump file size: 267.591MB
+# Raw load duration: 1.413s
+# Zlib dump duration: 6.583s
+# Zlib file size: 96.229MB
+# Zlib load duration: 2.430s
+# LZMA dump duration: 76.526s
+# LZMA file size: 72.476MB
+# LZMA load duration: 9.240s
+# LZ4 dump duration: 1.984s
+# LZ4 file size: 152.374MB
+# LZ4 load duration: 2.135s
+# LZHW compression duration: 81.522s
+# LZHW file size: 45.755MB
+# LZHW decompression duration: 48.904s
 ```
 
-How to compress:
-```bash
-$python lzhw_cli.py -f "file_to_compress" -o "output"
-
-compressed successfully
-```
-
-How to decompress:
-```bash
-$python lzhw_cli.py -d -f "file_to_decompress" -o "output"
-
-decompressed successfully
-```
-## Helper Functions
-
-Aside from the functions and classes discussed, the library also has some more compression functions that can be used as standalone.
-
-#### lz78()
-
-**lz78** which performs the famous **lempel-ziv78** algorithm which differs from lempel-ziv77 in that instead of triplets it creates a dictionary for the previously seen sequences:
-```python
-import random
-random.seed(1311)
-example = random.choices(["A", "B", "C"], k = 20)
-print(example)
-#['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 
-# 'A', 'B', 'B', 'C', 'C', 'B', 'C', 'C', 'B']
-
-lz78_comp, symb_dict = lzhw.lz78(example)
-print(lz78_comp)
-# ['1', '1', 'C', '3', '1', 'A', '3', 'C', '3', 'B', 
-#  '7', '1', 'B', '7', 'C', '6', 'C', 'C B']
-
-print(symb_dict)
-# {'A': '1', 'A C': '2', 'C': '3', 'A A': '4', 'C C': '5', 
-#  'C B': '6', 'B': '7', 'A B': '8', 'B C': '9', 'C B C': '10'}
-```
-
-#### huffman_coding()
-
-Huffman Coding function which takes a Counter object and encodes each symbol accordingly.
-```python
-from collections import Counter
-huffs = lzhw.huffman_coding(Counter(example))
-print(huffs)
-# {'A': '10', 'C': '0', 'B': '11'}
-```
-
-#### lzw_compress() and lzw_decompress()
-
-They perform [lempel-ziv-welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch) compressing and decompressing
-```python
-print(lzhw.lzw_compress("Hello World"))
-# 723201696971929295664359987300
-
-print(lzhw.lzw_decompress(lzhw.lzw_compress("Hello World")))
-# Hello World
-```
-
-#### lz20()
-I wanted to modify the lempel-ziv78 and instead of creating a dictionary and returing the codes in the output compressed stream, I wanted to glue the repeated sequences together to get a shorter list with more repeated sequences to further use it with huffman coding.
-
-I named this function lempel-ziv20 :D:
-```python
-lz20_ex = lzhw.lz20(example)
-print(lz20_ex)
-# ['A', 'A', 'C', 'C', 'A', 'A', 'C', 'C', 'C', 'B', 'B', 
-#  'A', 'B', 'B', 'C', 'C B', 'C', 'C B']
-
-huff20 = lzhw.huffman_coding(Counter(lz20_ex))
-print(huff20)
-# {'A': '10', 'C': '0', 'B': '111', 'C B': '110'}
-```
-
-In data with repeated sequences it will give better huffman dictionaries.
-
-#### lz77_compress() and lz77_decompress()
-
-The main two functions in the library which apply the lempel-ziv77 algorithm:
+Let's visualize the comparison:
 
 ```python
-lz77_ex = lzhw.lz77_compress(example)
-print(lz77_ex)
-# [(None, None, 'A'), (1, 1, 'C'), (1, 1, 'A'), (4, 3, 'C'), 
-#  (None, None, 'B'), (1, 1, 'A'), (3, 2, 'C'), (7, 2, 'C'), (1, 1, 'B')]
+import numpy as np
+import matplotlib.pyplot as plt
 
-lz77_decomp = lzhw.lz77_decompress(lz77_ex)
-print(lz77_decomp == example)
-# True
+N = 5
+load_durations = (raw_load_duration, zlib_load_duration,
+                  lzma_load_duration, lz4_load_duration, lzhw_d_duration)
+dump_durations = (raw_dump_duration, zlib_dump_duration,
+                  lzma_dump_duration, lz4_dump_duration, lzhw_compression_duration)
+file_sizes = (raw_file_size, zlib_file_size, lzma_file_size, lz4_file_size, lzhw_file_size)
+ind = np.arange(N)
+width = 0.5
+
+plt.figure(1, figsize=(5, 4))
+p1 = plt.bar(ind, dump_durations, width)
+p2 = plt.bar(ind, load_durations, width, bottom=dump_durations)
+plt.ylabel('Time in seconds')
+plt.title('Compression & Decompression durations\nof different algorithms')
+plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', "LZ4", "LZHW"))
+plt.legend((p1[0], p2[0]), ('Compression duration', 'Decompression duration'))
 ```
 
-##### Reference
-###### 		[1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+![](./img/lzhw duration2.png)
 
+```python
+plt.figure(2, figsize=(5, 4))
+plt.bar(ind, file_sizes, width, log=True)
+plt.ylabel('File size in MB')
+plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', "LZ4", "LZHW"))
+plt.title('Compressed data size\nof different algorithms')
+for index, value in enumerate(file_sizes):
+    plt.text(index, value, str(round(value)) + "MB")
+```
+
+![](./img/lzhw size2.png)
+
+**By far LZHW outperforms others with acceptable time difference**

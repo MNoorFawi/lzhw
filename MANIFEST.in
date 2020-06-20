@@ -3,7 +3,8 @@ recursive-include lzhw *.pyx
 recursive-include lzhw *.c
 recursive-include lzhw_cli *.py
 recursive-include examples *.xlsx
-recursive-include img *jpg
+recursive-include img *.jpg
+recursive-include img *.png
 
 include requirements.txt
 include README.md

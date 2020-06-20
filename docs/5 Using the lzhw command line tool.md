@@ -5,7 +5,7 @@ In **lzhw_cli** folder, there is a python script that can work on command line t
 **Also a downloadable exe tool is available in this [link](https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing).**
 **The tool allows to compress and decompress files from and to any form, csv, excel etc without any dependencies or installations.**
 
-**The library works in parallel and most of its code is compiled to C code, so it is pretty fast**.
+**The tool works in parallel and most of its code is compiled to C code, so it is pretty fast**. Next page in the documentation there is a comparison in performance with other tools.
 
 The tool now works perfectly on Windows and Mac version is being developed.
 
@@ -61,11 +61,26 @@ Running CScript.exe to convert xls file to csv for better performance
 Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 647.30it/s]
+100%|██████████████████████████████████████████████████████████████████| 62/62 [00:02<00:00, 21.92it/s]
+Finalizing Compression ...
 Creating gc_comp.txt file ...
+time taken:  0.06792410214742024  minutes
 Compressed Successfully
 ```
-Let's say we are interested only in compressing the Age, Duration and Amount columns
+
+**N.B. This error message can appear while compressing or decompressing**
+```bash
+lzhw.exe [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                [-r ROWS] [-nh]
+lzhw.exe: error: the following arguments are required: -f/--input, -o/--output
+```
+**It is totally fine, just press Enter and proceed or leave it until it tells you "Compressed Successsfully" or "Decompressed Successfully"**.
+
+The error is due to some parallelization library bug that has nothing to do with the tool so it is ok.
+
+**N.B.2 The progress bar of columns compression, it doesn't mean that the tool has finished because it needs still to write the answers. So you need to wait until "Compressed Successfully" or "Decompressed Successfully" message appears.**
+
+Now, let's say we are interested only in compressing the Age, Duration and Amount columns
 ```bash
 lzhw -f "german_credit.xlsx" -o "gc_subset.txt" -c Age,Duration,Amount
 ```
@@ -77,7 +92,9 @@ Microsoft (R) Windows Script Host Version 5.812
 Copyright (C) Microsoft Corporation. All rights reserved.
 
 100%|███████████████████████████████████████████████████| 3/3 [00:00<00:00, 249.99it/s]
+Finalizing Compression ...
 Creating gc_subset.txt file ...
+time taken:  0.03437713384628296  minutes
 Compressed Successfully
 ```
 #### Decompress
@@ -86,9 +103,12 @@ Now it's time to decompress:
 **If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel directly and then save the file as excel if excel type is necessary. This is because python is not that fast in writing data to excel as well as the tool sometimes has "Corrupted Files" issues with excel.**
 ```bash
 lzhw -d -f "gc_comp.txt" -o "gc_decompressed.csv"
-
+```
+```bash
 100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 690.45it/s]
+Finalizing Decompression ...
 Creating gc_decompressed.csv file ...
+time taken:  0.04818803866704305  minutes
 Decompressed Successfully
 ```
 Look at how the **-d** argument is used.
@@ -107,9 +127,12 @@ It looks awful in the command line :D but it's decompressed.
 Now let's say that we only interested in decompressing the first two columns that we don't remember how they were spelled.
 ```bash
 lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -c 1,2 
-
-100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 5651.84it/s]
+```
+```bash
+100%|███████████████████████████████████████████████████| 2/2 [00:00<00:00,  8.05it/s]
+Finalizing Decompression ...
 Creating gc_subset_de.csv file ...
+time taken:  0.0140968124071757  minutes
 Decompressed Successfully
 ```
 Now let's have a look at the decompressed file:
@@ -134,11 +157,13 @@ We can also use the **-r** argument to decompress specific rows from the data fr
 lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -r 4
 
 100%|████████████████████████████████████████████████████| 62/62 [00:00<00:00, 369.69it/s]
+Finalizing Decompression ...
 Creating gc_subset_de.csv file ...
+time taken:  0.04320337772369385  minutes
 Decompressed Successfully
 ```
 
-Here we only decompressed the firt 4 rows, 1-based, including the header.
+Here we only decompressed the first 4 rows, 1-based, including the header.
 
 Let's look how the data looks like:
 
@@ -154,5 +179,4 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 
 All data is now 5 rows only including the header.
 
-P.S. The tool takes a couple of seconds from 10 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. 
-
+P.S. The tool takes a couple of seconds from 8 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. 

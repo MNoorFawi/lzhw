@@ -1,67 +1,67 @@
 #!/usr/bin/env python
 
-import lzhw
-import pandas as pd
-import argparse
-import os
-from subprocess import call
-from time import time
-
-## This script and the solution to convert xlsx into csv was thanks to the answer found here:
-## https://stackoverflow.com/questions/28766133/faster-way-to-read-excel-files-to-pandas-dataframe
-## and here: https://stackoverflow.com/questions/1858195/convert-xls-to-csv-on-command-line
-vbscript = """if WScript.Arguments.Count < 3 Then
-    WScript.Echo "Please specify the source and the destination files. Usage: ExcelToCsv <xls/xlsx source file> <csv destination file> <worksheet number (starts at 1)>"
-    Wscript.Quit
-End If
-
-csv_format = 6
-
-Set objFSO = CreateObject("Scripting.FileSystemObject")
-
-src_file = objFSO.GetAbsolutePathName(Wscript.Arguments.Item(0))
-dest_file = objFSO.GetAbsolutePathName(WScript.Arguments.Item(1))
-worksheet_number = CInt(WScript.Arguments.Item(2))
-
-Dim oExcel
-Set oExcel = CreateObject("Excel.Application")
-
-Dim oBook
-Set oBook = oExcel.Workbooks.Open(src_file)
-oBook.Worksheets(worksheet_number).Activate
-
-oBook.SaveAs dest_file, csv_format
-
-oBook.Close False
-oExcel.Quit
-"""
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-def csv_reader(file, cols, col_arg, nh_arg):
-    if nh_arg:
-        h = None
-    else:
-        h = 0
-    if col_arg:
-        cols_used = cols.split(",")
-        if is_number(cols_used[0]):
-            cols_used = [int(i) - 1 for i in cols_used]
-    else:
-        cols_used = None
-
-    data = pd.read_csv(file, header = h, usecols = cols_used)
-    data.columns = list(map(str, data.columns))
-    return data
-
 def main():
+    import lzhw
+    import pandas as pd
+    import argparse
+    import os
+    from subprocess import call
+    from time import time
 
-    parser = argparse.ArgumentParser(description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.9")
+    ## This script and the solution to convert xlsx into csv was thanks to the answer found here:
+    ## https://stackoverflow.com/questions/28766133/faster-way-to-read-excel-files-to-pandas-dataframe
+    ## and here: https://stackoverflow.com/questions/1858195/convert-xls-to-csv-on-command-line
+    vbscript = """if WScript.Arguments.Count < 3 Then
+        WScript.Echo "Please specify the source and the destination files. Usage: ExcelToCsv <xls/xlsx source file> <csv destination file> <worksheet number (starts at 1)>"
+        Wscript.Quit
+    End If
+
+    csv_format = 6
+
+    Set objFSO = CreateObject("Scripting.FileSystemObject")
+
+    src_file = objFSO.GetAbsolutePathName(Wscript.Arguments.Item(0))
+    dest_file = objFSO.GetAbsolutePathName(WScript.Arguments.Item(1))
+    worksheet_number = CInt(WScript.Arguments.Item(2))
+
+    Dim oExcel
+    Set oExcel = CreateObject("Excel.Application")
+
+    Dim oBook
+    Set oBook = oExcel.Workbooks.Open(src_file)
+    oBook.Worksheets(worksheet_number).Activate
+
+    oBook.SaveAs dest_file, csv_format
+
+    oBook.Close False
+    oExcel.Quit
+    """
+
+    def is_number(s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+
+    def csv_reader(file, cols, col_arg, nh_arg):
+        if nh_arg:
+            h = None
+        else:
+            h = 0
+        if col_arg:
+            cols_used = cols.split(",")
+            if is_number(cols_used[0]):
+                cols_used = [int(i) - 1 for i in cols_used]
+        else:
+            cols_used = None
+
+        data = pd.read_csv(file, header=h, usecols=cols_used)
+        data.columns = list(map(str, data.columns))
+        return data
+
+    parser = argparse.ArgumentParser(
+        description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.9")
     parser.add_argument("-d", "--decompress", help="decompress input into output",
                         action="store_true", default=False)
     parser.add_argument("-f", "--input", help="input file to be (de)compressed",
@@ -69,7 +69,8 @@ def main():
     parser.add_argument("-o", "--output", help="output where to save result",
                         type=str, required=True)
     parser.add_argument("-c", "--columns", nargs="+",
-                        help="select specific columns by names or indices (1-based) to compress or decompress", type=str,
+                        help="select specific columns by names or indices (1-based) to compress or decompress",
+                        type=str,
                         required=False)
     parser.add_argument("-r", "--rows",
                         help="select specific rows to decompress (1-based)", type=str,
@@ -99,17 +100,17 @@ def main():
                 cols = [int(i) - 1 for i in cols]
 
         decompressed = lzhw.decompress_df_from_file(file, cols, n_rows)
-        decompressed.fillna("", inplace = True)
-        decompressed = decompressed.replace("nan", "", regex = True)
+        decompressed.fillna("", inplace=True)
+        decompressed = decompressed.replace("nan", "", regex=True)
         if "xls" in output:
-            #decompressed.reset_index(drop = True, inplace = True)
+            # decompressed.reset_index(drop = True, inplace = True)
             options = {}
             options["strings_to_formulas"] = False
             options["strings_to_urls"] = False
-            writer = pd.ExcelWriter(output, engine = "xlsxwriter", options = options)
-            decompressed.to_excel(writer, output.split(".xls")[0], index = False)
+            writer = pd.ExcelWriter(output, engine="xlsxwriter", options=options)
+            decompressed.to_excel(writer, output.split(".xls")[0], index=False)
             writer.save()
-            #decompressed.to_excel(output, index=False, encoding = "utf8")
+            # decompressed.to_excel(output, index=False, encoding = "utf8")
         if "csv" in output:
             decompressed.to_csv(output, index=False)
         else:
@@ -151,5 +152,9 @@ def main():
         print("time taken: ", (time() - start) / 60, " minutes")
         print("Compressed Successfully")
 
+
 if __name__ == "__main__":
-    main()
+    import multiprocessing
+
+    multiprocessing.freeze_support()
+    multiprocessing.Process(target=main).start()

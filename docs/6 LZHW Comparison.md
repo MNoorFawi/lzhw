@@ -319,7 +319,7 @@ plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', "LZ4", "LZHW"))
 plt.legend((p1[0], p2[0]), ('Compression duration', 'Decompression duration'))
 ```
 
-![](./img/lzhw duration2.png)
+![](./img/lzhw_duration2.jpg)
 
 ```python
 plt.figure(2, figsize=(5, 4))
@@ -331,6 +331,6 @@ for index, value in enumerate(file_sizes):
     plt.text(index, value, str(round(value)) + "MB")
 ```
 
-![](./img/lzhw size2.png)
+![](./img/lzhw_size2.jpg)
 
 **By far LZHW outperforms others with acceptable time difference**

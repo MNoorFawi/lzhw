@@ -1,362 +1,214 @@
-# lzhw
-##### Compression library for data frames and tabular data files, csv, excel etc.
+# Using the lzhw Command Line tool
 
-![lzhw logo](./img/lzhw_logo.jpg)
+![](./img/lzhw_logo.jpg)
 
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
-[![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
+Using **lzhw_cli** script and [pyinstaller](https://www.pyinstaller.org/), We generate a command line tool that does compression and decompression using **lzhw** functionalities without any prior installations or dependencies.
 
-**Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
+#### LZHW Compression Tool
 
-**lzhw** has a command line tool that can be downloaded from [here](https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing) and can work from command line with no prior python installation.
+**The tool can be downloaded from the releases tab**
 
-**Manual on how to use it available [here](https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/)**.
+**The tool allows to compress and decompress files from and to any form, csv, excel etc without any dependencies or installations.**
 
-It works on Windows and soon a Mac version will be available.
+**The tool works in parallel and most of its code is compiled to C code, so it is pretty fast**. Next page in the documentation there is a comparison in performance with other tools.
 
-## Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
+The tool now works perfectly on Windows for now, both Linux and Mac versions are being developed soon.
 
-**Data Frames compression and decompression works in parallel**. 
+#### Getting Started
 
-## Quick Start
+Here is the file and its help argument to see how it works and its arguments:
+```bash
+lzhw -h
+```
+Output
+```bash
+usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                   [-r ROWS] [-nh]
+
+LZHW is a tabular data compression tool. It is used to compress excel, csv and
+any flat file. Version: 0.0.9
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d, --decompress      decompress input into output
+  -f INPUT, --input INPUT
+                        input file to be (de)compressed
+  -o OUTPUT, --output OUTPUT
+                        output where to save result
+  -c COLUMNS [COLUMNS ...], --columns COLUMNS [COLUMNS ...]
+                        select specific columns by names or indices (1-based)
+                        to compress or decompress
+  -r ROWS, --rows ROWS  select specific rows to decompress (1-based)
+  -nh, --no-header      skip header / data to be compressed has no header
+```
+As we can see, the tool takes an input file **"-f"**, and output **"-o"** where it should put the result whether it is compression or decompression based on the optional **"-d"** argument which selects decompression.
+
+The tool as well takes a **"-c"** argument which is the Columns in case we want only to compress or decompress specific columns from the input file instead of dealing with all the columns unnecessarily.
+This argument accepts names and indices separated by coma.
+
+The **"-nh"**, --no-header, argument to specify if the data has no header.
+
+The **"-r"**, --rows, argument is to specify number of rows to decompress, in case we don't need to decompress all rows.
+
+#### Compress
+How to compress:
+
+The tool can be used through command line. 
+For those who are new to command line, the easiest way to start it is to put the **lzhw.exe** tool in the same folder with the sheet you want to compress.
+Then go to the folder's directory at the top where you see the directory path and one click then type **cmd**, black command line will open to you where you can type the examples below.
+  
 
 ```bash
+lzhw -f "german_credit.xlsx" -o "gc_comp.txt"
+```
+```bash
+Reading files, Can take 1 minute or something ...
+Running CScript.exe to convert xls file to csv for better performance
+
+Microsoft (R) Windows Script Host Version 5.812
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+100%|██████████████████████████████████████████████████████████████████| 62/62 [00:02<00:00, 21.92it/s]
+Finalizing Compression ...
+Creating gc_comp.txt file ...
+time taken:  0.06792410214742024  minutes
+Compressed Successfully
+```
+
+**N.B. This error message can appear while compressing or decompressing**
+```bash
+lzhw.exe [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                [-r ROWS] [-nh]
+lzhw.exe: error: the following arguments are required: -f/--input, -o/--output
+```
+**It is totally fine, just press Enter and proceed or leave it until it tells you "Compressed Successsfully" or "Decompressed Successfully"**.
+
+The error is due to some parallelization library bug that has nothing to do with the tool so it is ok.
+
+**N.B.2 The progress bar of columns compression, it doesn't mean that the tool has finished because it needs still to write the answers. So you need to wait until "Compressed Successfully" or "Decompressed Successfully" message appears.**
+
+Now, let's say we are interested only in compressing the Age, Duration and Amount columns
+```bash
+lzhw -f "german_credit.xlsx" -o "gc_subset.txt" -c Age,Duration,Amount
+```
+```bash
+Reading files, Can take 1 minute or something ...
+Running CScript.exe to convert xls file to csv for better performance
+
+Microsoft (R) Windows Script Host Version 5.812
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+100%|███████████████████████████████████████████████████| 3/3 [00:00<00:00, 249.99it/s]
+Finalizing Compression ...
+Creating gc_subset.txt file ...
+time taken:  0.03437713384628296  minutes
+Compressed Successfully
+```
+#### Decompress
+Now it's time to decompress:
+
+**If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel directly and then save the file as excel if excel type is necessary. This is because python is not that fast in writing data to excel as well as the tool sometimes has "Corrupted Files" issues with excel.**
+```bash
+lzhw -d -f "gc_comp.txt" -o "gc_decompressed.csv"
+```
+```bash
+100%|███████████████████████████████████████████████████| 62/62 [00:00<00:00, 690.45it/s]
+Finalizing Decompression ...
+Creating gc_decompressed.csv file ...
+time taken:  0.04818803866704305  minutes
+Decompressed Successfully
+```
+Look at how the **-d** argument is used.
+
+Let's now check that it was decompressed really successfully:
+```bash
+head -n 4 gc_decompressed.csv
+
+Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCredits,NumberPeopleMaintenance,Telephone,ForeignWorker,Class,CheckingAccountStatus.lt.0,CheckingAccountStatus.0.to.200,CheckingAccountStatus.gt.200,CheckingAccountStatus.none,CreditHistory.NoCredit.AllPaid,CreditHistory.ThisBank.AllPaid,CreditHistory.PaidDuly,CreditHistory.Delay,CreditHistory.Critical,Purpose.NewCar,Purpose.UsedCar,Purpose.Furniture.Equipment,Purpose.Radio.Television,Purpose.DomesticAppliance,Purpose.Repairs,Purpose.Education,Purpose.Vacation,Purpose.Retraining,Purpose.Business,Purpose.Other,SavingsAccountBonds.lt.100,SavingsAccountBonds.100.to.500,SavingsAccountBonds.500.to.1000,SavingsAccountBonds.gt.1000,SavingsAccountBonds.Unknown,EmploymentDuration.lt.1,EmploymentDuration.1.to.4,EmploymentDuration.4.to.7,EmploymentDuration.gt.7,EmploymentDuration.Unemployed,Personal.Male.Divorced.Seperated,Personal.Female.NotSingle,Personal.Male.Single,Personal.Male.Married.Widowed,Personal.Female.Single,OtherDebtorsGuarantors.None,OtherDebtorsGuarantors.CoApplicant,OtherDebtorsGuarantors.Guarantor,Property.RealEstate,Property.Insurance,Property.CarOther,Property.Unknown,OtherInstallmentPlans.Bank,OtherInstallmentPlans.Stores,OtherInstallmentPlans.None,Housing.Rent,Housing.Own,Housing.ForFree,Job.UnemployedUnskilled,Job.UnskilledResident,Job.SkilledEmployee,Job.Management.SelfEmp.HighlyQualified
+6,1169,4,4,67,2,1,0,1,Good,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
+48,5951,2,2,22,1,1,1,1,Bad,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
+12,2096,2,3,49,1,2,1,1,Good,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0
+```
+It looks awful in the command line :D but it's decompressed.
+
+Now let's say that we only interested in decompressing the first two columns that we don't remember how they were spelled.
+```bash
+lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -c 1,2 
+```
+```bash
+100%|███████████████████████████████████████████████████| 2/2 [00:00<00:00,  8.05it/s]
+Finalizing Decompression ...
+Creating gc_subset_de.csv file ...
+time taken:  0.0140968124071757  minutes
+Decompressed Successfully
+```
+Now let's have a look at the decompressed file:
+```bash
+head gc_subset_de.csv
+
+Duration,Amount
+6,1169
+48,5951
+12,2096
+42,7882
+24,4870
+36,9055
+24,2835
+36,6948
+12,3059
+```
+
+We can also use the **-r** argument to decompress specific rows from the data frame.
+
+```bash
+lzhw -d -f "gc_comp.txt" -o "gc_subset_de.csv" -r 4
+
+100%|████████████████████████████████████████████████████| 62/62 [00:00<00:00, 369.69it/s]
+Finalizing Decompression ...
+Creating gc_subset_de.csv file ...
+time taken:  0.04320337772369385  minutes
+Decompressed Successfully
+```
+
+Here we only decompressed the first 4 rows, 1-based, including the header.
+
+Let's look how the data looks like:
+
+```bash
+cat "gc_subset_de.csv"
+
+Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCredits,NumberPeopleMaintenance,Telephone,ForeignWorker,Class,CheckingAccountStatus.lt.0,CheckingAccountStatus.0.to.200,CheckingAccountStatus.gt.200,CheckingAccountStatus.none,CreditHistory.NoCredit.AllPaid,CreditHistory.ThisBank.AllPaid,CreditHistory.PaidDuly,CreditHistory.Delay,CreditHistory.Critical,Purpose.NewCar,Purpose.UsedCar,Purpose.Furniture.Equipment,Purpose.Radio.Television,Purpose.DomesticAppliance,Purpose.Repairs,Purpose.Education,Purpose.Vacation,Purpose.Retraining,Purpose.Business,Purpose.Other,SavingsAccountBonds.lt.100,SavingsAccountBonds.100.to.500,SavingsAccountBonds.500.to.1000,SavingsAccountBonds.gt.1000,SavingsAccountBonds.Unknown,EmploymentDuration.lt.1,EmploymentDuration.1.to.4,EmploymentDuration.4.to.7,EmploymentDuration.gt.7,EmploymentDuration.Unemployed,Personal.Male.Divorced.Seperated,Personal.Female.NotSingle,Personal.Male.Single,Personal.Male.Married.Widowed,Personal.Female.Single,OtherDebtorsGuarantors.None,OtherDebtorsGuarantors.CoApplicant,OtherDebtorsGuarantors.Guarantor,Property.RealEstate,Property.Insurance,Property.CarOther,Property.Unknown,OtherInstallmentPlans.Bank,OtherInstallmentPlans.Stores,OtherInstallmentPlans.None,Housing.Rent,Housing.Own,Housing.ForFree,Job.UnemployedUnskilled,Job.UnskilledResident,Job.SkilledEmployee,Job.Management.SelfEmp.HighlyQualified
+6,1169,4,4,67,2,1,0,1,Good,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
+48,5951,2,2,22,1,1,1,1,Bad,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0
+12,2096,2,3,49,1,2,1,1,Good,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0
+42,7882,2,4,45,1,2,1,1,Good,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,1,0,0,1,0
+```
+
+All data is now 5 rows only including the header.
+
+P.S. The tool takes a couple of seconds from 8 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. 
+
+#### Developing the Tool Using PyInstaller
+In case you have python installed and you want to develop the tool yourself. Here is how to do it:
+
+First let's make sure we create a new environment, because pyinstaller wraps up all the libraries installed so the generated file can be large.
+So we only need to wrap the required libraries.
+
+Then we install pyinstaller and required libraries which are:
+```bash
+pip install setuptools
 pip install lzhw
+pip install xlsxwriter ## because sometimes it is missing
+pip install openpyxl  ## because sometimes it is missing
+pip install pyinstaller
 ```
 
-```python
-import lzhw
+Then, because sometimes the generated file gives a **No Module pkg_resource** error, we can navigate to the hooks folder in pyinstaller and open **hook-pkg_resources.py** file and write **hiddenimports.append('pkg_resources.py2_warn')** in the penultimate line.
 
-sample_data = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast", 
-               "Sunny", "Sunny", "Rain", "Sunny", "Overcast", "Overcast", "Rain", 
-               "Rain", "Rain", "Sunny", "Sunny", "Overcaste"]
-
-compressed = lzhw.LZHW(sample_data)
-## let's see how the compressed object looks like:
-print(compressed.compressed)
-# (506460, 128794, 112504)
-
-## its size
-print(compressed.size())
-# 72
-
-## size of original
-from sys import getsizeof
-print(getsizeof(sample_data))
-# 216
-
-print(compressed.space_saving())
-# space saving from original to compressed is 67%
-
-## Let's decompress and check whether there is any information loss
-decomp = compressed.decompress()
-print(decomp == sample_data)
-# True
+Then we are ready to go and in the command line we need to type:
+```bash
+pyinstaller --noconfirm --onefile --console --icon "lzhw_logo.ico" "lzhw_cli.py"
 ```
+And the tool will be generated in *dist* folder.
 
-As we saw, the LZHW class has saved 67% of the space used to store the original list without any loss. This percentage can get better with bigger data that may have repeated sequences.
-The class has also some useful helper methods as **space_saving**, **size**, and **decompress()** to revert back to original.
-
-Another example with numeric data.
-
-```python
-from random import sample, choices
-
-numbers = choices(sample(range(0, 5), 5), k = 20)
-comp_num = lzhw.LZHW(numbers)
-
-print(getsizeof(numbers) > comp_num.size())
-# True
-
-print(numbers == list(map(int, comp_num.decompress()))) ## make it int again
-# True
-
-print(comp_num.space_saving())
-# space saving from original to compressed is 73%
-```
-
-Let's look at how the compressed object is stored and how it looks like when printed:
-LZHW class has an attribute called **compressed** which is a tuple of integers representing the encoded triplets.
-
-```python
-print(comp_num.compressed) # how the compressed is saved (as tuple of 3 integers)
-# (8198555, 620206, 3059308)
-```
-
-We can also write the compressed data to files using **save_to_file** method, 
-and read it back and decompress it using **decompress_from_file** function.
-
-```python
-status = ["Good", "Bad", "Bad", "Bad", "Good", "Good", "Average", "Average", "Good",
-          "Average", "Average", "Bad", "Average", "Good", "Bad", "Bad", "Good"]
-comp_status = lzhw.LZHW(status)
-comp_status.save_to_file("status.txt")
-decomp_status = lzhw.decompress_from_file("status.txt")
-print(status == decomp_status)
-# True
-```
-
-## Compressing DataFrames in Parallel
-
-lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.
-
-```python
-import pandas as pd
-
-df = pd.DataFrame({"a": [1, 1, 2, 2, 1, 3, 4, 4],
-                   "b": ["A", "A", "B", "B", "A", "C", "D", "D"]})
-comp_df = lzhw.CompressedDF(df)
-# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00, 2003.97it/s]
-```
-
-Let's check space saved by compression
-```python
-comp_space = 0
-for i in range(len(comp_df.compressed)):
-	comp_space += comp_df.compressed[i].size()
-
-print(comp_space, getsizeof(df))
-# 144 712
-
-## Test information loss
-print(comp_df.compressed[0].decompress() == list(map(str, df.a)))
-# True
-```
-
-#### Saving and Loading Compressed DataFrames
-
-With lzhw we can save a data frame into a compressed file and then read it again 
-using **save_to_file** method and **decompress_df_from_file** function.
-
-```python
-## Save to file
-comp_df.save_to_file("comp_df.txt")
-
-## Load the file
-original = lzhw.decompress_df_from_file("comp_df.txt")
-# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00, 2004.93it/s]
-
-print(original)
-#   a  b
-#0  1  A
-#1  1  A
-#2  2  B
-#3  2  B
-#4  1  A
-#5  3  C
-#6  4  D
-#7  4  D
-```
-
-#### Compressing Bigger DataFrames
-
-Let's try to compress a real-world dataframe **german_credit.xlsx** file from [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)) [1].
-
-Original txt file is **219 KB** on desk.
-
-```python
-gc_original = pd.read_excel("examples/german_credit.xlsx")
-comp_gc = lzhw.CompressedDF(gc_original)
-# 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 257.95it/s]
-
-## Compare sizes in Python:
-comp_space = 0
-for i in range(len(comp_gc.compressed)):
-	comp_space += comp_gc.compressed[i].size()
-
-print(comp_space, getsizeof(gc_original))
-# 4504 548852
-
-print(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0])))
-# True
-```
-
-**Huge space saving, 99%, with no information loss!**
-
-Let's now write the compressed dataframe into a file and compare the sizes of the files.
-
-```python
-comp_gc.save_to_file("gc_compressed.txt")
-``` 
-
-Checking the size of the compressed file, it is **44 KB**. Meaning that in total we saved around **79%**.
-Future versions will be optimized to save more space.
-
-Let's now check when we reload the file, will we lose any information or not.
-
-```python
-## Load the file
-gc_original2 = lzhw.decompress_df_from_file("gc_compressed.txt")
-# 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 259.46it/s]
-
-print(list(gc_original2.iloc[:, 13]) == list(map(str, gc_original.iloc[:, 13])))
-# True
-
-print(gc_original.shape == gc_original2.shape)
-# True
-```
-
-**Perfect! There is no information loss at all.**
-
-With **lzhw** also you can choose what columns you are interested in compressing from a data frame.
-**CompressedDF** class has an argument **selected_cols**. And how many rows you want to decompress with **n_rows** argument. 
-
-Please see [documentation](https://mnoorfawi.github.io/lzhw/) for deeper look
-
-## LZHW Comparison with joblib algorithms
-
-I love [joblib](https://joblib.readthedocs.io/en/latest/index.html). I usually use it for **parallelism** for its great performance coming with a smooth simplicity.
-
-I once saw this [article](https://joblib.readthedocs.io/en/latest/auto_examples/compressors_comparison.html#sphx-glr-auto-examples-compressors-comparison-py) in its documentation and it is about measuring the performance between different compressors available in it.
-
-Because I am developing a compression library, I wanted to extend the code available in this article adding **lzhw** to the comparison, just to know where my library stands.
-
-joblib uses three main techniques in this article **Zlib, LZMA and LZ4**.
-
-I will use [1500000 Sales Records Data](http://eforexcel.com/wp/wp-content/uploads/2017/07/1500000%20Sales%20Records.zip).
-
-**We will look at Compression and Decompression Duration and The compressed file sizes.**
-
-*The downloaded compressed file is 53MB on the websites*
-
-I will reproduce the code in joblib documentation
-```python
-data = pd.read_csv("1500000 Sales Records.csv")
-print(data.shape)
-
-pickle_file = './pickle_data.joblib'
-start = time.time()
-with open(pickle_file, 'wb') as f:
-    dump(data, f)
-raw_dump_duration = time.time() - start
-print("Raw dump duration: %0.3fs" % raw_dump_duration)
-
-raw_file_size = os.stat(pickle_file).st_size / 1e6
-print("Raw dump file size: %0.3fMB" % raw_file_size)
-
-start = time.time()
-with open(pickle_file, 'rb') as f:
-    load(f)
-raw_load_duration = time.time() - start
-print("Raw load duration: %0.3fs" % raw_load_duration)
-
-## ZLIB
-start = time.time()
-with open(pickle_file, 'wb') as f:
-    dump(data, f, compress='zlib')
-zlib_dump_duration = time.time() - start
-print("Zlib dump duration: %0.3fs" % zlib_dump_duration)
-
-zlib_file_size = os.stat(pickle_file).st_size / 1e6
-print("Zlib file size: %0.3fMB" % zlib_file_size)
-
-start = time.time()
-with open(pickle_file, 'rb') as f:
-    load(f)
-zlib_load_duration = time.time() - start
-print("Zlib load duration: %0.3fs" % zlib_load_duration)
-
-## LZMA
-start = time.time()
-with open(pickle_file, 'wb') as f:
-    dump(data, f, compress=('lzma', 3))
-lzma_dump_duration = time.time() - start
-print("LZMA dump duration: %0.3fs" % lzma_dump_duration)
-
-lzma_file_size = os.stat(pickle_file).st_size / 1e6
-print("LZMA file size: %0.3fMB" % lzma_file_size)
-
-start = time.time()
-with open(pickle_file, 'rb') as f:
-    load(f)
-lzma_load_duration = time.time() - start
-print("LZMA load duration: %0.3fs" % lzma_load_duration)
-
-## LZ4
-start = time.time()
-with open(pickle_file, 'wb') as f:
-    dump(data, f, compress='lz4')
-lz4_dump_duration = time.time() - start
-print("LZ4 dump duration: %0.3fs" % lz4_dump_duration)
-
-lz4_file_size = os.stat(pickle_file).st_size / 1e6
-print("LZ4 file size: %0.3fMB" % lz4_file_size)
-
-start = time.time()
-with open(pickle_file, 'rb') as f:
-    load(f)
-lz4_load_duration = time.time() - start
-print("LZ4 load duration: %0.3fs" % lz4_load_duration)
-
-## LZHW
-start = time.time()
-lzhw_data = lzhw.CompressedDF(data)
-lzhw_data.save_to_file("lzhw_data.txt")
-lzhw_compression_duration = time.time() - start
-print("LZHW compression duration: %0.3fs" % lzhw_compression_duration)
-
-lzhw_file_size = os.stat("lzhw_data.txt").st_size / 1e6
-print("LZHW file size: %0.3fMB" % lzhw_file_size)
-
-start = time.time()
-lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt")
-lzhw_d_duration = time.time() - start
-print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
-
-# (1500000, 14)
-# Raw dump duration: 1.294s
-# Raw dump file size: 267.591MB
-# Raw load duration: 1.413s
-# Zlib dump duration: 6.583s
-# Zlib file size: 96.229MB
-# Zlib load duration: 2.430s
-# LZMA dump duration: 76.526s
-# LZMA file size: 72.476MB
-# LZMA load duration: 9.240s
-# LZ4 dump duration: 1.984s
-# LZ4 file size: 152.374MB
-# LZ4 load duration: 2.135s
-# LZHW compression duration: 81.522s
-# LZHW file size: 45.755MB
-# LZHW decompression duration: 48.904s
-```
-
-Let's visualize the comparison:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-N = 5
-load_durations = (raw_load_duration, zlib_load_duration,
-                  lzma_load_duration, lz4_load_duration, lzhw_d_duration)
-dump_durations = (raw_dump_duration, zlib_dump_duration,
-                  lzma_dump_duration, lz4_dump_duration, lzhw_compression_duration)
-file_sizes = (raw_file_size, zlib_file_size, lzma_file_size, lz4_file_size, lzhw_file_size)
-ind = np.arange(N)
-width = 0.5
-
-plt.figure(1, figsize=(5, 4))
-p1 = plt.bar(ind, dump_durations, width)
-p2 = plt.bar(ind, load_durations, width, bottom=dump_durations)
-plt.ylabel('Time in seconds')
-plt.title('Compression & Decompression durations\nof different algorithms')
-plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', "LZ4", "LZHW"))
-plt.legend((p1[0], p2[0]), ('Compression duration', 'Decompression duration'))
-```
-
-![dur_compare](./img/lzhw_duration2.jpg)
-
-```python
-plt.figure(2, figsize=(5, 4))
-plt.bar(ind, file_sizes, width, log=True)
-plt.ylabel('File size in MB')
-plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', "LZ4", "LZHW"))
-plt.title('Compressed data size\nof different algorithms')
-for index, value in enumerate(file_sizes):
-    plt.text(index, value, str(round(value)) + "MB")
-```
-
-![size_compare](./img/lzhw_size2.jpg)
-
-**By far LZHW outperforms others with acceptable time difference**
+Sometimes the tool gives memmapping warning while running, so to suppress those warnings, in the *spec* file we can write **[('W ignore', None, 'OPTION')]** inside **exe = EXE()**.

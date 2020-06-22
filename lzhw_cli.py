@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
-def main():
-    import lzhw
-    import pandas as pd
-    import argparse
-    import os
-    from subprocess import call
-    from time import time
+import lzhw
+import pandas as pd
+import argparse
+import os
+from subprocess import call
+from time import time
+import multiprocessing
 
+
+def main():
     ## This script and the solution to convert xlsx into csv was thanks to the answer found here:
     ## https://stackoverflow.com/questions/28766133/faster-way-to-read-excel-files-to-pandas-dataframe
     ## and here: https://stackoverflow.com/questions/1858195/convert-xls-to-csv-on-command-line
@@ -154,7 +156,5 @@ def main():
 
 
 if __name__ == "__main__":
-    import multiprocessing
-
     multiprocessing.freeze_support()
     multiprocessing.Process(target=main).start()

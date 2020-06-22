@@ -2,7 +2,7 @@
 
 In **lzhw_cli** folder, there is a python script that can work on command line tool to compress and decompress files without having to open it in python.
 #### LZHW Compression Tool
-**Also a downloadable exe tool is available in this [link](https://drive.google.com/file/d/1CBu7Adb5CHZUwhANa_i8Es0-8jSWAmiC/view?usp=sharing).**
+**Also a downloadable exe tool is available in this [link](https://github.com/MNoorFawi/lzhw/releases/download/v0.0.9/lzhw.exe).**
 **The tool allows to compress and decompress files from and to any form, csv, excel etc without any dependencies or installations.**
 
 **The tool works in parallel and most of its code is compiled to C code, so it is pretty fast**. Next page in the documentation there is a comparison in performance with other tools.

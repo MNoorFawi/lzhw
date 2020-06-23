@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Comparing LZHW with Others - lzhw</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Comparing LZHW with Others";
+    var mkdocs_page_input_path = "6 Comparing LZHW with Others.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> lzhw</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">lzhw (DataFrame Compression)</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../1%20Quick%20Start/">Quick Start</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../2%20Compressing%20DataFrames/">Compressing DataFrames in Parallel</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/">(De)Compressing specific columns or rows from a dataframe (in Parallel)</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../4%20More%20Compression%20Functions/">More Compression Functions</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../5%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Comparing LZHW with Others</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#kdd-data">KDD Data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#15m-sales-data">1.5M Sales Data</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">lzhw</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Comparing LZHW with Others</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="comparing-lzhw-with-others">Comparing LZHW with Others</h1>
+<p>I love <a href="https://joblib.readthedocs.io/en/latest/index.html">joblib</a>. I usually use it for <strong>parallelism</strong> for its great performance coming with a smooth simplicity.</p>
+<p>I once saw this <a href="https://joblib.readthedocs.io/en/latest/auto_examples/compressors_comparison.html#sphx-glr-auto-examples-compressors-comparison-py">article</a> in its documentation and it is about measuring the performance between different compressors available in it.</p>
+<p>Because I am developing a compression library, I wanted to extend the code available in this article adding <strong>lzhw</strong> to the comparison, just to know where my library stands.</p>
+<p>joblib uses three main techniques in this article <strong>Zlib, LZMA and LZ4</strong>.</p>
+<p>I will use two data frames here: <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/kddcup99-mld/kddcup.data.gz">kddcup99</a> which is hosted on <strong>Machine Learning Repository</strong> and <a href="http://eforexcel.com/wp/wp-content/uploads/2017/07/1500000%20Sales%20Records.zip">1500000 Sales Records Data</a>.</p>
+<p><strong>We will look at Compression and Decompression Duration and The compressed file sizes.</strong></p>
+<p><em>The downloaded compressed files are 17.5MB and 53MB respectively on the websites</em></p>
+<p>Now Let's Begin with the exact code in joblib documentation:</p>
+<h4 id="kdd-data">KDD Data</h4>
+<pre><code class="python">import os
+import os.path
+import time
+import pandas as pd
+import lzhw
+
+url = (&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/&quot;
+       &quot;kddcup99-mld/kddcup.data.gz&quot;)
+names = (&quot;duration, protocol_type, service, flag, src_bytes, &quot;
+         &quot;dst_bytes, land, wrong_fragment, urgent, hot, &quot;
+         &quot;num_failed_logins, logged_in, num_compromised, &quot;
+         &quot;root_shell, su_attempted, num_root, &quot;
+         &quot;num_file_creations, Z&quot;).split(', ')
+
+data = pd.read_csv(url, names=names, nrows=1e6).reset_index()
+print(data.shape)
+# (1000000, 42)
+</code></pre>
+
+<p>We will consider <strong>dump</strong> as Compression and <strong>load</strong> as decompression in joblib's algorithms.</p>
+<p>Now let's see time spent to dump the raw data:</p>
+<pre><code class="python">from joblib import dump, load
+
+pickle_file = './pickle_data.joblib'
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f)
+raw_dump_duration = time.time() - start
+print(&quot;Raw dump duration: %0.3fs&quot; % raw_dump_duration)
+# Raw dump duration: 0.898s
+</code></pre>
+
+<p>Raw data size:</p>
+<pre><code class="python">raw_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;Raw dump file size: %0.3fMB&quot; % raw_file_size)
+# Raw dump file size: 624.035MB
+</code></pre>
+
+<p>Finally, let's measure the time spent to load the dumped raw data:</p>
+<pre><code class="python">start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+raw_load_duration = time.time() - start
+print(&quot;Raw load duration: %0.3fs&quot; % raw_load_duration)
+# Raw load duration: 0.900s
+</code></pre>
+
+<p><strong>We will literally do the three steps for all the algorithms and visualize the results and then do the same exercise for the other dataframe</strong></p>
+<p>Now let's have all the algorithms calls in one code block:</p>
+<pre><code class="python">## ZLIB
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress='zlib')
+zlib_dump_duration = time.time() - start
+print(&quot;Zlib dump duration: %0.3fs&quot; % zlib_dump_duration)
+# Zlib dump duration: 2.362s
+
+zlib_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;Zlib file size: %0.3fMB&quot; % zlib_file_size)
+# Zlib file size: 10.227MB
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+zlib_load_duration = time.time() - start
+print(&quot;Zlib load duration: %0.3fs&quot; % zlib_load_duration)
+# Zlib load duration: 1.920s
+
+## LZMA
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress=('lzma', 3))
+lzma_dump_duration = time.time() - start
+print(&quot;LZMA dump duration: %0.3fs&quot; % lzma_dump_duration)
+# LZMA dump duration: 11.782s
+
+lzma_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;LZMA file size: %0.3fMB&quot; % lzma_file_size)
+# LZMA file size: 4.453MB
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+lzma_load_duration = time.time() - start
+print(&quot;LZMA load duration: %0.3fs&quot; % lzma_load_duration)
+# LZMA load duration: 2.910s
+
+## LZ4
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress='lz4')
+lz4_dump_duration = time.time() - start
+print(&quot;LZ4 dump duration: %0.3fs&quot; % lz4_dump_duration)
+# LZ4 dump duration: 0.723s
+
+lz4_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;LZ4 file size: %0.3fMB&quot; % lz4_file_size)
+# LZ4 file size: 17.693MB
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+lz4_load_duration = time.time() - start
+print(&quot;LZ4 load duration: %0.3fs&quot; % lz4_load_duration)
+# LZ4 load duration: 1.524s
+
+## LZHW
+start = time.time()
+lzhw_data = lzhw.CompressedDF(data)
+lzhw_data.save_to_file(&quot;lzhw_data.txt&quot;)
+lzhw_compression_duration = time.time() - start
+print(&quot;LZHW compression duration: %0.3fs&quot; % lzhw_compression_duration)
+# LZHW compression duration: 37.742s
+
+lzhw_file_size = os.stat(&quot;lzhw_data.txt&quot;).st_size / 1e6
+print(&quot;LZHW file size: %0.3fMB&quot; % lzhw_file_size)
+# LZHW file size: 2.839MB
+
+start = time.time()
+lzhw_d = lzhw.decompress_df_from_file(&quot;lzhw_data.txt&quot;)
+lzhw_d_duration = time.time() - start
+print(&quot;LZHW decompression duration: %0.3fs&quot; % lzhw_d_duration)
+# LZHW decompression duration: 9.007s
+</code></pre>
+
+<p><strong>Interesting Results!</strong></p>
+<p>Let's visualize it:</p>
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+
+N = 5
+load_durations = (raw_load_duration, zlib_load_duration,
+                  lzma_load_duration, lz4_load_duration, lzhw_d_duration)
+dump_durations = (raw_dump_duration, zlib_dump_duration,
+                  lzma_dump_duration, lz4_dump_duration, lzhw_compression_duration)
+file_sizes = (raw_file_size, zlib_file_size, lzma_file_size, lz4_file_size, lzhw_file_size)
+ind = np.arange(N)
+width = 0.5
+
+plt.figure(1, figsize=(5, 4))
+p1 = plt.bar(ind, dump_durations, width)
+p2 = plt.bar(ind, load_durations, width, bottom=dump_durations)
+plt.ylabel('Time in seconds')
+plt.title('Compression &amp; Decompression durations\nof different algorithms')
+plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', &quot;LZ4&quot;, &quot;LZHW&quot;))
+plt.legend((p1[0], p2[0]), ('Compression duration', 'Decompression duration'))
+</code></pre>
+
+<p><img alt="" src="../img/lzhw%20duration.png" /> </p>
+<p><strong>The time spent by LZHW to compress seems a little bit higher but let's see the result compressed file:</strong></p>
+<pre><code class="python">plt.figure(2, figsize=(5, 4))
+plt.bar(ind, file_sizes, width, log=True)
+plt.ylabel('File size in MB')
+plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', &quot;LZ4&quot;, &quot;LZHW&quot;))
+plt.title('Compressed data size\nof different algorithms')
+for index, value in enumerate(file_sizes):
+    plt.text(index, value, str(round(value)) + &quot;MB&quot;)
+</code></pre>
+
+<p><img alt="" src="../img/lzhw%20size.png" /></p>
+<p><strong>LZHW performs much better than all other, while the difference in seconds is not that big</strong></p>
+<h4 id="15m-sales-data">1.5M Sales Data</h4>
+<p>Let's now do the same steps as above on the second data:</p>
+<pre><code class="python">data = pd.read_csv(&quot;1500000 Sales Records.csv&quot;)
+print(data.shape)
+
+pickle_file = './pickle_data.joblib'
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f)
+raw_dump_duration = time.time() - start
+print(&quot;Raw dump duration: %0.3fs&quot; % raw_dump_duration)
+
+raw_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;Raw dump file size: %0.3fMB&quot; % raw_file_size)
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+raw_load_duration = time.time() - start
+print(&quot;Raw load duration: %0.3fs&quot; % raw_load_duration)
+
+## ZLIB
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress='zlib')
+zlib_dump_duration = time.time() - start
+print(&quot;Zlib dump duration: %0.3fs&quot; % zlib_dump_duration)
+
+zlib_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;Zlib file size: %0.3fMB&quot; % zlib_file_size)
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+zlib_load_duration = time.time() - start
+print(&quot;Zlib load duration: %0.3fs&quot; % zlib_load_duration)
+
+## LZMA
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress=('lzma', 3))
+lzma_dump_duration = time.time() - start
+print(&quot;LZMA dump duration: %0.3fs&quot; % lzma_dump_duration)
+
+lzma_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;LZMA file size: %0.3fMB&quot; % lzma_file_size)
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+lzma_load_duration = time.time() - start
+print(&quot;LZMA load duration: %0.3fs&quot; % lzma_load_duration)
+
+## LZ4
+start = time.time()
+with open(pickle_file, 'wb') as f:
+    dump(data, f, compress='lz4')
+lz4_dump_duration = time.time() - start
+print(&quot;LZ4 dump duration: %0.3fs&quot; % lz4_dump_duration)
+
+lz4_file_size = os.stat(pickle_file).st_size / 1e6
+print(&quot;LZ4 file size: %0.3fMB&quot; % lz4_file_size)
+
+start = time.time()
+with open(pickle_file, 'rb') as f:
+    load(f)
+lz4_load_duration = time.time() - start
+print(&quot;LZ4 load duration: %0.3fs&quot; % lz4_load_duration)
+
+## LZHW
+start = time.time()
+lzhw_data = lzhw.CompressedDF(data)
+lzhw_data.save_to_file(&quot;lzhw_data.txt&quot;)
+lzhw_compression_duration = time.time() - start
+print(&quot;LZHW compression duration: %0.3fs&quot; % lzhw_compression_duration)
+
+lzhw_file_size = os.stat(&quot;lzhw_data.txt&quot;).st_size / 1e6
+print(&quot;LZHW file size: %0.3fMB&quot; % lzhw_file_size)
+
+start = time.time()
+lzhw_d = lzhw.decompress_df_from_file(&quot;lzhw_data.txt&quot;)
+lzhw_d_duration = time.time() - start
+print(&quot;LZHW decompression duration: %0.3fs&quot; % lzhw_d_duration)
+
+# (1500000, 14)
+# Raw dump duration: 1.294s
+# Raw dump file size: 267.591MB
+# Raw load duration: 1.413s
+# Zlib dump duration: 6.583s
+# Zlib file size: 96.229MB
+# Zlib load duration: 2.430s
+# LZMA dump duration: 76.526s
+# LZMA file size: 72.476MB
+# LZMA load duration: 9.240s
+# LZ4 dump duration: 1.984s
+# LZ4 file size: 152.374MB
+# LZ4 load duration: 2.135s
+# LZHW compression duration: 81.522s
+# LZHW file size: 45.755MB
+# LZHW decompression duration: 48.904s
+</code></pre>
+
+<p>Now let's visualize the new results:</p>
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+
+N = 5
+load_durations = (raw_load_duration, zlib_load_duration,
+                  lzma_load_duration, lz4_load_duration, lzhw_d_duration)
+dump_durations = (raw_dump_duration, zlib_dump_duration,
+                  lzma_dump_duration, lz4_dump_duration, lzhw_compression_duration)
+file_sizes = (raw_file_size, zlib_file_size, lzma_file_size, lz4_file_size, lzhw_file_size)
+ind = np.arange(N)
+width = 0.5
+
+plt.figure(1, figsize=(5, 4))
+p1 = plt.bar(ind, dump_durations, width)
+p2 = plt.bar(ind, load_durations, width, bottom=dump_durations)
+plt.ylabel('Time in seconds')
+plt.title('Compression &amp; Decompression durations\nof different algorithms')
+plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', &quot;LZ4&quot;, &quot;LZHW&quot;))
+plt.legend((p1[0], p2[0]), ('Compression duration', 'Decompression duration'))
+</code></pre>
+
+<p><img alt="" src="../img/lzhw_duration2.jpg" /></p>
+<pre><code class="python">plt.figure(2, figsize=(5, 4))
+plt.bar(ind, file_sizes, width, log=True)
+plt.ylabel('File size in MB')
+plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', &quot;LZ4&quot;, &quot;LZHW&quot;))
+plt.title('Compressed data size\nof different algorithms')
+for index, value in enumerate(file_sizes):
+    plt.text(index, value, str(round(value)) + &quot;MB&quot;)
+</code></pre>
+
+<p><img alt="" src="../img/lzhw_size2.jpg" /></p>
+<p><strong>By far LZHW outperforms others with acceptable time difference</strong></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../5%20Using%20the%20lzhw%20command%20line%20tool/" class="btn btn-neutral" title="Using the lzhw Command Line tool"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../5%20Using%20the%20lzhw%20command%20line%20tool/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

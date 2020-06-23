@@ -1,4 +1,4 @@
-# (De)Compressing specific columns or rows from a dataframe
+# (De)Compressing specific columns or rows from a dataframe (in Parallel)
 
 #### (De)Compressing in Chunks
 With **lzhw** you can choose what columns you are interested in compressing from a data frame.

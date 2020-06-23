@@ -1,4 +1,4 @@
-## LZHW Comparison with Other Compressors Available in Joblib library
+# Comparing LZHW with Others
 
 I love [joblib](https://joblib.readthedocs.io/en/latest/index.html). I usually use it for **parallelism** for its great performance coming with a smooth simplicity.
 

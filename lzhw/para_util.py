@@ -4,12 +4,12 @@ from tqdm import tqdm
 from .compress_util import lzhw_decompress
 
 
-def lzhw_para(df, selected):
-    compressed = Parallel(n_jobs=-2, max_nbytes=None, backend="multiprocessing")(delayed(
+def lzhw_para(df, selected, n_jobs):
+    compressed = Parallel(n_jobs=n_jobs, max_nbytes=None, backend="loky")(delayed(
         LZHW)(list(df.iloc[:, i])) for i in tqdm(selected))
     return compressed
 
-def para_decompress(sequences, triplets, n_rows):
-    decompressed = Parallel(n_jobs=-2, max_nbytes=None, backend="multiprocessing")(delayed(
+def para_decompress(sequences, triplets, n_rows, n_jobs):
+    decompressed = Parallel(n_jobs=n_jobs, max_nbytes=None, backend="loky")(delayed(
         lzhw_decompress)(sequences[i], triplets[i], n_rows) for i in tqdm(range(len(sequences))))
     return decompressed

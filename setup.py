@@ -1,4 +1,5 @@
 from setuptools import setup, Extension
+import numpy
 
 cython_exists = False
 try:
@@ -11,13 +12,15 @@ if cython_exists:
     ext_modules=[
         Extension("lz20c", ["lzhw/lz20c.pyx"]),
         Extension("lzw_c", ["lzhw/lzw_c.pyx"]),
-        Extension("lz77c", ["lzhw/lz77c.pyx"])
+        Extension("lz77c", ["lzhw/lz77c.pyx"],
+                  include_dirs=[numpy.get_include()])
     ]
 else:
     ext_modules = [
         Extension("lz20c", ["lzhw/lz20c.c"]),
         Extension("lzw_c", ["lzhw/lzw_c.c"]),
-        Extension("lz77c", ["lzhw/lz77c.c"])
+        Extension("lz77c", ["lzhw/lz77c.c"],
+                  include_dirs=[numpy.get_include()])
     ]
 
 
@@ -29,8 +32,8 @@ with open("requirements.txt") as rq:
 
 setup(
       name="lzhw",
-      version="1.1.15",
-      description="Compression suite for data frames and tabular data files, csv, excel etc.",
+      version="1.1.16",
+      description="Compression library for data frames and tabular data files, csv, excel etc.",
       packages=["lzhw"],
       install_requires=requirements,
       long_description=readme,

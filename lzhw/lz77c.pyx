@@ -1,14 +1,23 @@
 #from lzw_c import *
 from cpython cimport int as Integer
+cimport numpy as np
+import numpy as np
 
-ctypedef fused str_num:
-    Integer
-    int
+
+ctypedef fused list_arr:
+    np.ndarray
+    list
+
+ctypedef fused str_tuple:
+    tuple
     str
-    double
-    float
 
-cdef list lz77compress(list data):
+def cylistappend(list lst, x):
+     cdef list result = lst[:]
+     result.append(x)
+     return result
+
+cdef np.ndarray lz77compress(list_arr data):
     cdef int l = len(data)
     cdef int _sliding_window = 512
     cdef int current_location = 0
@@ -24,9 +33,11 @@ cdef list lz77compress(list data):
         else:
             ols = triplet[1]
         current_location += 1 + ols
-    return triplets
+    cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(triplets), dtype=object)
+    arr[:] = triplets
+    return arr
 
-cdef tuple triplet_encode(list data, int current_location, int sliding_window):
+cdef tuple triplet_encode(list_arr data, int current_location, int sliding_window):
     cdef int _match_len = 0
     cdef int match_offset = 0
     cdef int buffer_start = 1
@@ -49,7 +60,7 @@ cdef tuple triplet_encode(list data, int current_location, int sliding_window):
     #cdef Integer literal = lzw_compress(liter)
     return mo, _ml, literal
 
-cdef int match(list data, int current_location, int buffer_slide):
+cdef int match(list_arr data, int current_location, int buffer_slide):
     cdef int matchlen = 0
     while current_location + matchlen + 1 < len(data):
         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -57,13 +68,13 @@ cdef int match(list data, int current_location, int buffer_slide):
         matchlen += 1
     return matchlen
 
-cpdef list lz77_compress(list data):
-    cdef list triplets = lz77compress(data)
+cpdef np.ndarray lz77_compress(list_arr data):
+    cdef np.ndarray triplets = lz77compress(data)
     return triplets
 
-cdef list lz77decompress(list compressed, int n_rows):
+cdef list lz77decompress(list_arr compressed, int n_rows):
     cdef tuple triplet
-    cdef str decomp
+    #cdef str decomp
     cdef list decompressed = []
     cdef int l #= len(decompressed)
     cdef int offset #= int(triplet[0])
@@ -93,6 +104,9 @@ cdef list lz77decompress(list compressed, int n_rows):
             break
     return decompressed
 
-cpdef list lz77_decompress(list compressed, int n_rows = 0):
+cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
     cdef list decompressed = lz77decompress(compressed, n_rows)
-    return decompressed
+    cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
+    arr[:] = decompressed
+    return arr
+

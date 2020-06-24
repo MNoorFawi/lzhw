@@ -2,6 +2,7 @@ from lzw_c import *
 from lz77c import lz77_decompress
 from pickle import load
 
+
 def glue_seq(seq, last_separate = False):
     if last_separate:
         s = seq.split()
@@ -51,7 +52,10 @@ def lz77_decode(triplets, n_rows):
 
 def lzhw_decompress(sequences, triplets, n_rows):
     if "lz77" in sequences:
-        decomp = lz77_decode(triplets, n_rows)
+        #decomp = lz77_decode(triplets, n_rows)
+        if n_rows == 0:
+            n_rows = len(triplets)
+        decomp = triplets[:n_rows]
     else:
         trplts = []
         for n, i in zip(sequences.keys(), range(len(triplets))):

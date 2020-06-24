@@ -5,6 +5,7 @@ from lz77c import lz77_compress
 from .huffman_coding import huffman_coding
 from .compress_util import lzhw_decompress, code_filling
 from .util import is_number
+import numpy as np
 
 # Putting everything together in one class
 # Lempel-Ziv-Huffman-Welch. I invented it :D
@@ -15,13 +16,21 @@ class LZHW:
     def _compress(self, uncompressed):
         self.__original_size = getsizeof(uncompressed)
         is_num = is_number(uncompressed[0])
-        uncompressed = [i.replace(" ", "__") for i in map(str, uncompressed)]
-        lz77_triplets = lz77_compress(uncompressed)
-        if len(lz77_triplets) / len(uncompressed) >= 1.5: # this is a placeholder for future
-                                                          # enhancement for data with no repeated sequences
+        if not isinstance(uncompressed, np.ndarray):
+            uncompressed = np.array(uncompressed)
+        if len(set(uncompressed)) / len(uncompressed) >= 0.8:
             self.sequences = {"lz77": True}
-            self.compressed = list(zip(*lz77_triplets))
+            self.compressed = uncompressed
         else:
+            uncompressed = [i.replace(" ", "__") for i in map(str, uncompressed)]
+            #uncompressed = uncompressed.astype(str)
+            #uncompressed = np.char.replace(uncompressed, " ", "__")
+            lz77_triplets = lz77_compress(uncompressed)
+            #if len(lz77_triplets) / len(uncompressed) >= 1.5: # this is a placeholder for future
+                                                              # enhancement for data with no repeated sequences
+            #    self.sequences = {"lz77": True}
+            #    self.compressed = list(zip(*lz77_triplets))
+            #else:
             lz77_list = list(zip(*lz77_triplets))
             self.sequences = {}
             self.__codes = {}

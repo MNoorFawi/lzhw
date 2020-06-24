@@ -8,7 +8,7 @@ def test_weather():
                "Rain", "Sunny", "Overcast", "Overcast", "Rain", "Rain", "Sunny", "Sunny"]
     comp_weather = lzhw.LZHW(weather)
     assert getsizeof(weather) > comp_weather.size()
-    assert weather == comp_weather.decompress()
+    assert all(weather == comp_weather.decompress())
 
 def test_num():
     numbers = choices(sample(range(0, 5), 5), k = 20)
@@ -22,10 +22,10 @@ def test_read_write():
     comp_weather = lzhw.LZHW(weather)
     comp_weather.save_to_file("test.pkl")
     decomp = lzhw.decompress_from_file("test.pkl")
-    assert weather == decomp
+    assert all(weather == decomp)
 
 def test_comp_df():
     df = pd.DataFrame({"a": [1, 1, 2, 2, 1, 3, 4, 4],
                        "b": ["A", "A", "B", "B", "A", "C,D", "D C", "D C"]})
     comp_df = lzhw.CompressedDF(df)
-    assert comp_df.compressed[1].decompress() == list(map(str, df.b))
+    assert all(comp_df.compressed[1].decompress() == df.b)

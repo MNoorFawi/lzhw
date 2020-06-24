@@ -27,5 +27,5 @@ def test_read_write():
 def test_comp_df():
     df = pd.DataFrame({"a": [1, 1, 2, 2, 1, 3, 4, 4],
                        "b": ["A", "A", "B", "B", "A", "C,D", "D C", "D C"]})
-    comp_df = lzhw.CompressedDF(df)
+    comp_df = lzhw.CompressedDF(df, parallel = True)
     assert all(comp_df.compressed[1].decompress() == df.b)

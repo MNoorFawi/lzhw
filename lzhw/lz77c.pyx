@@ -1,4 +1,3 @@
-#from lzw_c import *
 from cpython cimport int as Integer
 cimport numpy as np
 import numpy as np
@@ -12,37 +11,31 @@ ctypedef fused str_tuple:
     tuple
     str
 
-def cylistappend(list lst, x):
-     cdef list result = lst[:]
-     result.append(x)
-     return result
-
-cdef np.ndarray lz77compress(list_arr data):
-    cdef int l = len(data)
-    cdef int _sliding_window = 512
-    cdef int current_location = 0
-    cdef list triplets = []
+cdef tuple lz77compress(list_arr data):
+    cdef unsigned int l = len(data)
+    cdef unsigned int _sliding_window = 512
+    cdef unsigned int current_location = 0
+    cdef np.ndarray[dtype=object, ndim=1] triplets = np.empty(l, dtype=object)
     cdef tuple triplet
-    cdef int ol
-    cdef int ols
+    cdef unsigned int ols
+    cdef unsigned int i = 0
     while current_location < l:
         triplet = triplet_encode(data, current_location, _sliding_window)
-        triplets.append(triplet)
+        triplets[i] = triplet
+        i += 1
         if not triplet[1]:
             ols = 0
         else:
             ols = triplet[1]
         current_location += 1 + ols
-    cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(triplets), dtype=object)
-    arr[:] = triplets
-    return arr
+    return triplets[:i], i
 
 cdef tuple triplet_encode(list_arr data, int current_location, int sliding_window):
-    cdef int _match_len = 0
-    cdef int match_offset = 0
-    cdef int buffer_start = 1
-    cdef int buffer_slide = current_location - buffer_start
-    cdef int matchlen
+    cdef unsigned int _match_len = 0
+    cdef unsigned int match_offset = 0
+    cdef unsigned int buffer_start = 1
+    cdef signed int buffer_slide = current_location - buffer_start
+    cdef unsigned int matchlen
     while buffer_slide >= 0 and buffer_start < sliding_window:
         matchlen = match(data, current_location, buffer_slide)
         if matchlen > _match_len:
@@ -57,11 +50,10 @@ cdef tuple triplet_encode(list_arr data, int current_location, int sliding_windo
         mo = match_offset
         _ml = _match_len
     literal = data[current_location + _match_len]
-    #cdef Integer literal = lzw_compress(liter)
     return mo, _ml, literal
 
 cdef int match(list_arr data, int current_location, int buffer_slide):
-    cdef int matchlen = 0
+    cdef unsigned int matchlen = 0
     while current_location + matchlen + 1 < len(data):
         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
             break
@@ -69,20 +61,16 @@ cdef int match(list_arr data, int current_location, int buffer_slide):
     return matchlen
 
 cpdef np.ndarray lz77_compress(list_arr data):
-    cdef np.ndarray triplets = lz77compress(data)
-    return triplets
+    cdef tuple tripletss = lz77compress(data)
+    cdef np.ndarray triplet = tripletss[0]
+    cdef unsigned int i = tripletss[1]
+    cdef np.ndarray[dtype=object, ndim=1] compressed = triplet[:i]
+    return compressed
 
 cdef list lz77decompress(list_arr compressed, int n_rows):
     cdef tuple triplet
-    #cdef str decomp
     cdef list decompressed = []
-    cdef int l #= len(decompressed)
-    cdef int offset #= int(triplet[0])
-    cdef int length #= int(triplet[1)
-    #cdef Integer liter #= triplet[2]
-    #cdef str literal
-    cdef int current_location #= l - offset
-    cdef int i
+    cdef unsigned int offset, length, l, current_location, i
     for triplet in compressed:
         if not triplet[0]:
             offset = 0
@@ -91,7 +79,6 @@ cdef list lz77decompress(list_arr compressed, int n_rows):
             offset = triplet[0]
             length = triplet[1]
         literal = triplet[2]
-        #literal = lzw_decompress(liter)
         if offset > 0:
             l = len(decompressed)
             current_location = l - offset

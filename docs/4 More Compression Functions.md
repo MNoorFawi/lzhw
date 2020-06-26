@@ -69,11 +69,11 @@ The main two functions in the library which apply the lempel-ziv77 algorithm:
 ```python
 lz77_ex = lzhw.lz77_compress(example)
 print(lz77_ex)
-# [(None, None, 'A'), (1, 1, 'C'), (1, 1, 'A'), (4, 3, 'C'), 
-#  (None, None, 'B'), (1, 1, 'A'), (3, 2, 'C'), (7, 2, 'C'), (1, 1, 'B')]
+# [(None, None, b'A') (1, 1, b'C') (1, 1, b'A') (4, 3, b'C')
+#  (None, None, b'B') (1, 1, b'A') (3, 2, b'C') (7, 2, b'C') (1, 1, b'B')]
 
 lz77_decomp = lzhw.lz77_decompress(lz77_ex)
-print(lz77_decomp == example)
+print(all(lz77_decomp == example))
 # True
 ```
 
@@ -81,5 +81,5 @@ Also we can selected how many elements we want to decompress from the original l
 
 ```python
 print(lzhw.lz77_decompress(lz77_ex, 3))
-#['A', 'A', 'C']
+# ['A', 'A', 'C']
 ```

@@ -8,7 +8,9 @@
 
 **Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
 
-**lzhw has a command line tool that can be downloaded from [here](https://github.com/MNoorFawi/lzhw/releases/download/v0.0.9/lzhw.exe) and can work from command line with no prior python installation.**
+**The library supports parallelism and most of its core code is written in Cython so it is quite fast.**
+
+**lzhw has a command line tool that can be downloaded from [here](https://github.com/MNoorFawi/lzhw/releases/download/v0.0.10/lzhw.exe) and can work from command line with no prior python installation.**
 
 **Manual on how to use it available [here](https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/)**.
 

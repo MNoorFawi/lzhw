@@ -62,7 +62,7 @@ def main():
         return data
 
     parser = argparse.ArgumentParser(
-        description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.9")
+        description="LZHW is a tabular data compression tool. It is used to compress excel, csv and any flat file. Version: 0.0.10")
     parser.add_argument("-d", "--decompress", help="decompress input into output",
                         action="store_true", default=False)
     parser.add_argument("-f", "--input", help="input file to be (de)compressed",
@@ -78,10 +78,16 @@ def main():
                         required=False)
     parser.add_argument("-nh", "--no-header", help="skip header / data to be compressed has no header",
                         action="store_true", default=False)
+    parser.add_argument("-p", "--parallel", help="compress or decompress in parallel",
+                        action="store_true", default=False)
+    parser.add_argument("-j", "--jobs", help="Number of CPUs to use if parallel (default all but 2)",
+                        type=str, required=False, default="-3")
     args = vars(parser.parse_args())
 
     file = args["input"]
     output = args["output"]
+    para = args["parallel"]
+    n_jobs = args["jobs"]
 
     if args["columns"]:
         cols = args["columns"][0]
@@ -100,18 +106,21 @@ def main():
             if is_number(cols[0]):
                 cols = [int(i) - 1 for i in cols]
 
-        decompressed = lzhw.decompress_df_from_file(file, cols, n_rows)
+        if para:
+            decompressed = lzhw.decompress_df_from_file(file, cols, n_rows,
+                                                        parallel = para, n_jobs = int(n_jobs))
+        else:
+            decompressed = lzhw.decompress_df_from_file(file, cols, n_rows)
+
         decompressed.fillna("", inplace=True)
         decompressed = decompressed.replace("nan", "", regex=True)
         if "xls" in output:
-            # decompressed.reset_index(drop = True, inplace = True)
             options = {}
             options["strings_to_formulas"] = False
             options["strings_to_urls"] = False
             writer = pd.ExcelWriter(output, engine="xlsxwriter", options=options)
             decompressed.to_excel(writer, output.split(".xls")[0], index=False)
             writer.save()
-            # decompressed.to_excel(output, index=False, encoding = "utf8")
         if "csv" in output:
             decompressed.to_csv(output, index=False)
         else:
@@ -146,7 +155,11 @@ def main():
             with open(file, "r") as i:
                 data = i.read()
 
-        comp_df = lzhw.CompressedDF(data)
+        if para:
+            comp_df = lzhw.CompressedDF(data, parallel = para, n_jobs = int(n_jobs))
+        else:
+            comp_df = lzhw.CompressedDF(data)
+
         print("Finalizing Compression ...")
         comp_df.save_to_file(output)
         print(f"Creating {output} file ...")

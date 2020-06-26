@@ -8,14 +8,15 @@ import lzhw
 import pandas as pd
 gc_original = pd.read_excel("examples/german_credit.xlsx")
 comp_gc = lzhw.CompressedDF(gc_original, selected_cols = [0, 3, 4, 7])
-# 100%|███████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 401.11it/s]
+# 100%|███████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 401.11it/s]
 ``` 
 Also when you have a compressed file that you want to decompress, you don't have to decompress it all, you can choose only specific columns and/or rows to decompress.
 By this you can deal with large compressed files and do operations **column by column** quickly and **avoid memory errors**
 **decompress_df_from_file** function has the same argument **selected_cols**.
 ```python
-gc_original2 = lzhw.decompress_df_from_file("gc_compressed.txt", selected_cols = [0, 4])
-# 100%|████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 3348.53it/s]
+gc_original2 = lzhw.decompress_df_from_file("gc_compressed.txt", selected_cols = [0, 4],
+                                            parallel = True)
+# 100%|████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 3348.53it/s]
 
 gc_original2.head()
 #	Duration	Age

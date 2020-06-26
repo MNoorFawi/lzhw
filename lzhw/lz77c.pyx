@@ -87,6 +87,8 @@ cdef list lz77decompress(list_arr compressed, int n_rows):
             offset = triplet[0]
             length = triplet[1]
         literal = triplet[2]
+        if isinstance(literal, bytes):
+            literal = literal.decode()
         if offset > 0:
             l = len(decompressed)
             current_location = l - offset
@@ -94,7 +96,7 @@ cdef list lz77decompress(list_arr compressed, int n_rows):
                 decomp = decompressed[current_location]
                 decompressed.append(decomp)
                 current_location += 1
-        decompressed.append(literal.decode("UTF-8"))
+        decompressed.append(literal)
         if n_rows > 0 and len(decompressed) >= n_rows:
             break
     return decompressed

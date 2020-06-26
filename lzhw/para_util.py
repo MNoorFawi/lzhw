@@ -5,11 +5,11 @@ from .compress_util import lzhw_decompress
 
 
 def lzhw_para(df, selected, n_jobs):
-    compressed = Parallel(n_jobs=n_jobs, max_nbytes=None, backend="loky")(delayed(
+    compressed = Parallel(n_jobs=n_jobs, max_nbytes=None, backend="multiprocessing")(delayed(
         LZHW)(list(df.iloc[:, i])) for i in tqdm(selected))
     return compressed
 
 def para_decompress(sequences, triplets, n_rows, n_jobs):
-    decompressed = Parallel(n_jobs=n_jobs, max_nbytes=None, backend="loky")(delayed(
+    decompressed = Parallel(n_jobs=n_jobs, max_nbytes=None, backend="multiprocessing")(delayed(
         lzhw_decompress)(sequences[i], triplets[i], n_rows) for i in tqdm(range(len(sequences))))
     return decompressed

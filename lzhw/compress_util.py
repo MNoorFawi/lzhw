@@ -16,7 +16,7 @@ def code_filling(huff_codes, n):
     for seq, code in huff_codes.items():
         cd = int("1" + code, 2)
         if n == "literal_str":
-            sequences[cd] = lzw_compress(str(seq))
+            sequences[cd] = lzw_compress(str(seq.decode()))
         elif n == "literal":
             sequences[cd] = eval(seq) if seq != "nan" else seq
         else:

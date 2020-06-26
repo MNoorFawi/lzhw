@@ -1,4 +1,4 @@
-# Compressing DataFrames in Parallel
+# Compressing DataFrames (in Parallel)
 
 #### From DataFrame to CompressedDF
 lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.
@@ -9,7 +9,7 @@ import pandas as pd
 df = pd.DataFrame({"a": [1, 1, 2, 2, 1, 3, 4, 4],
                    "b": ["A", "A", "B", "B", "A", "C", "D", "D"]})
 comp_df = lzhw.CompressedDF(df)
-# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00, 2003.97it/s]
+# 100%|██████████████████████████████████████████████████████████████| 2/2 [00:00<00:00, 2003.97it/s]
 ```
 
 Let's check space saved by compression
@@ -22,7 +22,7 @@ print(comp_space, getsizeof(df))
 # 144 712
 
 ## Test information loss
-print(comp_df.compressed[0].decompress() == list(map(str, df.a)))
+print(all(comp_df.compressed[0].decompress() == list(map(str, df.a))))
 # True
 ```
 
@@ -31,13 +31,15 @@ print(comp_df.compressed[0].decompress() == list(map(str, df.a)))
 With lzhw we can save a data frame into a compressed file and then read it again 
 using **save_to_file** method and **decompress_df_from_file** function.
 
+**Let's try to decompress in parallel**
+
 ```python
 ## Save to file
 comp_df.save_to_file("comp_df.txt")
 
 ## Load the file
-original = lzhw.decompress_df_from_file("comp_df.txt")
-# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00, 2004.93it/s]
+original = lzhw.decompress_df_from_file("comp_df.txt", parallel = True)
+# 100%|█████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00, 2004.93it/s]
 
 print(original)
 #   a  b
@@ -58,7 +60,8 @@ Let's try to compress a real-world dataframe **german_credit.xlsx** file from [U
 Original txt file is **219 KB** on desk.
 
 ```python
-gc_original = pd.read_excel("examples/german_credit.xlsx")
+gc_original = pd.read_excel("examples/german_credit.xlsx", 
+                            parallel = True, n_jobs = -3) # default value all CPUs but 2
 comp_gc = lzhw.CompressedDF(gc_original)
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 257.95it/s]
 
@@ -68,9 +71,9 @@ for i in range(len(comp_gc.compressed)):
 	comp_space += comp_gc.compressed[i].size()
 
 print(comp_space, getsizeof(gc_original))
-# 4504 548852
+# 4488 548852
 
-print(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0])))
+print(all(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0]))))
 # True
 ```
 
@@ -82,7 +85,7 @@ Let's now write the compressed dataframe into a file and compare the sizes of th
 comp_gc.save_to_file("gc_compressed.txt")
 ``` 
 
-Checking the size of the compressed file, it is **44 KB**. Meaning that in total we saved around **79%**.
+Checking the size of the compressed file, it is **38 KB**. Meaning that in total we saved around **82%**.
 Future versions will be optimized to save more space.
 
 Let's now check when we reload the file, will we lose any information or not.

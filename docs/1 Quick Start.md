@@ -16,7 +16,7 @@ sample_data = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast",
 compressed = lzhw.LZHW(sample_data)
 ## let's see how the compressed object looks like:
 print(compressed.compressed)
-# (506460, 128794, 112504)
+# (524288, 524288, 81592676324)
 
 ## its size
 print(compressed.size())
@@ -32,7 +32,7 @@ print(compressed.space_saving())
 
 ## Let's decompress and check whether there is any information loss
 decomp = compressed.decompress()
-print(decomp == sample_data)
+print(all(decomp == sample_data))
 # True
 ```
 
@@ -62,7 +62,7 @@ LZHW class has an attribute called **compressed** which is a tuple of integers r
 
 ```python
 print(comp_num.compressed) # how the compressed is saved (as tuple of 3 integers)
-# (8198555, 620206, 3059308)
+# (1048576, 1048576, 43175655208435)
 ```
 #### Writing to & Reading from Files
 We can also write the compressed data to files using **save_to_file** method, 
@@ -74,6 +74,6 @@ status = ["Good", "Bad", "Bad", "Bad", "Good", "Good", "Average", "Average", "Go
 comp_status = lzhw.LZHW(status)
 comp_status.save_to_file("status.txt")
 decomp_status = lzhw.decompress_from_file("status.txt")
-print(status == decomp_status)
+print(all(status == decomp_status))
 # True
 ```

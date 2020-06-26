@@ -133,7 +133,7 @@ print("LZ4 load duration: %0.3fs" % lz4_load_duration)
 
 ## LZHW
 start = time.time()
-lzhw_data = lzhw.CompressedDF(data)
+lzhw_data = lzhw.CompressedDF(data, parallel = True, n_jobs = -3) ## all CPUs but 2
 lzhw_data.save_to_file("lzhw_data.txt")
 lzhw_compression_duration = time.time() - start
 print("LZHW compression duration: %0.3fs" % lzhw_compression_duration)
@@ -144,7 +144,7 @@ print("LZHW file size: %0.3fMB" % lzhw_file_size)
 # LZHW file size: 2.839MB
 
 start = time.time()
-lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt")
+lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt", parallel = True, n_jobs = -3)
 lzhw_d_duration = time.time() - start
 print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
 # LZHW decompression duration: 9.007s
@@ -273,7 +273,8 @@ lzhw_file_size = os.stat("lzhw_data.txt").st_size / 1e6
 print("LZHW file size: %0.3fMB" % lzhw_file_size)
 
 start = time.time()
-lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt")
+lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt", parallel = True, n_jobs = -3)  
+# decompression is slower than compression
 lzhw_d_duration = time.time() - start
 print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
 
@@ -290,9 +291,9 @@ print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
 # LZ4 dump duration: 1.984s
 # LZ4 file size: 152.374MB
 # LZ4 load duration: 2.135s
-# LZHW compression duration: 81.522s
-# LZHW file size: 45.755MB
-# LZHW decompression duration: 48.904s
+# LZHW compression duration: 53.958s
+# LZHW file size: 41.816MB
+# LZHW decompression duration: 56.687s
 ```
 
 Now let's visualize the new results:
@@ -333,4 +334,4 @@ for index, value in enumerate(file_sizes):
 
 ![](./img/lzhw_size2.jpg)
 
-**By far LZHW outperforms others with acceptable time difference**
+**By far LZHW outperforms others with acceptable time difference**, especially with all other functionalities it enables to deal with compressed data.

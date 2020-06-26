@@ -8,7 +8,7 @@
 
 **Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
 
-**lzhw** has a command line tool that can be downloaded from [here](https://github.com/MNoorFawi/lzhw/releases/download/v0.0.9/lzhw.exe) and can work from command line with no prior python installation.
+**lzhw** has a command line tool that can be downloaded from [here](https://github.com/MNoorFawi/lzhw/releases/download/v0.0.10/lzhw.exe) and can work from command line with no prior python installation.
 
 **Manual on how to use it available [here](https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/)**.
 
@@ -16,7 +16,7 @@ It works on Windows and soon a Mac version will be available.
 
 ## Full documentation can be found [here](https://mnoorfawi.github.io/lzhw/)
 
-**Data Frames compression and decompression works in parallel**. 
+**Data Frames compression and decompression can work in parallel**. 
 
 ## Quick Start
 
@@ -96,7 +96,7 @@ print(status == decomp_status)
 # True
 ```
 
-## Compressing DataFrames in Parallel
+## Compressing DataFrames (in Parallel)
 
 lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.
 
@@ -154,9 +154,11 @@ Let's try to compress a real-world dataframe **german_credit.xlsx** file from [U
 
 Original txt file is **219 KB** on desk.
 
+Let's have a look at how to use parallelism in this example:
+
 ```python
 gc_original = pd.read_excel("examples/german_credit.xlsx")
-comp_gc = lzhw.CompressedDF(gc_original)
+comp_gc = lzhw.CompressedDF(gc_original, parallel = True, n_jobs = 2) # two CPUs
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 257.95it/s]
 
 ## Compare sizes in Python:
@@ -299,7 +301,8 @@ lzhw_file_size = os.stat("lzhw_data.txt").st_size / 1e6
 print("LZHW file size: %0.3fMB" % lzhw_file_size)
 
 start = time.time()
-lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt")
+lzhw_d = lzhw.decompress_df_from_file("lzhw_data.txt", parallel = True, n_jobs = -3)  
+# decompression is slower than compression
 lzhw_d_duration = time.time() - start
 print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
 
@@ -316,12 +319,12 @@ print("LZHW decompression duration: %0.3fs" % lzhw_d_duration)
 # LZ4 dump duration: 1.984s
 # LZ4 file size: 152.374MB
 # LZ4 load duration: 2.135s
-# LZHW compression duration: 81.522s
-# LZHW file size: 45.755MB
-# LZHW decompression duration: 48.904s
+# LZHW compression duration: 53.958s
+# LZHW file size: 41.816MB
+# LZHW decompression duration: 56.687s
 ```
 
-Let's visualize the comparison:
+Now let's visualize the new results:
 
 ```python
 import numpy as np
@@ -345,7 +348,7 @@ plt.xticks(ind, ('Raw', 'Zlib', 'LZMA', "LZ4", "LZHW"))
 plt.legend((p1[0], p2[0]), ('Compression duration', 'Decompression duration'))
 ```
 
-![dur_compare](./img/lzhw_duration2.jpg)
+![](./img/lzhw_duration2.jpg)
 
 ```python
 plt.figure(2, figsize=(5, 4))
@@ -357,6 +360,9 @@ for index, value in enumerate(file_sizes):
     plt.text(index, value, str(round(value)) + "MB")
 ```
 
-![size_compare](./img/lzhw_size2.jpg)
+![](./img/lzhw_size2.jpg)
 
-**By far LZHW outperforms others with acceptable time difference**
+**By far LZHW outperforms others with acceptable time difference**, especially with all other functionalities it enables to deal with compressed data.
+
+##### Reference
+ 		[1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.

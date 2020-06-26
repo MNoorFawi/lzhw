@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Compressing DataFrames in Parallel - lzhw</title>
+  <title>Compressing DataFrames (in Parallel) - lzhw</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Compressing DataFrames in Parallel";
+    var mkdocs_page_name = "Compressing DataFrames (in Parallel)";
     var mkdocs_page_input_path = "2 Compressing DataFrames.md";
     var mkdocs_page_url = null;
   </script>
@@ -56,7 +56,7 @@
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Compressing DataFrames in Parallel</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Compressing DataFrames (in Parallel)</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#from-dataframe-to-compresseddf">From DataFrame to CompressedDF</a>
     </li>
@@ -108,7 +108,7 @@
     
       
     
-    <li>Compressing DataFrames in Parallel</li>
+    <li>Compressing DataFrames (in Parallel)</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -119,7 +119,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="compressing-dataframes-in-parallel">Compressing DataFrames in Parallel</h1>
+                <h1 id="compressing-dataframes-in-parallel">Compressing DataFrames (in Parallel)</h1>
 <h4 id="from-dataframe-to-compresseddf">From DataFrame to CompressedDF</h4>
 <p>lzhw doesn't work only on lists, it also compress pandas dataframes and save it into compressed files to decompress them later.</p>
 <pre><code class="python">import pandas as pd
@@ -127,7 +127,7 @@
 df = pd.DataFrame({&quot;a&quot;: [1, 1, 2, 2, 1, 3, 4, 4],
                    &quot;b&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;]})
 comp_df = lzhw.CompressedDF(df)
-# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00&lt;00:00, 2003.97it/s]
+# 100%|██████████████████████████████████████████████████████████████| 2/2 [00:00&lt;00:00, 2003.97it/s]
 </code></pre>
 
 <p>Let's check space saved by compression</p>
@@ -139,19 +139,20 @@ print(comp_space, getsizeof(df))
 # 144 712
 
 ## Test information loss
-print(comp_df.compressed[0].decompress() == list(map(str, df.a)))
+print(all(comp_df.compressed[0].decompress() == list(map(str, df.a))))
 # True
 </code></pre>
 
 <h4 id="saving-and-loading-compressed-dataframes">Saving and Loading Compressed DataFrames</h4>
 <p>With lzhw we can save a data frame into a compressed file and then read it again 
 using <strong>save_to_file</strong> method and <strong>decompress_df_from_file</strong> function.</p>
+<p><strong>Let's try to decompress in parallel</strong></p>
 <pre><code class="python">## Save to file
 comp_df.save_to_file(&quot;comp_df.txt&quot;)
 
 ## Load the file
-original = lzhw.decompress_df_from_file(&quot;comp_df.txt&quot;)
-# 100%|██████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00&lt;00:00, 2004.93it/s]
+original = lzhw.decompress_df_from_file(&quot;comp_df.txt&quot;, parallel = True)
+# 100%|█████████████████████████████████████████████████████████████████| 2/2 [00:00&lt;00:00, 2004.93it/s]
 
 print(original)
 #   a  b
@@ -168,7 +169,8 @@ print(original)
 <h4 id="compressing-bigger-dataframes">Compressing Bigger DataFrames</h4>
 <p>Let's try to compress a real-world dataframe <strong>german_credit.xlsx</strong> file from <a href="https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)">UCI Machine Learning Repository</a> [1].</p>
 <p>Original txt file is <strong>219 KB</strong> on desk.</p>
-<pre><code class="python">gc_original = pd.read_excel(&quot;examples/german_credit.xlsx&quot;)
+<pre><code class="python">gc_original = pd.read_excel(&quot;examples/german_credit.xlsx&quot;, 
+                            parallel = True, n_jobs = -3) # default value all CPUs but 2
 comp_gc = lzhw.CompressedDF(gc_original)
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 257.95it/s]
 
@@ -178,9 +180,9 @@ for i in range(len(comp_gc.compressed)):
     comp_space += comp_gc.compressed[i].size()
 
 print(comp_space, getsizeof(gc_original))
-# 4504 548852
+# 4488 548852
 
-print(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0])))
+print(all(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0]))))
 # True
 </code></pre>
 
@@ -189,7 +191,7 @@ print(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0]
 <pre><code class="python">comp_gc.save_to_file(&quot;gc_compressed.txt&quot;)
 </code></pre>
 
-<p>Checking the size of the compressed file, it is <strong>44 KB</strong>. Meaning that in total we saved around <strong>79%</strong>.
+<p>Checking the size of the compressed file, it is <strong>38 KB</strong>. Meaning that in total we saved around <strong>82%</strong>.
 Future versions will be optimized to save more space.</p>
 <p>Let's now check when we reload the file, will we lose any information or not.</p>
 <pre><code class="python">## Load the file

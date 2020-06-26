@@ -68,7 +68,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="2%20Compressing%20DataFrames/">Compressing DataFrames in Parallel</a>
+                    <li class="toctree-l1"><a class="reference internal" href="2%20Compressing%20DataFrames/">Compressing DataFrames (in Parallel)</a>
                     </li>
                 </ul>
                 <ul>
@@ -124,7 +124,8 @@
 <p><img alt="lzhw logo" src="img/lzhw_logo.jpg" /></p>
 <p><a href="https://travis-ci.com/MNoorFawi/lzhw"><img alt="Build Status" src="https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master" /></a></p>
 <p><strong>Compression</strong> library to compress big lists and/or pandas dataframes using an <strong>optimized algorithm (lzhw)</strong> developed from Lempel-Ziv, Huffman and LZ-Welch techniques.</p>
-<p><strong>lzhw has a command line tool that can be downloaded from <a href="https://github.com/MNoorFawi/lzhw/releases/download/v0.0.9/lzhw.exe">here</a> and can work from command line with no prior python installation.</strong></p>
+<p><strong>The library supports parallelism and most of its core code is written in Cython so it is quite fast.</strong></p>
+<p><strong>lzhw has a command line tool that can be downloaded from <a href="https://github.com/MNoorFawi/lzhw/releases/download/v0.0.10/lzhw.exe">here</a> and can work from command line with no prior python installation.</strong></p>
 <p><strong>Manual on how to use it available <a href="https://mnoorfawi.github.io/lzhw/5%20Using%20the%20lzhw%20command%20line%20tool/">here</a></strong>.</p>
 <p>It works on Windows and soon a Mac version will be available.</p>
 <h2 id="how-lzhw-works">How lzhw Works</h2>
@@ -219,5 +220,5 @@ print(sys.getsizeof(lzhw_comp.sequences) + sys.getsizeof(lzhw_comp.compressed))
 
 <!--
 MkDocs version : 1.1
-Build Date UTC : 2020-06-23 18:12:35
+Build Date UTC : 2020-06-26 23:00:59
 -->

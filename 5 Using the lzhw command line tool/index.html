@@ -56,7 +56,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../2%20Compressing%20DataFrames/">Compressing DataFrames in Parallel</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../2%20Compressing%20DataFrames/">Compressing DataFrames (in Parallel)</a>
                     </li>
                 </ul>
                 <ul>
@@ -75,6 +75,12 @@
     <li class="toctree-l2"><a class="reference internal" href="#compress">Compress</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#decompress">Decompress</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes-on-the-tool">Notes on the Tool</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a>
+    </li>
+        </ul>
     </li>
     </ul>
                     </li>
@@ -118,20 +124,20 @@
                 <h1 id="using-the-lzhw-command-line-tool">Using the lzhw Command Line tool</h1>
 <p>In <strong>lzhw_cli</strong> folder, there is a python script that can work on command line tool to compress and decompress files without having to open it in python.</p>
 <h4 id="lzhw-compression-tool">LZHW Compression Tool</h4>
-<p><strong>Also a downloadable exe tool is available in this <a href="https://github.com/MNoorFawi/lzhw/releases/download/v0.0.9/lzhw.exe">link</a>.</strong>
+<p><strong>Also a downloadable exe tool is available in this <a href="https://github.com/MNoorFawi/lzhw/releases/download/v0.0.10/lzhw.exe">link</a>.</strong>
 <strong>The tool allows to compress and decompress files from and to any form, csv, excel etc without any dependencies or installations.</strong></p>
-<p><strong>The tool works in parallel and most of its code is compiled to C code, so it is pretty fast</strong>. Next page in the documentation there is a comparison in performance with other tools.</p>
+<p><strong>The tool can work in parallel and most of its code is written in Cython, so it is pretty fast</strong>. Next page in the documentation there is a comparison in performance with other tools.</p>
 <p>The tool now works perfectly on Windows and Mac version is being developed.</p>
 <p>Here is the file and its help argument to see how it works and its arguments:</p>
 <pre><code class="bash">lzhw -h
 </code></pre>
 
 <p>Output</p>
-<pre><code class="bash">usage: lzhw_cli.py [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
-                   [-r ROWS] [-nh]
+<pre><code class="bash">usage: lzhw [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]] [-r ROWS]
+            [-nh] [-p] [-j JOBS]
 
 LZHW is a tabular data compression tool. It is used to compress excel, csv and
-any flat file. Version: 0.0.9
+any flat file. Version: 0.0.10
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -145,6 +151,8 @@ optional arguments:
                         to compress or decompress
   -r ROWS, --rows ROWS  select specific rows to decompress (1-based)
   -nh, --no-header      skip header / data to be compressed has no header
+  -p, --parallel        compress or decompress in parallel
+  -j JOBS, --jobs JOBS  Number of CPUs to use if parallel (default all but 2)
 </code></pre>
 
 <p>As we can see, the tool takes an input file <strong>"-f"</strong>, and output <strong>"-o"</strong> where it should put the result whether it is compression or decompression based on the optional <strong>"-d"</strong> argument which selects decompression.</p>
@@ -152,11 +160,13 @@ optional arguments:
 This argument accepts names and indices separated by coma.</p>
 <p>The <strong>"-nh"</strong>, --no-header, argument to specify if the data has no header.</p>
 <p>The <strong>"-r"</strong>, --rows, argument is to specify number of rows to decompress, in case we don't need to decompress all rows.</p>
+<p>The <strong>"-p"</strong>, --parallel, argument is to make compression and decompression goes in parallel to speed it up. And specifying the <strong>"-j"</strong>, --jobs, argument to determine the number of the CPUs to be used, in default it is all CPUs minus 2.</p>
 <h4 id="compress">Compress</h4>
 <p>How to compress:</p>
 <p>The tool can be used through command line. 
 For those who are new to command line, the easiest way to start it is to put the <strong>lzhw.exe</strong> tool in the same folder with the sheet you want to compress.
 Then go to the folder's directory at the top where you see the directory path and one click then type <strong>cmd</strong>, black command line will open to you where you can type the examples below.</p>
+<p><em>Using german_credit data from UCI Machine Learning Repository [1]</em> </p>
 <pre><code class="bash">lzhw -f &quot;german_credit.xlsx&quot; -o &quot;gc_comp.txt&quot;
 </code></pre>
 
@@ -173,15 +183,23 @@ time taken:  0.06792410214742024  minutes
 Compressed Successfully
 </code></pre>
 
-<p><strong>N.B. This error message can appear while compressing or decompressing</strong></p>
-<pre><code class="bash">lzhw.exe [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
-                [-r ROWS] [-nh]
-lzhw.exe: error: the following arguments are required: -f/--input, -o/--output
+<p><strong>In parallel</strong>:</p>
+<pre><code class="bash">lzhw -f &quot;german_credit.xlsx&quot; -o &quot;gc_comp.txt&quot; -p
 </code></pre>
 
-<p><strong>It is totally fine, just press Enter and proceed or leave it until it tells you "Compressed Successsfully" or "Decompressed Successfully"</strong>.</p>
-<p>The error is due to some parallelization library bug that has nothing to do with the tool so it is ok.</p>
-<p><strong>N.B.2 The progress bar of columns compression, it doesn't mean that the tool has finished because it needs still to write the answers. So you need to wait until "Compressed Successfully" or "Decompressed Successfully" message appears.</strong></p>
+<pre><code class="bash">Reading files, Can take 1 minute or something ...
+Running CScript.exe to convert xls file to csv for better performance
+
+Microsoft (R) Windows Script Host Version 5.812
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+100%|███████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 74.28it/s]
+Finalizing Compression ...
+Creating gc_comp.txt file ...
+time taken:  0.030775876839955647  minutes
+Compressed Successfully
+</code></pre>
+
 <p>Now, let's say we are interested only in compressing the Age, Duration and Amount columns</p>
 <pre><code class="bash">lzhw -f &quot;german_credit.xlsx&quot; -o &quot;gc_subset.txt&quot; -c Age,Duration,Amount
 </code></pre>
@@ -195,20 +213,21 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 100%|███████████████████████████████████████████████████| 3/3 [00:00&lt;00:00, 249.99it/s]
 Finalizing Compression ...
 Creating gc_subset.txt file ...
-time taken:  0.03437713384628296  minutes
+time taken:  0.01437713384628296  minutes
 Compressed Successfully
 </code></pre>
 
 <h4 id="decompress">Decompress</h4>
 <p>Now it's time to decompress:</p>
 <p><strong>If your original excel file was big and of many rows and columns, it's better and faster to decompress it into a csv file instead of excel directly and then save the file as excel if excel type is necessary. This is because python is not that fast in writing data to excel as well as the tool sometimes has "Corrupted Files" issues with excel.</strong></p>
-<pre><code class="bash">lzhw -d -f &quot;gc_comp.txt&quot; -o &quot;gc_decompressed.csv&quot;
+<p>Decompressing in parallel using 2 CPUs.</p>
+<pre><code class="bash">lzhw -d -f &quot;gc_comp.txt&quot; -o &quot;gc_decompressed.csv&quot; -p -j 2
 </code></pre>
 
-<pre><code class="bash">100%|███████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 690.45it/s]
+<pre><code class="bash">100%|████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 99.00it/s]
 Finalizing Decompression ...
 Creating gc_decompressed.csv file ...
-time taken:  0.04818803866704305  minutes
+time taken:  0.014344350496927897  minutes
 Decompressed Successfully
 </code></pre>
 
@@ -230,7 +249,7 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 <pre><code class="bash">100%|███████████████████████████████████████████████████| 2/2 [00:00&lt;00:00,  8.05it/s]
 Finalizing Decompression ...
 Creating gc_subset_de.csv file ...
-time taken:  0.0140968124071757  minutes
+time taken:  0.00028291543324788414  minutes
 Decompressed Successfully
 </code></pre>
 
@@ -255,7 +274,7 @@ Duration,Amount
 100%|████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 369.69it/s]
 Finalizing Decompression ...
 Creating gc_subset_de.csv file ...
-time taken:  0.04320337772369385  minutes
+time taken:  0.007962568600972494  minutes
 Decompressed Successfully
 </code></pre>
 
@@ -271,7 +290,21 @@ Duration,Amount,InstallmentRatePercentage,ResidenceDuration,Age,NumberExistingCr
 </code></pre>
 
 <p>All data is now 5 rows only including the header.</p>
-<p>P.S. The tool takes a couple of seconds from 8 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it. </p>
+<h4 id="notes-on-the-tool">Notes on the Tool</h4>
+<p><strong>1- compression is much faster than decompression, it is good to compress sequentially and decompress in parallel.</strong></p>
+<p><strong>2- This error message can appear while compressing or decompressing in parallel</strong></p>
+<pre><code class="bash">lzhw.exe [-h] [-d] -f INPUT -o OUTPUT [-c COLUMNS [COLUMNS ...]]
+                [-r ROWS] [-nh]
+lzhw.exe: error: the following arguments are required: -f/--input, -o/--output
+</code></pre>
+
+<p><strong>It is totally fine, just press Enter and proceed or leave it until it tells you "Compressed Successsfully" or "Decompressed Successfully"</strong>.</p>
+<p>The error is due to some parallelization library bug that has nothing to do with the tool so it is ok.</p>
+<p><strong>3- The progress bar of columns compression, it doesn't mean that the tool has finished because it needs still to write the answers. So you need to wait until "Compressed Successfully" or "Decompressed Successfully" message appears.</strong></p>
+<p><strong>4- The tool takes a couple of seconds from 8 to 15 seconds to start working and compressing at the first time and then it runs faster and faster the more you use it.</strong> </p>
+<h5 id="reference">Reference</h5>
+<pre><code>    [1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+</code></pre>
               
             </div>
           </div>

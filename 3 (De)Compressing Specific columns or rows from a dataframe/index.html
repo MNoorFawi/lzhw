@@ -56,7 +56,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../2%20Compressing%20DataFrames/">Compressing DataFrames in Parallel</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../2%20Compressing%20DataFrames/">Compressing DataFrames (in Parallel)</a>
                     </li>
                 </ul>
                 <ul class="current">
@@ -119,14 +119,15 @@
 import pandas as pd
 gc_original = pd.read_excel(&quot;examples/german_credit.xlsx&quot;)
 comp_gc = lzhw.CompressedDF(gc_original, selected_cols = [0, 3, 4, 7])
-# 100%|███████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00&lt;00:00, 401.11it/s]
+# 100%|███████████████████████████████████████████████████████████████| 4/4 [00:00&lt;00:00, 401.11it/s]
 </code></pre>
 
 <p>Also when you have a compressed file that you want to decompress, you don't have to decompress it all, you can choose only specific columns and/or rows to decompress.
 By this you can deal with large compressed files and do operations <strong>column by column</strong> quickly and <strong>avoid memory errors</strong>
 <strong>decompress_df_from_file</strong> function has the same argument <strong>selected_cols</strong>.</p>
-<pre><code class="python">gc_original2 = lzhw.decompress_df_from_file(&quot;gc_compressed.txt&quot;, selected_cols = [0, 4])
-# 100%|████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 3348.53it/s]
+<pre><code class="python">gc_original2 = lzhw.decompress_df_from_file(&quot;gc_compressed.txt&quot;, selected_cols = [0, 4],
+                                            parallel = True)
+# 100%|████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 3348.53it/s]
 
 gc_original2.head()
 #   Duration    Age
@@ -200,7 +201,7 @@ print(gc_original_subset_smaller)
         <a href="../4%20More%20Compression%20Functions/" class="btn btn-neutral float-right" title="More Compression Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../2%20Compressing%20DataFrames/" class="btn btn-neutral" title="Compressing DataFrames in Parallel"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../2%20Compressing%20DataFrames/" class="btn btn-neutral" title="Compressing DataFrames (in Parallel)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   

@@ -6,6 +6,10 @@ cimport numpy as np
 import numpy as np
 from libc.stdlib cimport malloc, free
 
+ctypedef fused list_arr:
+    list
+    np.ndarray
+
 cdef char ** to_c_string_list(str_list):
     cdef unsigned int l = len(str_list)
     cdef char **c_string = <char **>malloc(l * sizeof(char *))
@@ -70,7 +74,7 @@ cpdef np.ndarray lz77_compress(list data):
     cdef np.ndarray[dtype=object, ndim=1] compressed = triplet[:i]
     return compressed
 
-cdef list lz77decompress(np.ndarray compressed, int n_rows):
+cdef list lz77decompress(list_arr compressed, int n_rows):
     cdef tuple triplet
     cdef list decompressed = []
     cdef unsigned int offset, length, l, current_location, i
@@ -95,7 +99,7 @@ cdef list lz77decompress(np.ndarray compressed, int n_rows):
             break
     return decompressed
 
-cpdef np.ndarray lz77_decompress(np.ndarray compressed, int n_rows = 0):
+cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
     cdef list decompressed = lz77decompress(compressed, n_rows)
     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
     arr[:] = decompressed

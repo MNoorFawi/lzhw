@@ -3,12 +3,13 @@ from lz77c import lz77_decompress
 from pickle import load
 
 
-def glue_seq(seq, last_separate = False):
+def glue_seq(seq, last_separate=False):
     if last_separate:
         s = seq.split()
         return " ".join(s[:-1]), s[-1]
     else:
         return " ".join(seq)
+
 
 def code_filling(huff_codes, n):
     sequences = {}
@@ -24,6 +25,7 @@ def code_filling(huff_codes, n):
         codes[seq] = code
     return sequences, codes
 
+
 def huffman_decode(sequences, compressed, n):
     bitstring = bin(compressed)[2:]
     bit = ""
@@ -38,25 +40,28 @@ def huffman_decode(sequences, compressed, n):
             yield org
             bit = ""
 
+
 def org_shaping(seq, bits, n):
-    #org = " ".join(huffman_decode(seq, bits, n)).split()
+    # org = " ".join(huffman_decode(seq, bits, n)).split()
     org = []
     hfs = huffman_decode(seq, bits, n)
     for c in hfs:
         org.append(c)
-    #org = [i.replace("__", " ") for i in org]
+    # org = [i.replace("__", " ") for i in org]
     if isinstance(org[0], str):
         org = [i.replace("__", " ") for i in org]
     return org
+
 
 def lz77_decode(triplets, n_rows):
     triplets = list(zip(triplets[0], triplets[1], triplets[2]))
     decomp = lz77_decompress(triplets, n_rows)
     return decomp
 
+
 def lzhw_decompress(sequences, triplets, n_rows):
     if "lz77" in sequences:
-        #decomp = lz77_decode(triplets, n_rows)
+        # decomp = lz77_decode(triplets, n_rows)
         if n_rows == 0:
             n_rows = len(triplets)
         decomp = triplets[:n_rows]
@@ -67,6 +72,7 @@ def lzhw_decompress(sequences, triplets, n_rows):
             trplts.append(triplet)
         decomp = lz77_decode(trplts, n_rows)
     return decomp
+
 
 def _reader(input, cols_len, selected):
     triplets = []

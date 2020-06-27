@@ -1,5 +1,5 @@
 from .lzhw_alg import LZHW, decompress_from_file
-from .lzhw_df import CompressedDF, decompress_df_from_file
+from .lzhw_df import CompressedDF, decompress_df_from_file, CompressedFromCSV
 from .huffman_coding import huffman_coding
 from lz77c import *
 from lz20c import lz20

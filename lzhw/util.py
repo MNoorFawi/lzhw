@@ -27,3 +27,5 @@ def is_number(s):
 
 ascii_to_int = {i.to_bytes(1, "big"): i for i in range(256)}
 int_to_ascii = {i: b for b, i in ascii_to_int.items()}
+
+nums = ["int", "float"]

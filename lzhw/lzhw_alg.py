@@ -4,8 +4,9 @@ from pickle import dump, load, HIGHEST_PROTOCOL
 from lz77c import lz77_compress
 from .huffman_coding import huffman_coding
 from .compress_util import lzhw_decompress, code_filling
-from .util import is_number
+from .util import is_number, nums
 import numpy as np
+
 
 # Putting everything together in one class
 # Lempel-Ziv-Huffman-Welch. I invented it :D
@@ -15,9 +16,13 @@ class LZHW:
 
     def _compress(self, uncompressed):
         self.__original_size = getsizeof(uncompressed)
-        is_num = is_number(uncompressed[0])
+
         if not isinstance(uncompressed, np.ndarray):
             uncompressed = np.array(uncompressed)
+            is_num = is_number(uncompressed[0])
+        else:
+            is_num = any(i in str(uncompressed.dtype) for i in nums)
+
         if len(set(uncompressed)) / len(uncompressed) >= 0.8:
             self.sequences = {"lz77": True}
             self.compressed = uncompressed

@@ -1362,13 +1362,6 @@ static Py_ssize_t __Pyx_zeros[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 static void __Pyx_RaiseBufferIndexError(int axis);
 
 #define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
-/* ObjectGetItem.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
-#else
-#define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
-#endif
-
 /* SliceObject.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
         PyObject* obj, Py_ssize_t cstart, Py_ssize_t cstop,
@@ -2389,7 +2382,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  *         else:
  *             ols = triplet[1]             # <<<<<<<<<<<<<<
  *         current_location += 1 + ols
- *     return triplets[:i], i
+ *     return triplets, i
  */
     /*else*/ {
       if (unlikely(__pyx_v_triplet == Py_None)) {
@@ -2408,7 +2401,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  *         else:
  *             ols = triplet[1]
  *         current_location += 1 + ols             # <<<<<<<<<<<<<<
- *     return triplets[:i], i
+ *     return triplets, i
  * 
  */
     __pyx_v_current_location = (__pyx_v_current_location + (1 + __pyx_v_ols));
@@ -2417,31 +2410,23 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
   /* "lz77c.pyx":38
  *             ols = triplet[1]
  *         current_location += 1 + ols
- *     return triplets[:i], i             # <<<<<<<<<<<<<<
+ *     return triplets, i             # <<<<<<<<<<<<<<
  * 
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = PySlice_New(Py_None, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_triplets), __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_INCREF(((PyObject *)__pyx_v_triplets));
+  __Pyx_GIVEREF(((PyObject *)__pyx_v_triplets));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_v_triplets));
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_5);
   __pyx_t_5 = 0;
+  __pyx_r = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_r = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
   goto __pyx_L0;
 
   /* "lz77c.pyx":20
@@ -2478,7 +2463,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
 }
 
 /* "lz77c.pyx":40
- *     return triplets[:i], i
+ *     return triplets, i
  * 
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int _match_len = 0
@@ -2724,7 +2709,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
   goto __pyx_L0;
 
   /* "lz77c.pyx":40
- *     return triplets[:i], i
+ *     return triplets, i
  * 
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int _match_len = 0
@@ -8642,35 +8627,6 @@ fail:;
   PyErr_Format(PyExc_IndexError,
      "Out of bounds on buffer access (axis %d)", axis);
 }
-
-/* ObjectGetItem */
-  #if CYTHON_USE_TYPE_SLOTS
-static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
-    PyObject *runerr;
-    Py_ssize_t key_value;
-    PySequenceMethods *m = Py_TYPE(obj)->tp_as_sequence;
-    if (unlikely(!(m && m->sq_item))) {
-        PyErr_Format(PyExc_TypeError, "'%.200s' object is not subscriptable", Py_TYPE(obj)->tp_name);
-        return NULL;
-    }
-    key_value = __Pyx_PyIndex_AsSsize_t(index);
-    if (likely(key_value != -1 || !(runerr = PyErr_Occurred()))) {
-        return __Pyx_GetItemInt_Fast(obj, key_value, 0, 1, 1);
-    }
-    if (PyErr_GivenExceptionMatches(runerr, PyExc_OverflowError)) {
-        PyErr_Clear();
-        PyErr_Format(PyExc_IndexError, "cannot fit '%.200s' into an index-sized integer", Py_TYPE(index)->tp_name);
-    }
-    return NULL;
-}
-static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
-    PyMappingMethods *m = Py_TYPE(obj)->tp_as_mapping;
-    if (likely(m && m->mp_subscript)) {
-        return m->mp_subscript(obj, key);
-    }
-    return __Pyx_PyObject_GetIndex(obj, key);
-}
-#endif
 
 /* SliceObject */
   static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(PyObject* obj,

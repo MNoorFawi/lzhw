@@ -35,7 +35,7 @@ cdef tuple lz77compress(list dat):
         else:
             ols = triplet[1]
         current_location += 1 + ols
-    return triplets[:i], i
+    return triplets, i
 
 cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
     cdef unsigned int _match_len = 0

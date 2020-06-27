@@ -19,10 +19,10 @@ for i in range(len(comp_df.compressed)):
 	comp_space += comp_df.compressed[i].size()
 
 print(comp_space, getsizeof(df))
-# 144 712
+# 296 712
 
 ## Test information loss
-print(all(comp_df.compressed[0].decompress() == list(map(str, df.a))))
+print(list(map(int, comp_df.compressed[0].decompress())) == list(df.a))
 # True
 ```
 
@@ -73,7 +73,7 @@ for i in range(len(comp_gc.compressed)):
 print(comp_space, getsizeof(gc_original))
 # 4488 548852
 
-print(all(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0]))))
+print(list(map(int, comp_gc.compressed[0].decompress())) == list(gc_original.iloc[:, 0]))
 # True
 ```
 
@@ -95,7 +95,7 @@ Let's now check when we reload the file, will we lose any information or not.
 gc_original2 = lzhw.decompress_df_from_file("gc_compressed.txt")
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 259.46it/s]
 
-print(list(gc_original2.iloc[:, 13]) == list(map(str, gc_original.iloc[:, 13])))
+print(list(map(int, gc_original2.iloc[:, 13])) == list(gc_original.iloc[:, 13]))
 # True
 
 print(gc_original.shape == gc_original2.shape)

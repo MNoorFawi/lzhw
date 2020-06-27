@@ -34,15 +34,19 @@ def huffman_decode(sequences, compressed, n):
             if n == "literal_str":
                 org = lzw_decompress(sequences[bit_int])
             else:
-                org = str(sequences[bit_int])
+                org = sequences[bit_int]
             yield org
             bit = ""
 
 def org_shaping(seq, bits, n):
-    org = " ".join(huffman_decode(seq, bits, n)).split()
-    org = [i.replace("__", " ") for i in org]
-    if "None" in org:
-        org = [eval(i) for i in org]
+    #org = " ".join(huffman_decode(seq, bits, n)).split()
+    org = []
+    hfs = huffman_decode(seq, bits, n)
+    for c in hfs:
+        org.append(c)
+    #org = [i.replace("__", " ") for i in org]
+    if isinstance(org[0], str):
+        org = [i.replace("__", " ") for i in org]
     return org
 
 def lz77_decode(triplets, n_rows):

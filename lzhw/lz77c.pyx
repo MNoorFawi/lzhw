@@ -37,7 +37,7 @@ cdef tuple lz77compress(list dat):
         current_location += 1 + ols
     return triplets, i
 
-cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
+cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
     cdef unsigned int _match_len = 0
     cdef unsigned int match_offset = 0
     cdef unsigned int buffer_start = 1
@@ -59,7 +59,7 @@ cdef tuple triplet_encode(char **data, int current_location, int sliding_window,
     cdef char *literal = data[current_location + _match_len]
     return mo, _ml, literal
 
-cdef int match(char **data, int current_location, int buffer_slide, int l):
+cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
     cdef unsigned int matchlen = 0
     while current_location + matchlen + 1 < l:
         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -78,26 +78,22 @@ cdef list lz77decompress(list_arr compressed, int n_rows):
     cdef tuple triplet
     cdef list decompressed = []
     cdef unsigned int offset, length, l, current_location, i
-    cdef str decomp
+    #cdef str decomp
     for triplet in compressed:
-        if not triplet[0]:
-            offset = 0
-            length = 0
-        else:
-            offset = triplet[0]
-            length = triplet[1]
         literal = triplet[2]
         if isinstance(literal, bytes):
             literal = literal.decode()
-        if offset > 0:
+        if isinstance(triplet[0], int):
+            offset = triplet[0]
+            length = triplet[1]
             l = len(decompressed)
             current_location = l - offset
             for i in range(length):
-                decomp = decompressed[current_location]
-                decompressed.append(decomp)
+                #decomp = decompressed[current_location]
+                decompressed.append(decompressed[current_location])
                 current_location += 1
         decompressed.append(literal)
-        if n_rows > 0 and len(decompressed) >= n_rows:
+        if n_rows > 0 and l >= n_rows:
             break
     return decompressed
 

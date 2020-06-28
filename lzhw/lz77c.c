@@ -1127,7 +1127,7 @@ typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_fuse_0__pyx_opt_args_5lz77c_lz77_decompress;
 struct __pyx_fuse_1__pyx_opt_args_5lz77c_lz77_decompress;
 
-/* "lz77c.pyx":104
+/* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
@@ -1931,8 +1931,8 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 /* Module declarations from 'lz77c' */
 static char **__pyx_f_5lz77c_to_c_string_list(PyObject *); /*proto*/
 static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *); /*proto*/
-static PyObject *__pyx_f_5lz77c_triplet_encode(char **, int, int, int); /*proto*/
-static int __pyx_f_5lz77c_match(char **, int, int, int); /*proto*/
+static PyObject *__pyx_f_5lz77c_triplet_encode(char **, unsigned int, unsigned int, unsigned int); /*proto*/
+static int __pyx_f_5lz77c_match(char **, unsigned int, int, unsigned int); /*proto*/
 static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *, int __pyx_skip_dispatch); /*proto*/
 static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *, int); /*proto*/
 static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *, int); /*proto*/
@@ -2412,7 +2412,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  *         current_location += 1 + ols
  *     return triplets, i             # <<<<<<<<<<<<<<
  * 
- * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
+ * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
@@ -2465,12 +2465,12 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
 /* "lz77c.pyx":40
  *     return triplets, i
  * 
- * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
+ * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int _match_len = 0
  *     cdef unsigned int match_offset = 0
  */
 
-static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_current_location, int __pyx_v_sliding_window, int __pyx_v_l) {
+static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int __pyx_v_current_location, unsigned int __pyx_v_sliding_window, unsigned int __pyx_v_l) {
   unsigned int __pyx_v__match_len;
   unsigned int __pyx_v_match_offset;
   unsigned int __pyx_v_buffer_start;
@@ -2489,7 +2489,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
 
   /* "lz77c.pyx":41
  * 
- * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
+ * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
  *     cdef unsigned int _match_len = 0             # <<<<<<<<<<<<<<
  *     cdef unsigned int match_offset = 0
  *     cdef unsigned int buffer_start = 1
@@ -2497,7 +2497,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
   __pyx_v__match_len = 0;
 
   /* "lz77c.pyx":42
- * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
+ * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
  *     cdef unsigned int _match_len = 0
  *     cdef unsigned int match_offset = 0             # <<<<<<<<<<<<<<
  *     cdef unsigned int buffer_start = 1
@@ -2688,7 +2688,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
  *     cdef char *literal = data[current_location + _match_len]
  *     return mo, _ml, literal             # <<<<<<<<<<<<<<
  * 
- * cdef int match(char **data, int current_location, int buffer_slide, int l):
+ * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_literal); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
@@ -2711,7 +2711,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
   /* "lz77c.pyx":40
  *     return triplets, i
  * 
- * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
+ * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int _match_len = 0
  *     cdef unsigned int match_offset = 0
  */
@@ -2733,12 +2733,12 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
 /* "lz77c.pyx":62
  *     return mo, _ml, literal
  * 
- * cdef int match(char **data, int current_location, int buffer_slide, int l):             # <<<<<<<<<<<<<<
+ * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  */
 
-static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_location, int __pyx_v_buffer_slide, int __pyx_v_l) {
+static int __pyx_f_5lz77c_match(char **__pyx_v_data, unsigned int __pyx_v_current_location, int __pyx_v_buffer_slide, unsigned int __pyx_v_l) {
   unsigned int __pyx_v_matchlen;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -2747,7 +2747,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
 
   /* "lz77c.pyx":63
  * 
- * cdef int match(char **data, int current_location, int buffer_slide, int l):
+ * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
  *     cdef unsigned int matchlen = 0             # <<<<<<<<<<<<<<
  *     while current_location + matchlen + 1 < l:
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -2755,7 +2755,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
   __pyx_v_matchlen = 0;
 
   /* "lz77c.pyx":64
- * cdef int match(char **data, int current_location, int buffer_slide, int l):
+ * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
  *     cdef unsigned int matchlen = 0
  *     while current_location + matchlen + 1 < l:             # <<<<<<<<<<<<<<
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -2817,7 +2817,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
   /* "lz77c.pyx":62
  *     return mo, _ml, literal
  * 
- * cdef int match(char **data, int current_location, int buffer_slide, int l):             # <<<<<<<<<<<<<<
+ * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  */
@@ -3024,7 +3024,6 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   unsigned int __pyx_v_l;
   unsigned int __pyx_v_current_location;
   CYTHON_UNUSED unsigned int __pyx_v_i;
-  PyObject *__pyx_v_decomp = 0;
   PyObject *__pyx_v_literal = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3033,9 +3032,9 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
   int __pyx_t_5;
-  unsigned int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
+  unsigned int __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   unsigned int __pyx_t_10;
   unsigned int __pyx_t_11;
@@ -3047,7 +3046,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *     cdef tuple triplet
  *     cdef list decompressed = []             # <<<<<<<<<<<<<<
  *     cdef unsigned int offset, length, l, current_location, i
- *     cdef str decomp
+ *     #cdef str decomp
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3056,10 +3055,10 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
 
   /* "lz77c.pyx":82
  *     cdef unsigned int offset, length, l, current_location, i
- *     cdef str decomp
+ *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
- *         if not triplet[0]:
- *             offset = 0
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):
  */
   if (unlikely(__pyx_v_compressed == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
@@ -3079,75 +3078,109 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
     __pyx_t_3 = 0;
 
     /* "lz77c.pyx":83
- *     cdef str decomp
+ *     #cdef str decomp
  *     for triplet in compressed:
- *         if not triplet[0]:             # <<<<<<<<<<<<<<
- *             offset = 0
- *             length = 0
+ *         literal = triplet[2]             # <<<<<<<<<<<<<<
+ *         if isinstance(literal, bytes):
+ *             literal = literal.decode()
  */
     if (unlikely(__pyx_v_triplet == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(0, 83, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_5 = ((!__pyx_t_4) != 0);
+    __Pyx_XDECREF_SET(__pyx_v_literal, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "lz77c.pyx":84
+ *     for triplet in compressed:
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):
+ */
+    __pyx_t_4 = PyBytes_Check(__pyx_v_literal); 
+    __pyx_t_5 = (__pyx_t_4 != 0);
     if (__pyx_t_5) {
+
+      /* "lz77c.pyx":85
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):
+ *             literal = literal.decode()             # <<<<<<<<<<<<<<
+ *         if isinstance(triplet[0], int):
+ *             offset = triplet[0]
+ */
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_literal, __pyx_n_s_decode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_7);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF_SET(__pyx_v_literal, __pyx_t_3);
+      __pyx_t_3 = 0;
 
       /* "lz77c.pyx":84
  *     for triplet in compressed:
- *         if not triplet[0]:
- *             offset = 0             # <<<<<<<<<<<<<<
- *             length = 0
- *         else:
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):
  */
-      __pyx_v_offset = 0;
-
-      /* "lz77c.pyx":85
- *         if not triplet[0]:
- *             offset = 0
- *             length = 0             # <<<<<<<<<<<<<<
- *         else:
- *             offset = triplet[0]
- */
-      __pyx_v_length = 0;
-
-      /* "lz77c.pyx":83
- *     cdef str decomp
- *     for triplet in compressed:
- *         if not triplet[0]:             # <<<<<<<<<<<<<<
- *             offset = 0
- *             length = 0
- */
-      goto __pyx_L5;
     }
 
-    /* "lz77c.pyx":87
- *             length = 0
- *         else:
+    /* "lz77c.pyx":86
+ *         if isinstance(literal, bytes):
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):             # <<<<<<<<<<<<<<
+ *             offset = triplet[0]
+ *             length = triplet[1]
+ */
+    if (unlikely(__pyx_v_triplet == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 86, __pyx_L1_error)
+    }
+    __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = PyInt_Check(__pyx_t_3); 
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_4 = (__pyx_t_5 != 0);
+    if (__pyx_t_4) {
+
+      /* "lz77c.pyx":87
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):
  *             offset = triplet[0]             # <<<<<<<<<<<<<<
  *             length = triplet[1]
- *         literal = triplet[2]
+ *             l = len(decompressed)
  */
-    /*else*/ {
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
         __PYX_ERR(0, 87, __pyx_L1_error)
       }
       __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_8 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_offset = __pyx_t_6;
+      __pyx_v_offset = __pyx_t_8;
 
       /* "lz77c.pyx":88
- *         else:
+ *         if isinstance(triplet[0], int):
  *             offset = triplet[0]
  *             length = triplet[1]             # <<<<<<<<<<<<<<
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):
+ *             l = len(decompressed)
+ *             current_location = l - offset
  */
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3155,170 +3188,85 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
       }
       __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_8 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_length = __pyx_t_6;
-    }
-    __pyx_L5:;
+      __pyx_v_length = __pyx_t_8;
 
-    /* "lz77c.pyx":89
+      /* "lz77c.pyx":89
  *             offset = triplet[0]
  *             length = triplet[1]
- *         literal = triplet[2]             # <<<<<<<<<<<<<<
- *         if isinstance(literal, bytes):
- *             literal = literal.decode()
- */
-    if (unlikely(__pyx_v_triplet == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 89, __pyx_L1_error)
-    }
-    __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_literal, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "lz77c.pyx":90
- *             length = triplet[1]
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
- *             literal = literal.decode()
- *         if offset > 0:
- */
-    __pyx_t_5 = PyBytes_Check(__pyx_v_literal); 
-    __pyx_t_4 = (__pyx_t_5 != 0);
-    if (__pyx_t_4) {
-
-      /* "lz77c.pyx":91
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):
- *             literal = literal.decode()             # <<<<<<<<<<<<<<
- *         if offset > 0:
- *             l = len(decompressed)
- */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_literal, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 91, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-          __Pyx_INCREF(__pyx_t_8);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_7, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF_SET(__pyx_v_literal, __pyx_t_3);
-      __pyx_t_3 = 0;
-
-      /* "lz77c.pyx":90
- *             length = triplet[1]
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
- *             literal = literal.decode()
- *         if offset > 0:
- */
-    }
-
-    /* "lz77c.pyx":92
- *         if isinstance(literal, bytes):
- *             literal = literal.decode()
- *         if offset > 0:             # <<<<<<<<<<<<<<
- *             l = len(decompressed)
- *             current_location = l - offset
- */
-    __pyx_t_4 = ((__pyx_v_offset > 0) != 0);
-    if (__pyx_t_4) {
-
-      /* "lz77c.pyx":93
- *             literal = literal.decode()
- *         if offset > 0:
  *             l = len(decompressed)             # <<<<<<<<<<<<<<
  *             current_location = l - offset
  *             for i in range(length):
  */
-      __pyx_t_9 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 93, __pyx_L1_error)
+      __pyx_t_9 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 89, __pyx_L1_error)
       __pyx_v_l = __pyx_t_9;
 
-      /* "lz77c.pyx":94
- *         if offset > 0:
+      /* "lz77c.pyx":90
+ *             length = triplet[1]
  *             l = len(decompressed)
  *             current_location = l - offset             # <<<<<<<<<<<<<<
  *             for i in range(length):
- *                 decomp = decompressed[current_location]
+ *                 #decomp = decompressed[current_location]
  */
       __pyx_v_current_location = (__pyx_v_l - __pyx_v_offset);
 
-      /* "lz77c.pyx":95
+      /* "lz77c.pyx":91
  *             l = len(decompressed)
  *             current_location = l - offset
  *             for i in range(length):             # <<<<<<<<<<<<<<
- *                 decomp = decompressed[current_location]
- *                 decompressed.append(decomp)
+ *                 #decomp = decompressed[current_location]
+ *                 decompressed.append(decompressed[current_location])
  */
-      __pyx_t_6 = __pyx_v_length;
-      __pyx_t_10 = __pyx_t_6;
+      __pyx_t_8 = __pyx_v_length;
+      __pyx_t_10 = __pyx_t_8;
       for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
         __pyx_v_i = __pyx_t_11;
 
-        /* "lz77c.pyx":96
- *             current_location = l - offset
+        /* "lz77c.pyx":93
  *             for i in range(length):
- *                 decomp = decompressed[current_location]             # <<<<<<<<<<<<<<
- *                 decompressed.append(decomp)
- *                 current_location += 1
- */
-        __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 96, __pyx_L1_error)
-        __Pyx_XDECREF_SET(__pyx_v_decomp, ((PyObject*)__pyx_t_3));
-        __pyx_t_3 = 0;
-
-        /* "lz77c.pyx":97
- *             for i in range(length):
- *                 decomp = decompressed[current_location]
- *                 decompressed.append(decomp)             # <<<<<<<<<<<<<<
+ *                 #decomp = decompressed[current_location]
+ *                 decompressed.append(decompressed[current_location])             # <<<<<<<<<<<<<<
  *                 current_location += 1
  *         decompressed.append(literal)
  */
-        __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_decomp); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 93, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "lz77c.pyx":98
- *                 decomp = decompressed[current_location]
- *                 decompressed.append(decomp)
+        /* "lz77c.pyx":94
+ *                 #decomp = decompressed[current_location]
+ *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1             # <<<<<<<<<<<<<<
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+ *         if n_rows > 0 and l >= n_rows:
  */
         __pyx_v_current_location = (__pyx_v_current_location + 1);
       }
 
-      /* "lz77c.pyx":92
+      /* "lz77c.pyx":86
  *         if isinstance(literal, bytes):
  *             literal = literal.decode()
- *         if offset > 0:             # <<<<<<<<<<<<<<
- *             l = len(decompressed)
- *             current_location = l - offset
+ *         if isinstance(triplet[0], int):             # <<<<<<<<<<<<<<
+ *             offset = triplet[0]
+ *             length = triplet[1]
  */
     }
 
-    /* "lz77c.pyx":99
- *                 decompressed.append(decomp)
+    /* "lz77c.pyx":95
+ *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1
  *         decompressed.append(literal)             # <<<<<<<<<<<<<<
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+ *         if n_rows > 0 and l >= n_rows:
  *             break
  */
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_literal); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_literal); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 95, __pyx_L1_error)
 
-    /* "lz77c.pyx":100
+    /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
@@ -3326,27 +3274,26 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
     if (__pyx_t_5) {
     } else {
       __pyx_t_4 = __pyx_t_5;
-      goto __pyx_L11_bool_binop_done;
+      goto __pyx_L10_bool_binop_done;
     }
-    __pyx_t_9 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
-    __pyx_t_5 = ((__pyx_t_9 >= __pyx_v_n_rows) != 0);
+    __pyx_t_5 = ((__pyx_v_l >= __pyx_v_n_rows) != 0);
     __pyx_t_4 = __pyx_t_5;
-    __pyx_L11_bool_binop_done:;
+    __pyx_L10_bool_binop_done:;
     if (__pyx_t_4) {
 
-      /* "lz77c.pyx":101
+      /* "lz77c.pyx":97
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+ *         if n_rows > 0 and l >= n_rows:
  *             break             # <<<<<<<<<<<<<<
  *     return decompressed
  * 
  */
       goto __pyx_L4_break;
 
-      /* "lz77c.pyx":100
+      /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
@@ -3354,17 +3301,17 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
 
     /* "lz77c.pyx":82
  *     cdef unsigned int offset, length, l, current_location, i
- *     cdef str decomp
+ *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
- *         if not triplet[0]:
- *             offset = 0
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):
  */
   }
   __pyx_L4_break:;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "lz77c.pyx":102
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+  /* "lz77c.pyx":98
+ *         if n_rows > 0 and l >= n_rows:
  *             break
  *     return decompressed             # <<<<<<<<<<<<<<
  * 
@@ -3387,14 +3334,13 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("lz77c.lz77decompress", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_triplet);
   __Pyx_XDECREF(__pyx_v_decompressed);
-  __Pyx_XDECREF(__pyx_v_decomp);
   __Pyx_XDECREF(__pyx_v_literal);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -3409,7 +3355,6 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   unsigned int __pyx_v_l;
   unsigned int __pyx_v_current_location;
   CYTHON_UNUSED unsigned int __pyx_v_i;
-  PyObject *__pyx_v_decomp = 0;
   PyObject *__pyx_v_literal = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3419,9 +3364,9 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   int __pyx_t_6;
-  unsigned int __pyx_t_7;
+  PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
+  unsigned int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
   unsigned int __pyx_t_11;
   unsigned int __pyx_t_12;
@@ -3433,7 +3378,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *     cdef tuple triplet
  *     cdef list decompressed = []             # <<<<<<<<<<<<<<
  *     cdef unsigned int offset, length, l, current_location, i
- *     cdef str decomp
+ *     #cdef str decomp
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3442,10 +3387,10 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
 
   /* "lz77c.pyx":82
  *     cdef unsigned int offset, length, l, current_location, i
- *     cdef str decomp
+ *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
- *         if not triplet[0]:
- *             offset = 0
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):
  */
   if (likely(PyList_CheckExact(((PyObject *)__pyx_v_compressed))) || PyTuple_CheckExact(((PyObject *)__pyx_v_compressed))) {
     __pyx_t_1 = ((PyObject *)__pyx_v_compressed); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
@@ -3491,75 +3436,109 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
     __pyx_t_4 = 0;
 
     /* "lz77c.pyx":83
- *     cdef str decomp
+ *     #cdef str decomp
  *     for triplet in compressed:
- *         if not triplet[0]:             # <<<<<<<<<<<<<<
- *             offset = 0
- *             length = 0
+ *         literal = triplet[2]             # <<<<<<<<<<<<<<
+ *         if isinstance(literal, bytes):
+ *             literal = literal.decode()
  */
     if (unlikely(__pyx_v_triplet == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(0, 83, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = ((!__pyx_t_5) != 0);
+    __Pyx_XDECREF_SET(__pyx_v_literal, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "lz77c.pyx":84
+ *     for triplet in compressed:
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):
+ */
+    __pyx_t_5 = PyBytes_Check(__pyx_v_literal); 
+    __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
+
+      /* "lz77c.pyx":85
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):
+ *             literal = literal.decode()             # <<<<<<<<<<<<<<
+ *         if isinstance(triplet[0], int):
+ *             offset = triplet[0]
+ */
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_literal, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_8 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
+        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+        if (likely(__pyx_t_8)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+          __Pyx_INCREF(__pyx_t_8);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_7, function);
+        }
+      }
+      __pyx_t_4 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF_SET(__pyx_v_literal, __pyx_t_4);
+      __pyx_t_4 = 0;
 
       /* "lz77c.pyx":84
  *     for triplet in compressed:
- *         if not triplet[0]:
- *             offset = 0             # <<<<<<<<<<<<<<
- *             length = 0
- *         else:
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):
  */
-      __pyx_v_offset = 0;
-
-      /* "lz77c.pyx":85
- *         if not triplet[0]:
- *             offset = 0
- *             length = 0             # <<<<<<<<<<<<<<
- *         else:
- *             offset = triplet[0]
- */
-      __pyx_v_length = 0;
-
-      /* "lz77c.pyx":83
- *     cdef str decomp
- *     for triplet in compressed:
- *         if not triplet[0]:             # <<<<<<<<<<<<<<
- *             offset = 0
- *             length = 0
- */
-      goto __pyx_L5;
     }
 
-    /* "lz77c.pyx":87
- *             length = 0
- *         else:
+    /* "lz77c.pyx":86
+ *         if isinstance(literal, bytes):
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):             # <<<<<<<<<<<<<<
+ *             offset = triplet[0]
+ *             length = triplet[1]
+ */
+    if (unlikely(__pyx_v_triplet == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 86, __pyx_L1_error)
+    }
+    __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = PyInt_Check(__pyx_t_4); 
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_5 = (__pyx_t_6 != 0);
+    if (__pyx_t_5) {
+
+      /* "lz77c.pyx":87
+ *             literal = literal.decode()
+ *         if isinstance(triplet[0], int):
  *             offset = triplet[0]             # <<<<<<<<<<<<<<
  *             length = triplet[1]
- *         literal = triplet[2]
+ *             l = len(decompressed)
  */
-    /*else*/ {
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
         __PYX_ERR(0, 87, __pyx_L1_error)
       }
       __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_offset = __pyx_t_7;
+      __pyx_v_offset = __pyx_t_9;
 
       /* "lz77c.pyx":88
- *         else:
+ *         if isinstance(triplet[0], int):
  *             offset = triplet[0]
  *             length = triplet[1]             # <<<<<<<<<<<<<<
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):
+ *             l = len(decompressed)
+ *             current_location = l - offset
  */
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3567,170 +3546,85 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
       }
       __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_7 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_length = __pyx_t_7;
-    }
-    __pyx_L5:;
+      __pyx_v_length = __pyx_t_9;
 
-    /* "lz77c.pyx":89
+      /* "lz77c.pyx":89
  *             offset = triplet[0]
  *             length = triplet[1]
- *         literal = triplet[2]             # <<<<<<<<<<<<<<
- *         if isinstance(literal, bytes):
- *             literal = literal.decode()
- */
-    if (unlikely(__pyx_v_triplet == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 89, __pyx_L1_error)
-    }
-    __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_XDECREF_SET(__pyx_v_literal, __pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "lz77c.pyx":90
- *             length = triplet[1]
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
- *             literal = literal.decode()
- *         if offset > 0:
- */
-    __pyx_t_6 = PyBytes_Check(__pyx_v_literal); 
-    __pyx_t_5 = (__pyx_t_6 != 0);
-    if (__pyx_t_5) {
-
-      /* "lz77c.pyx":91
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):
- *             literal = literal.decode()             # <<<<<<<<<<<<<<
- *         if offset > 0:
- *             l = len(decompressed)
- */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_literal, __pyx_n_s_decode); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 91, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-        __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-        if (likely(__pyx_t_9)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-          __Pyx_INCREF(__pyx_t_9);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_8, function);
-        }
-      }
-      __pyx_t_4 = (__pyx_t_9) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_9) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
-      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_DECREF_SET(__pyx_v_literal, __pyx_t_4);
-      __pyx_t_4 = 0;
-
-      /* "lz77c.pyx":90
- *             length = triplet[1]
- *         literal = triplet[2]
- *         if isinstance(literal, bytes):             # <<<<<<<<<<<<<<
- *             literal = literal.decode()
- *         if offset > 0:
- */
-    }
-
-    /* "lz77c.pyx":92
- *         if isinstance(literal, bytes):
- *             literal = literal.decode()
- *         if offset > 0:             # <<<<<<<<<<<<<<
- *             l = len(decompressed)
- *             current_location = l - offset
- */
-    __pyx_t_5 = ((__pyx_v_offset > 0) != 0);
-    if (__pyx_t_5) {
-
-      /* "lz77c.pyx":93
- *             literal = literal.decode()
- *         if offset > 0:
  *             l = len(decompressed)             # <<<<<<<<<<<<<<
  *             current_location = l - offset
  *             for i in range(length):
  */
-      __pyx_t_10 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 93, __pyx_L1_error)
+      __pyx_t_10 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 89, __pyx_L1_error)
       __pyx_v_l = __pyx_t_10;
 
-      /* "lz77c.pyx":94
- *         if offset > 0:
+      /* "lz77c.pyx":90
+ *             length = triplet[1]
  *             l = len(decompressed)
  *             current_location = l - offset             # <<<<<<<<<<<<<<
  *             for i in range(length):
- *                 decomp = decompressed[current_location]
+ *                 #decomp = decompressed[current_location]
  */
       __pyx_v_current_location = (__pyx_v_l - __pyx_v_offset);
 
-      /* "lz77c.pyx":95
+      /* "lz77c.pyx":91
  *             l = len(decompressed)
  *             current_location = l - offset
  *             for i in range(length):             # <<<<<<<<<<<<<<
- *                 decomp = decompressed[current_location]
- *                 decompressed.append(decomp)
+ *                 #decomp = decompressed[current_location]
+ *                 decompressed.append(decompressed[current_location])
  */
-      __pyx_t_7 = __pyx_v_length;
-      __pyx_t_11 = __pyx_t_7;
+      __pyx_t_9 = __pyx_v_length;
+      __pyx_t_11 = __pyx_t_9;
       for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
         __pyx_v_i = __pyx_t_12;
 
-        /* "lz77c.pyx":96
- *             current_location = l - offset
+        /* "lz77c.pyx":93
  *             for i in range(length):
- *                 decomp = decompressed[current_location]             # <<<<<<<<<<<<<<
- *                 decompressed.append(decomp)
- *                 current_location += 1
- */
-        __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 96, __pyx_L1_error)
-        __Pyx_XDECREF_SET(__pyx_v_decomp, ((PyObject*)__pyx_t_4));
-        __pyx_t_4 = 0;
-
-        /* "lz77c.pyx":97
- *             for i in range(length):
- *                 decomp = decompressed[current_location]
- *                 decompressed.append(decomp)             # <<<<<<<<<<<<<<
+ *                 #decomp = decompressed[current_location]
+ *                 decompressed.append(decompressed[current_location])             # <<<<<<<<<<<<<<
  *                 current_location += 1
  *         decompressed.append(literal)
  */
-        __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_decomp); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 97, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_t_4); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 93, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "lz77c.pyx":98
- *                 decomp = decompressed[current_location]
- *                 decompressed.append(decomp)
+        /* "lz77c.pyx":94
+ *                 #decomp = decompressed[current_location]
+ *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1             # <<<<<<<<<<<<<<
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+ *         if n_rows > 0 and l >= n_rows:
  */
         __pyx_v_current_location = (__pyx_v_current_location + 1);
       }
 
-      /* "lz77c.pyx":92
+      /* "lz77c.pyx":86
  *         if isinstance(literal, bytes):
  *             literal = literal.decode()
- *         if offset > 0:             # <<<<<<<<<<<<<<
- *             l = len(decompressed)
- *             current_location = l - offset
+ *         if isinstance(triplet[0], int):             # <<<<<<<<<<<<<<
+ *             offset = triplet[0]
+ *             length = triplet[1]
  */
     }
 
-    /* "lz77c.pyx":99
- *                 decompressed.append(decomp)
+    /* "lz77c.pyx":95
+ *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1
  *         decompressed.append(literal)             # <<<<<<<<<<<<<<
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+ *         if n_rows > 0 and l >= n_rows:
  *             break
  */
-    __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_literal); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_literal); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 95, __pyx_L1_error)
 
-    /* "lz77c.pyx":100
+    /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
@@ -3738,27 +3632,26 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
     if (__pyx_t_6) {
     } else {
       __pyx_t_5 = __pyx_t_6;
-      goto __pyx_L11_bool_binop_done;
+      goto __pyx_L10_bool_binop_done;
     }
-    __pyx_t_10 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
-    __pyx_t_6 = ((__pyx_t_10 >= __pyx_v_n_rows) != 0);
+    __pyx_t_6 = ((__pyx_v_l >= __pyx_v_n_rows) != 0);
     __pyx_t_5 = __pyx_t_6;
-    __pyx_L11_bool_binop_done:;
+    __pyx_L10_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "lz77c.pyx":101
+      /* "lz77c.pyx":97
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+ *         if n_rows > 0 and l >= n_rows:
  *             break             # <<<<<<<<<<<<<<
  *     return decompressed
  * 
  */
       goto __pyx_L4_break;
 
-      /* "lz77c.pyx":100
+      /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
@@ -3766,17 +3659,17 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
 
     /* "lz77c.pyx":82
  *     cdef unsigned int offset, length, l, current_location, i
- *     cdef str decomp
+ *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
- *         if not triplet[0]:
- *             offset = 0
+ *         literal = triplet[2]
+ *         if isinstance(literal, bytes):
  */
   }
   __pyx_L4_break:;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "lz77c.pyx":102
- *         if n_rows > 0 and len(decompressed) >= n_rows:
+  /* "lz77c.pyx":98
+ *         if n_rows > 0 and l >= n_rows:
  *             break
  *     return decompressed             # <<<<<<<<<<<<<<
  * 
@@ -3799,21 +3692,20 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("lz77c.lz77decompress", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_triplet);
   __Pyx_XDECREF(__pyx_v_decompressed);
-  __Pyx_XDECREF(__pyx_v_decomp);
   __Pyx_XDECREF(__pyx_v_literal);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "lz77c.pyx":104
+/* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
@@ -3866,17 +3758,17 @@ static PyObject *__pyx_pw_5lz77c_3lz77_decompress(PyObject *__pyx_self, PyObject
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_fused_cpdef", 1, 4, 4, 2); __PYX_ERR(0, 104, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__pyx_fused_cpdef", 1, 4, 4, 2); __PYX_ERR(0, 100, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_defaults)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_fused_cpdef", 1, 4, 4, 3); __PYX_ERR(0, 104, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__pyx_fused_cpdef", 1, 4, 4, 3); __PYX_ERR(0, 100, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_fused_cpdef") < 0)) __PYX_ERR(0, 104, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_fused_cpdef") < 0)) __PYX_ERR(0, 100, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -3893,7 +3785,7 @@ static PyObject *__pyx_pw_5lz77c_3lz77_decompress(PyObject *__pyx_self, PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_fused_cpdef", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 104, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__pyx_fused_cpdef", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 100, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("lz77c.__pyx_fused_cpdef", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3937,7 +3829,7 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
   int __pyx_t_16;
   __Pyx_RefNannySetupContext("lz77_decompress", 0);
   __Pyx_INCREF(__pyx_v_kwargs);
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
@@ -3951,7 +3843,7 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     __pyx_t_2 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_kwargs); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_kwargs); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_t_3 = ((!__pyx_t_4) != 0);
   __pyx_t_2 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
@@ -3959,23 +3851,23 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     __Pyx_INCREF(Py_None);
     __Pyx_DECREF_SET(__pyx_v_kwargs, Py_None);
   }
-  __pyx_t_1 = ((PyObject *)__Pyx_ImportNumPyArrayTypeIfAvailable()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__Pyx_ImportNumPyArrayTypeIfAvailable()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_ndarray = ((PyTypeObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   __pyx_v_itemsize = -1L;
   if (unlikely(__pyx_v_args == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
-  __pyx_t_5 = PyTuple_GET_SIZE(((PyObject*)__pyx_v_args)); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_GET_SIZE(((PyObject*)__pyx_v_args)); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_t_2 = ((0 < __pyx_t_5) != 0);
   if (__pyx_t_2) {
     if (unlikely(__pyx_v_args == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 104, __pyx_L1_error)
+      __PYX_ERR(0, 100, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_Tuple(((PyObject*)__pyx_v_args), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_Tuple(((PyObject*)__pyx_v_args), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_v_arg = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -3990,18 +3882,18 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
   }
   if (unlikely(__pyx_v_kwargs == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
-  __pyx_t_4 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_compressed, ((PyObject*)__pyx_v_kwargs), Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_compressed, ((PyObject*)__pyx_v_kwargs), Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_4 != 0);
   __pyx_t_2 = __pyx_t_3;
   __pyx_L7_bool_binop_done:;
   if (__pyx_t_2) {
     if (unlikely(__pyx_v_kwargs == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 104, __pyx_L1_error)
+      __PYX_ERR(0, 100, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(((PyObject*)__pyx_v_kwargs), __pyx_n_s_compressed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(((PyObject*)__pyx_v_kwargs), __pyx_n_s_compressed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_v_arg = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -4010,12 +3902,12 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
   /*else*/ {
     if (unlikely(__pyx_v_args == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 104, __pyx_L1_error)
+      __PYX_ERR(0, 100, __pyx_L1_error)
     }
-    __pyx_t_5 = PyTuple_GET_SIZE(((PyObject*)__pyx_v_args)); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_GET_SIZE(((PyObject*)__pyx_v_args)); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_int_1);
     __Pyx_GIVEREF(__pyx_int_1);
@@ -4026,30 +3918,30 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Expected_at_least_d_argument_s_g, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Expected_at_least_d_argument_s_g, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_TypeError, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_Raise(__pyx_t_6, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
   __pyx_L6:;
   while (1) {
     __pyx_t_2 = PyList_Check(__pyx_v_arg); 
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_dest_sig, 0, __pyx_n_s_list, long, 1, __Pyx_PyInt_From_long, 1, 0, 1) < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_v_dest_sig, 0, __pyx_n_s_list, long, 1, __Pyx_PyInt_From_long, 1, 0, 1) < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
       goto __pyx_L10_break;
     }
-    __pyx_t_6 = PyList_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_6 = PyList_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_kp_s__2);
     __Pyx_GIVEREF(__pyx_kp_s__2);
     PyList_SET_ITEM(__pyx_t_6, 0, __pyx_kp_s__2);
-    __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_n_s_numpy);
     __Pyx_GIVEREF(__pyx_n_s_numpy);
@@ -4063,33 +3955,33 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_1, 3, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin___import__, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ndarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ndarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_3 = PyObject_IsInstance(__pyx_v_arg, __pyx_t_1); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_3 = PyObject_IsInstance(__pyx_v_arg, __pyx_t_1); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_2 = (__pyx_t_3 != 0);
     if (__pyx_t_2) {
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_dest_sig, 0, __pyx_n_s_ndarray, long, 1, __Pyx_PyInt_From_long, 1, 0, 1) < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_v_dest_sig, 0, __pyx_n_s_ndarray, long, 1, __Pyx_PyInt_From_long, 1, 0, 1) < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
       goto __pyx_L10_break;
     }
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_dest_sig, 0, Py_None, long, 1, __Pyx_PyInt_From_long, 1, 0, 1) < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_v_dest_sig, 0, Py_None, long, 1, __Pyx_PyInt_From_long, 1, 0, 1) < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
     goto __pyx_L10_break;
   }
   __pyx_L10_break:;
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_candidates = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   __pyx_t_5 = 0;
   if (unlikely(__pyx_v_signatures == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_dict_iterator(((PyObject*)__pyx_v_signatures), 1, ((PyObject *)NULL), (&__pyx_t_7), (&__pyx_t_8)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_dict_iterator(((PyObject*)__pyx_v_signatures), 1, ((PyObject *)NULL), (&__pyx_t_7), (&__pyx_t_8)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_1);
   __pyx_t_1 = __pyx_t_6;
@@ -4097,12 +3989,12 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
   while (1) {
     __pyx_t_9 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_7, &__pyx_t_5, &__pyx_t_6, NULL, NULL, __pyx_t_8);
     if (unlikely(__pyx_t_9 == 0)) break;
-    if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_XDECREF_SET(__pyx_v_sig, __pyx_t_6);
     __pyx_t_6 = 0;
     __pyx_v_match_found = 0;
-    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_sig, __pyx_n_s_strip); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_sig, __pyx_n_s_strip); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __pyx_t_12 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_11))) {
@@ -4116,10 +4008,10 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     }
     __pyx_t_10 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_12, __pyx_kp_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_kp_s__3);
     __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-    if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_split); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_split); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __pyx_t_10 = NULL;
@@ -4134,27 +4026,27 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     }
     __pyx_t_6 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_10, __pyx_kp_s__4) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_kp_s__4);
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_XDECREF_SET(__pyx_v_src_sig, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_13 = PyList_GET_SIZE(__pyx_v_dest_sig); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_13 = PyList_GET_SIZE(__pyx_v_dest_sig); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
     __pyx_t_14 = __pyx_t_13;
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_i = __pyx_t_15;
-      __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_dest_sig, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_dest_sig, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_XDECREF_SET(__pyx_v_dst_type, __pyx_t_6);
       __pyx_t_6 = 0;
       __pyx_t_2 = (__pyx_v_dst_type != Py_None);
       __pyx_t_3 = (__pyx_t_2 != 0);
       if (__pyx_t_3) {
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_src_sig, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_src_sig, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 100, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_11 = PyObject_RichCompare(__pyx_t_6, __pyx_v_dst_type, Py_EQ); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_11 = PyObject_RichCompare(__pyx_t_6, __pyx_v_dst_type, Py_EQ); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 100, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 100, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         if (__pyx_t_3) {
           __pyx_v_match_found = 1;
@@ -4170,37 +4062,37 @@ static PyObject *__pyx_pf_5lz77c_2lz77_decompress(CYTHON_UNUSED PyObject *__pyx_
     __pyx_L16_break:;
     __pyx_t_3 = (__pyx_v_match_found != 0);
     if (__pyx_t_3) {
-      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_candidates, __pyx_v_sig); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_candidates, __pyx_v_sig); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
     }
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (PyList_GET_SIZE(__pyx_v_candidates) != 0);
   __pyx_t_2 = ((!__pyx_t_3) != 0);
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
-  __pyx_t_7 = PyList_GET_SIZE(__pyx_v_candidates); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_7 = PyList_GET_SIZE(__pyx_v_candidates); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_t_2 = ((__pyx_t_7 > 1) != 0);
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
     if (unlikely(__pyx_v_signatures == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 104, __pyx_L1_error)
+      __PYX_ERR(0, 100, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_candidates, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_candidates, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_11 = __Pyx_PyDict_GetItem(((PyObject*)__pyx_v_signatures), __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyDict_GetItem(((PyObject*)__pyx_v_signatures), __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_r = __pyx_t_11;
@@ -4258,57 +4150,57 @@ static PyArrayObject *__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(PyObject *__pyx
   __pyx_pybuffernd_arr.data = NULL;
   __pyx_pybuffernd_arr.rcbuffer = &__pyx_pybuffer_arr;
 
-  /* "lz77c.pyx":105
+  /* "lz77c.pyx":101
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
  *     cdef list decompressed = lz77decompress(compressed, n_rows)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed
  */
-  __pyx_t_1 = __pyx_fuse_0__pyx_f_5lz77c_lz77decompress(__pyx_v_compressed, __pyx_v_n_rows); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = __pyx_fuse_0__pyx_f_5lz77c_lz77decompress(__pyx_v_compressed, __pyx_v_n_rows); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_decompressed = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lz77c.pyx":106
+  /* "lz77c.pyx":102
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)             # <<<<<<<<<<<<<<
  *     arr[:] = decompressed
  *     return arr
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_empty); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_empty); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_decompressed == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 106, __pyx_L1_error)
+    __PYX_ERR(0, 102, __pyx_L1_error)
   }
-  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 106, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 106, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 102, __pyx_L1_error)
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_arr.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_arr = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_arr.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 106, __pyx_L1_error)
+      __PYX_ERR(0, 102, __pyx_L1_error)
     } else {__pyx_pybuffernd_arr.diminfo[0].strides = __pyx_pybuffernd_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_arr.diminfo[0].shape = __pyx_pybuffernd_arr.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4316,16 +4208,16 @@ static PyArrayObject *__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(PyObject *__pyx
   __pyx_v_arr = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "lz77c.pyx":107
+  /* "lz77c.pyx":103
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed             # <<<<<<<<<<<<<<
  *     return arr
  * 
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), __pyx_slice__8, __pyx_v_decompressed) < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), __pyx_slice__8, __pyx_v_decompressed) < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
 
-  /* "lz77c.pyx":108
+  /* "lz77c.pyx":104
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed
  *     return arr             # <<<<<<<<<<<<<<
@@ -4336,7 +4228,7 @@ static PyArrayObject *__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(PyObject *__pyx
   __pyx_r = ((PyArrayObject *)__pyx_v_arr);
   goto __pyx_L0;
 
-  /* "lz77c.pyx":104
+  /* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
@@ -4405,7 +4297,7 @@ static PyObject *__pyx_pw_5lz77c_5__pyx_fuse_0lz77_decompress(PyObject *__pyx_se
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_fuse_0lz77_decompress") < 0)) __PYX_ERR(0, 104, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_fuse_0lz77_decompress") < 0)) __PYX_ERR(0, 100, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4418,20 +4310,20 @@ static PyObject *__pyx_pw_5lz77c_5__pyx_fuse_0lz77_decompress(PyObject *__pyx_se
     }
     __pyx_v_compressed = ((PyObject*)values[0]);
     if (values[1]) {
-      __pyx_v_n_rows = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n_rows == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L3_error)
+      __pyx_v_n_rows = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n_rows == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
     } else {
       __pyx_v_n_rows = __pyx_k__7;
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_fuse_0lz77_decompress", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 104, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__pyx_fuse_0lz77_decompress", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 100, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("lz77c.__pyx_fuse_0lz77_decompress", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_compressed), (&PyList_Type), 1, "compressed", 1))) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_compressed), (&PyList_Type), 1, "compressed", 1))) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_r = __pyx_pf_5lz77c_4__pyx_fuse_0lz77_decompress(__pyx_self, __pyx_v_compressed, __pyx_v_n_rows);
 
   /* function exit code */
@@ -4452,7 +4344,7 @@ static PyObject *__pyx_pf_5lz77c_4__pyx_fuse_0lz77_decompress(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.n_rows = __pyx_v_n_rows;
-  __pyx_t_1 = ((PyObject *)__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(__pyx_v_compressed, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(__pyx_v_compressed, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4496,57 +4388,57 @@ static PyArrayObject *__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(PyArrayObject *
   __pyx_pybuffernd_arr.data = NULL;
   __pyx_pybuffernd_arr.rcbuffer = &__pyx_pybuffer_arr;
 
-  /* "lz77c.pyx":105
+  /* "lz77c.pyx":101
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
  *     cdef list decompressed = lz77decompress(compressed, n_rows)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed
  */
-  __pyx_t_1 = __pyx_fuse_1__pyx_f_5lz77c_lz77decompress(__pyx_v_compressed, __pyx_v_n_rows); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = __pyx_fuse_1__pyx_f_5lz77c_lz77decompress(__pyx_v_compressed, __pyx_v_n_rows); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_decompressed = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lz77c.pyx":106
+  /* "lz77c.pyx":102
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)             # <<<<<<<<<<<<<<
  *     arr[:] = decompressed
  *     return arr
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_empty); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_empty); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_decompressed == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 106, __pyx_L1_error)
+    __PYX_ERR(0, 102, __pyx_L1_error)
   }
-  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 106, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 106, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 102, __pyx_L1_error)
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_arr.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_arr = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_arr.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 106, __pyx_L1_error)
+      __PYX_ERR(0, 102, __pyx_L1_error)
     } else {__pyx_pybuffernd_arr.diminfo[0].strides = __pyx_pybuffernd_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_arr.diminfo[0].shape = __pyx_pybuffernd_arr.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4554,16 +4446,16 @@ static PyArrayObject *__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(PyArrayObject *
   __pyx_v_arr = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "lz77c.pyx":107
+  /* "lz77c.pyx":103
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed             # <<<<<<<<<<<<<<
  *     return arr
  * 
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), __pyx_slice__8, __pyx_v_decompressed) < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), __pyx_slice__8, __pyx_v_decompressed) < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
 
-  /* "lz77c.pyx":108
+  /* "lz77c.pyx":104
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed
  *     return arr             # <<<<<<<<<<<<<<
@@ -4574,7 +4466,7 @@ static PyArrayObject *__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(PyArrayObject *
   __pyx_r = ((PyArrayObject *)__pyx_v_arr);
   goto __pyx_L0;
 
-  /* "lz77c.pyx":104
+  /* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
@@ -4643,7 +4535,7 @@ static PyObject *__pyx_pw_5lz77c_7__pyx_fuse_1lz77_decompress(PyObject *__pyx_se
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_fuse_1lz77_decompress") < 0)) __PYX_ERR(0, 104, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_fuse_1lz77_decompress") < 0)) __PYX_ERR(0, 100, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4656,20 +4548,20 @@ static PyObject *__pyx_pw_5lz77c_7__pyx_fuse_1lz77_decompress(PyObject *__pyx_se
     }
     __pyx_v_compressed = ((PyArrayObject *)values[0]);
     if (values[1]) {
-      __pyx_v_n_rows = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n_rows == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L3_error)
+      __pyx_v_n_rows = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n_rows == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L3_error)
     } else {
       __pyx_v_n_rows = __pyx_k__9;
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_fuse_1lz77_decompress", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 104, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__pyx_fuse_1lz77_decompress", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 100, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("lz77c.__pyx_fuse_1lz77_decompress", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_compressed), __pyx_ptype_5numpy_ndarray, 1, "compressed", 0))) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_compressed), __pyx_ptype_5numpy_ndarray, 1, "compressed", 0))) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_r = __pyx_pf_5lz77c_6__pyx_fuse_1lz77_decompress(__pyx_self, __pyx_v_compressed, __pyx_v_n_rows);
 
   /* function exit code */
@@ -4690,7 +4582,7 @@ static PyObject *__pyx_pf_5lz77c_6__pyx_fuse_1lz77_decompress(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.n_rows = __pyx_v_n_rows;
-  __pyx_t_1 = ((PyObject *)__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(__pyx_v_compressed, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(__pyx_v_compressed, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7222,8 +7114,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 16, __pyx_L1_error)
   __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(0, 25, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 104, __pyx_L1_error)
-  __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_n_s_import); if (!__pyx_builtin___import__) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_n_s_import); if (!__pyx_builtin___import__) __PYX_ERR(0, 100, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 272, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 856, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1038, __pyx_L1_error)
@@ -7236,28 +7128,28 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "lz77c.pyx":104
+  /* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_No_matching_signature_found); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_No_matching_signature_found); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Function_call_with_ambiguous_arg); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Function_call_with_ambiguous_arg); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "lz77c.pyx":107
+  /* "lz77c.pyx":103
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed             # <<<<<<<<<<<<<<
  *     return arr
  * 
  */
-  __pyx_slice__8 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__8)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_slice__8 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__8)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__8);
   __Pyx_GIVEREF(__pyx_slice__8);
 
@@ -7338,17 +7230,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
-  /* "lz77c.pyx":104
+  /* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  */
-  __pyx_tuple__17 = PyTuple_Pack(2, __pyx_n_s_compressed, __pyx_n_s_n_rows); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(2, __pyx_n_s_compressed, __pyx_n_s_n_rows); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lz77c_pyx, __pyx_n_s_pyx_fuse_0lz77_decompress, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lz77c_pyx, __pyx_n_s_pyx_fuse_0lz77_decompress, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7679,21 +7571,21 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "lz77c.pyx":104
+  /* "lz77c.pyx":100
  *     return decompressed
  * 
  * cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):             # <<<<<<<<<<<<<<
  *     cdef list decompressed = lz77decompress(compressed, n_rows)
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_long(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_long(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_long(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_long(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_k_ = __pyx_t_1;
   __Pyx_GIVEREF(__pyx_t_1);
@@ -7702,24 +7594,24 @@ if (!__Pyx_RefNanny) {
   __pyx_k__7 = 0;
   __pyx_k__9 = 0;
   __pyx_k__9 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_FusedFunction_New(&__pyx_fuse_0__pyx_mdef_5lz77c_5__pyx_fuse_0lz77_decompress, 0, __pyx_n_s_pyx_fuse_0lz77_decompress, NULL, __pyx_n_s_lz77c, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_3 = __pyx_FusedFunction_New(&__pyx_fuse_0__pyx_mdef_5lz77c_5__pyx_fuse_0lz77_decompress, 0, __pyx_n_s_pyx_fuse_0lz77_decompress, NULL, __pyx_n_s_lz77c, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_list, __pyx_t_3) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_list, __pyx_t_3) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __pyx_FusedFunction_New(&__pyx_fuse_1__pyx_mdef_5lz77c_7__pyx_fuse_1lz77_decompress, 0, __pyx_n_s_pyx_fuse_1lz77_decompress, NULL, __pyx_n_s_lz77c, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_3 = __pyx_FusedFunction_New(&__pyx_fuse_1__pyx_mdef_5lz77c_7__pyx_fuse_1lz77_decompress, 0, __pyx_n_s_pyx_fuse_1lz77_decompress, NULL, __pyx_n_s_lz77c, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_ndarray, __pyx_t_3) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_ndarray, __pyx_t_3) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __pyx_FusedFunction_New(&__pyx_mdef_5lz77c_3lz77_decompress, 0, __pyx_n_s_lz77_decompress, NULL, __pyx_n_s_lz77c, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_3 = __pyx_FusedFunction_New(&__pyx_mdef_5lz77c_3lz77_decompress, 0, __pyx_n_s_lz77_decompress, NULL, __pyx_n_s_lz77c, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_t_2);
   ((__pyx_FusedFunctionObject *) __pyx_t_3)->__signatures__ = __pyx_t_1;
   __Pyx_GIVEREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_lz77_decompress, __pyx_t_3) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_lz77_decompress, __pyx_t_3) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 

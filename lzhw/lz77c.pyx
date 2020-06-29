@@ -4,7 +4,7 @@ cdef extern from "Python.h":
 from cpython cimport int as Integer
 cimport numpy as np
 import numpy as np
-from libc.stdlib cimport malloc, free
+from libc.stdlib cimport malloc
 
 ctypedef fused list_arr:
     list
@@ -88,10 +88,14 @@ cdef list lz77decompress(list_arr compressed, int n_rows):
             length = triplet[1]
             #l = len(decompressed)
             current_location = len(decompressed) - offset
-            for i in range(length):
-                #decomp = decompressed[current_location]
-                decompressed.append(decompressed[current_location])
-                current_location += 1
+            if offset == 1:
+                decompressed += [decompressed[current_location]] * length
+                current_location += length
+            else:
+                for i in range(length):
+                    #decomp = decompressed[current_location]
+                    decompressed.append(decompressed[current_location])
+                    current_location += 1
         decompressed.append(literal)
         if n_rows > 0 and len(decompressed) >= n_rows:
             break

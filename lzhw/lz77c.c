@@ -1931,8 +1931,8 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 /* Module declarations from 'lz77c' */
 static char **__pyx_f_5lz77c_to_c_string_list(PyObject *); /*proto*/
 static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *); /*proto*/
-static PyObject *__pyx_f_5lz77c_triplet_encode(char **, unsigned int, unsigned int, unsigned int); /*proto*/
-static int __pyx_f_5lz77c_match(char **, unsigned int, int, unsigned int); /*proto*/
+static PyObject *__pyx_f_5lz77c_triplet_encode(char **, int, int, int); /*proto*/
+static int __pyx_f_5lz77c_match(char **, int, int, int); /*proto*/
 static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *, int __pyx_skip_dispatch); /*proto*/
 static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *, int); /*proto*/
 static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *, int); /*proto*/
@@ -2412,7 +2412,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  *         current_location += 1 + ols
  *     return triplets, i             # <<<<<<<<<<<<<<
  * 
- * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
+ * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
@@ -2465,12 +2465,12 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
 /* "lz77c.pyx":40
  *     return triplets, i
  * 
- * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):             # <<<<<<<<<<<<<<
+ * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int _match_len = 0
  *     cdef unsigned int match_offset = 0
  */
 
-static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int __pyx_v_current_location, unsigned int __pyx_v_sliding_window, unsigned int __pyx_v_l) {
+static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_current_location, int __pyx_v_sliding_window, int __pyx_v_l) {
   unsigned int __pyx_v__match_len;
   unsigned int __pyx_v_match_offset;
   unsigned int __pyx_v_buffer_start;
@@ -2489,7 +2489,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int
 
   /* "lz77c.pyx":41
  * 
- * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
+ * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
  *     cdef unsigned int _match_len = 0             # <<<<<<<<<<<<<<
  *     cdef unsigned int match_offset = 0
  *     cdef unsigned int buffer_start = 1
@@ -2497,7 +2497,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int
   __pyx_v__match_len = 0;
 
   /* "lz77c.pyx":42
- * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
+ * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
  *     cdef unsigned int _match_len = 0
  *     cdef unsigned int match_offset = 0             # <<<<<<<<<<<<<<
  *     cdef unsigned int buffer_start = 1
@@ -2688,7 +2688,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int
  *     cdef char *literal = data[current_location + _match_len]
  *     return mo, _ml, literal             # <<<<<<<<<<<<<<
  * 
- * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
+ * cdef int match(char **data, int current_location, int buffer_slide, int l):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_literal); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 60, __pyx_L1_error)
@@ -2711,7 +2711,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int
   /* "lz77c.pyx":40
  *     return triplets, i
  * 
- * cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):             # <<<<<<<<<<<<<<
+ * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int _match_len = 0
  *     cdef unsigned int match_offset = 0
  */
@@ -2733,12 +2733,12 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, unsigned int
 /* "lz77c.pyx":62
  *     return mo, _ml, literal
  * 
- * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):             # <<<<<<<<<<<<<<
+ * cdef int match(char **data, int current_location, int buffer_slide, int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  */
 
-static int __pyx_f_5lz77c_match(char **__pyx_v_data, unsigned int __pyx_v_current_location, int __pyx_v_buffer_slide, unsigned int __pyx_v_l) {
+static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_location, int __pyx_v_buffer_slide, int __pyx_v_l) {
   unsigned int __pyx_v_matchlen;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -2747,7 +2747,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, unsigned int __pyx_v_curren
 
   /* "lz77c.pyx":63
  * 
- * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
+ * cdef int match(char **data, int current_location, int buffer_slide, int l):
  *     cdef unsigned int matchlen = 0             # <<<<<<<<<<<<<<
  *     while current_location + matchlen + 1 < l:
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -2755,7 +2755,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, unsigned int __pyx_v_curren
   __pyx_v_matchlen = 0;
 
   /* "lz77c.pyx":64
- * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
+ * cdef int match(char **data, int current_location, int buffer_slide, int l):
  *     cdef unsigned int matchlen = 0
  *     while current_location + matchlen + 1 < l:             # <<<<<<<<<<<<<<
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -2817,7 +2817,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, unsigned int __pyx_v_curren
   /* "lz77c.pyx":62
  *     return mo, _ml, literal
  * 
- * cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):             # <<<<<<<<<<<<<<
+ * cdef int match(char **data, int current_location, int buffer_slide, int l):             # <<<<<<<<<<<<<<
  *     cdef unsigned int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  */
@@ -3021,7 +3021,6 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   PyObject *__pyx_v_decompressed = 0;
   unsigned int __pyx_v_offset;
   unsigned int __pyx_v_length;
-  unsigned int __pyx_v_l;
   unsigned int __pyx_v_current_location;
   CYTHON_UNUSED unsigned int __pyx_v_i;
   PyObject *__pyx_v_literal = NULL;
@@ -3045,7 +3044,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  * cdef list lz77decompress(list_arr compressed, int n_rows):
  *     cdef tuple triplet
  *     cdef list decompressed = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int offset, length, l, current_location, i
+ *     cdef unsigned int offset, length, current_location, i#, l
  *     #cdef str decomp
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -3054,7 +3053,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   __pyx_t_1 = 0;
 
   /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, l, current_location, i
+ *     cdef unsigned int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3163,7 +3162,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *         if isinstance(triplet[0], int):
  *             offset = triplet[0]             # <<<<<<<<<<<<<<
  *             length = triplet[1]
- *             l = len(decompressed)
+ *             #l = len(decompressed)
  */
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3179,8 +3178,8 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *         if isinstance(triplet[0], int):
  *             offset = triplet[0]
  *             length = triplet[1]             # <<<<<<<<<<<<<<
- *             l = len(decompressed)
- *             current_location = l - offset
+ *             #l = len(decompressed)
+ *             current_location = len(decompressed) - offset
  */
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3192,28 +3191,19 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_length = __pyx_t_8;
 
-      /* "lz77c.pyx":89
- *             offset = triplet[0]
- *             length = triplet[1]
- *             l = len(decompressed)             # <<<<<<<<<<<<<<
- *             current_location = l - offset
- *             for i in range(length):
- */
-      __pyx_t_9 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 89, __pyx_L1_error)
-      __pyx_v_l = __pyx_t_9;
-
       /* "lz77c.pyx":90
  *             length = triplet[1]
- *             l = len(decompressed)
- *             current_location = l - offset             # <<<<<<<<<<<<<<
+ *             #l = len(decompressed)
+ *             current_location = len(decompressed) - offset             # <<<<<<<<<<<<<<
  *             for i in range(length):
  *                 #decomp = decompressed[current_location]
  */
-      __pyx_v_current_location = (__pyx_v_l - __pyx_v_offset);
+      __pyx_t_9 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 90, __pyx_L1_error)
+      __pyx_v_current_location = (__pyx_t_9 - __pyx_v_offset);
 
       /* "lz77c.pyx":91
- *             l = len(decompressed)
- *             current_location = l - offset
+ *             #l = len(decompressed)
+ *             current_location = len(decompressed) - offset
  *             for i in range(length):             # <<<<<<<<<<<<<<
  *                 #decomp = decompressed[current_location]
  *                 decompressed.append(decompressed[current_location])
@@ -3240,7 +3230,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1             # <<<<<<<<<<<<<<
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  */
         __pyx_v_current_location = (__pyx_v_current_location + 1);
       }
@@ -3258,7 +3248,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1
  *         decompressed.append(literal)             # <<<<<<<<<<<<<<
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  *             break
  */
     __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_literal); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 95, __pyx_L1_error)
@@ -3266,7 +3256,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
     /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
@@ -3276,14 +3266,15 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
       __pyx_t_4 = __pyx_t_5;
       goto __pyx_L10_bool_binop_done;
     }
-    __pyx_t_5 = ((__pyx_v_l >= __pyx_v_n_rows) != 0);
+    __pyx_t_9 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_5 = ((__pyx_t_9 >= __pyx_v_n_rows) != 0);
     __pyx_t_4 = __pyx_t_5;
     __pyx_L10_bool_binop_done:;
     if (__pyx_t_4) {
 
       /* "lz77c.pyx":97
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  *             break             # <<<<<<<<<<<<<<
  *     return decompressed
  * 
@@ -3293,14 +3284,14 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
       /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
     }
 
     /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, l, current_location, i
+ *     cdef unsigned int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3311,7 +3302,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "lz77c.pyx":98
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  *             break
  *     return decompressed             # <<<<<<<<<<<<<<
  * 
@@ -3352,7 +3343,6 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   PyObject *__pyx_v_decompressed = 0;
   unsigned int __pyx_v_offset;
   unsigned int __pyx_v_length;
-  unsigned int __pyx_v_l;
   unsigned int __pyx_v_current_location;
   CYTHON_UNUSED unsigned int __pyx_v_i;
   PyObject *__pyx_v_literal = NULL;
@@ -3377,7 +3367,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  * cdef list lz77decompress(list_arr compressed, int n_rows):
  *     cdef tuple triplet
  *     cdef list decompressed = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int offset, length, l, current_location, i
+ *     cdef unsigned int offset, length, current_location, i#, l
  *     #cdef str decomp
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -3386,7 +3376,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   __pyx_t_1 = 0;
 
   /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, l, current_location, i
+ *     cdef unsigned int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3521,7 +3511,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *         if isinstance(triplet[0], int):
  *             offset = triplet[0]             # <<<<<<<<<<<<<<
  *             length = triplet[1]
- *             l = len(decompressed)
+ *             #l = len(decompressed)
  */
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3537,8 +3527,8 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *         if isinstance(triplet[0], int):
  *             offset = triplet[0]
  *             length = triplet[1]             # <<<<<<<<<<<<<<
- *             l = len(decompressed)
- *             current_location = l - offset
+ *             #l = len(decompressed)
+ *             current_location = len(decompressed) - offset
  */
       if (unlikely(__pyx_v_triplet == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3550,28 +3540,19 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_v_length = __pyx_t_9;
 
-      /* "lz77c.pyx":89
- *             offset = triplet[0]
- *             length = triplet[1]
- *             l = len(decompressed)             # <<<<<<<<<<<<<<
- *             current_location = l - offset
- *             for i in range(length):
- */
-      __pyx_t_10 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 89, __pyx_L1_error)
-      __pyx_v_l = __pyx_t_10;
-
       /* "lz77c.pyx":90
  *             length = triplet[1]
- *             l = len(decompressed)
- *             current_location = l - offset             # <<<<<<<<<<<<<<
+ *             #l = len(decompressed)
+ *             current_location = len(decompressed) - offset             # <<<<<<<<<<<<<<
  *             for i in range(length):
  *                 #decomp = decompressed[current_location]
  */
-      __pyx_v_current_location = (__pyx_v_l - __pyx_v_offset);
+      __pyx_t_10 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 90, __pyx_L1_error)
+      __pyx_v_current_location = (__pyx_t_10 - __pyx_v_offset);
 
       /* "lz77c.pyx":91
- *             l = len(decompressed)
- *             current_location = l - offset
+ *             #l = len(decompressed)
+ *             current_location = len(decompressed) - offset
  *             for i in range(length):             # <<<<<<<<<<<<<<
  *                 #decomp = decompressed[current_location]
  *                 decompressed.append(decompressed[current_location])
@@ -3598,7 +3579,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1             # <<<<<<<<<<<<<<
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  */
         __pyx_v_current_location = (__pyx_v_current_location + 1);
       }
@@ -3616,7 +3597,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *                 decompressed.append(decompressed[current_location])
  *                 current_location += 1
  *         decompressed.append(literal)             # <<<<<<<<<<<<<<
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  *             break
  */
     __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_v_literal); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 95, __pyx_L1_error)
@@ -3624,7 +3605,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
     /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
@@ -3634,14 +3615,15 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
       __pyx_t_5 = __pyx_t_6;
       goto __pyx_L10_bool_binop_done;
     }
-    __pyx_t_6 = ((__pyx_v_l >= __pyx_v_n_rows) != 0);
+    __pyx_t_10 = PyList_GET_SIZE(__pyx_v_decompressed); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_6 = ((__pyx_t_10 >= __pyx_v_n_rows) != 0);
     __pyx_t_5 = __pyx_t_6;
     __pyx_L10_bool_binop_done:;
     if (__pyx_t_5) {
 
       /* "lz77c.pyx":97
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  *             break             # <<<<<<<<<<<<<<
  *     return decompressed
  * 
@@ -3651,14 +3633,14 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
       /* "lz77c.pyx":96
  *                 current_location += 1
  *         decompressed.append(literal)
- *         if n_rows > 0 and l >= n_rows:             # <<<<<<<<<<<<<<
+ *         if n_rows > 0 and len(decompressed) >= n_rows:             # <<<<<<<<<<<<<<
  *             break
  *     return decompressed
  */
     }
 
     /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, l, current_location, i
+ *     cdef unsigned int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3669,7 +3651,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "lz77c.pyx":98
- *         if n_rows > 0 and l >= n_rows:
+ *         if n_rows > 0 and len(decompressed) >= n_rows:
  *             break
  *     return decompressed             # <<<<<<<<<<<<<<
  * 
@@ -4213,7 +4195,6 @@ static PyArrayObject *__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(PyObject *__pyx
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed             # <<<<<<<<<<<<<<
  *     return arr
- * 
  */
   if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), __pyx_slice__8, __pyx_v_decompressed) < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
 
@@ -4221,7 +4202,6 @@ static PyArrayObject *__pyx_fuse_0__pyx_f_5lz77c_lz77_decompress(PyObject *__pyx
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed
  *     return arr             # <<<<<<<<<<<<<<
- * 
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)__pyx_v_arr));
@@ -4451,7 +4431,6 @@ static PyArrayObject *__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(PyArrayObject *
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed             # <<<<<<<<<<<<<<
  *     return arr
- * 
  */
   if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), __pyx_slice__8, __pyx_v_decompressed) < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
 
@@ -4459,7 +4438,6 @@ static PyArrayObject *__pyx_fuse_1__pyx_f_5lz77c_lz77_decompress(PyArrayObject *
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed
  *     return arr             # <<<<<<<<<<<<<<
- * 
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)__pyx_v_arr));
@@ -7147,7 +7125,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
  *     arr[:] = decompressed             # <<<<<<<<<<<<<<
  *     return arr
- * 
  */
   __pyx_slice__8 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__8)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__8);

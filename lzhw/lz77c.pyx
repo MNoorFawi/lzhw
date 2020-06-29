@@ -37,7 +37,7 @@ cdef tuple lz77compress(list dat):
         current_location += 1 + ols
     return triplets, i
 
-cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned int sliding_window, unsigned int l):
+cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
     cdef unsigned int _match_len = 0
     cdef unsigned int match_offset = 0
     cdef unsigned int buffer_start = 1
@@ -59,7 +59,7 @@ cdef tuple triplet_encode(char **data, unsigned int current_location, unsigned i
     cdef char *literal = data[current_location + _match_len]
     return mo, _ml, literal
 
-cdef int match(char **data, unsigned int current_location, signed int buffer_slide, unsigned int l):
+cdef int match(char **data, int current_location, int buffer_slide, int l):
     cdef unsigned int matchlen = 0
     while current_location + matchlen + 1 < l:
         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
@@ -77,7 +77,7 @@ cpdef np.ndarray lz77_compress(list data):
 cdef list lz77decompress(list_arr compressed, int n_rows):
     cdef tuple triplet
     cdef list decompressed = []
-    cdef unsigned int offset, length, l, current_location, i
+    cdef unsigned int offset, length, current_location, i#, l
     #cdef str decomp
     for triplet in compressed:
         literal = triplet[2]
@@ -86,14 +86,14 @@ cdef list lz77decompress(list_arr compressed, int n_rows):
         if isinstance(triplet[0], int):
             offset = triplet[0]
             length = triplet[1]
-            l = len(decompressed)
-            current_location = l - offset
+            #l = len(decompressed)
+            current_location = len(decompressed) - offset
             for i in range(length):
                 #decomp = decompressed[current_location]
                 decompressed.append(decompressed[current_location])
                 current_location += 1
         decompressed.append(literal)
-        if n_rows > 0 and l >= n_rows:
+        if n_rows > 0 and len(decompressed) >= n_rows:
             break
     return decompressed
 
@@ -102,4 +102,3 @@ cpdef np.ndarray lz77_decompress(list_arr compressed, int n_rows = 0):
     cdef np.ndarray[dtype=object, ndim=1] arr = np.empty(len(decompressed), dtype=object)
     arr[:] = decompressed
     return arr
-

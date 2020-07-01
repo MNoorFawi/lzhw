@@ -1694,6 +1694,9 @@ typedef struct {
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
+
+/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
 
 /* RealImag.proto */
@@ -1795,16 +1798,10 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value)
 #endif
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
-
-/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__NPY_TYPES(enum NPY_TYPES value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *);
 
 /* ImportNumPyArray.proto */
 static PyObject *__pyx_numpy_ndarray = NULL;
@@ -2069,27 +2066,27 @@ static PyObject *__pyx_codeobj__18;
  *     np.ndarray
  * 
  * cdef char ** to_c_string_list(str_list):             # <<<<<<<<<<<<<<
- *     cdef unsigned int l = len(str_list)
+ *     cdef int l = len(str_list)
  *     cdef char **c_string = <char **>malloc(l * sizeof(char *))
  */
 
 static char **__pyx_f_5lz77c_to_c_string_list(PyObject *__pyx_v_str_list) {
-  unsigned int __pyx_v_l;
+  int __pyx_v_l;
   char **__pyx_v_c_string;
-  unsigned int __pyx_v_i;
+  int __pyx_v_i;
   char **__pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  unsigned int __pyx_t_2;
-  unsigned int __pyx_t_3;
-  unsigned int __pyx_t_4;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("to_c_string_list", 0);
 
   /* "lz77c.pyx":14
  * 
  * cdef char ** to_c_string_list(str_list):
- *     cdef unsigned int l = len(str_list)             # <<<<<<<<<<<<<<
+ *     cdef int l = len(str_list)             # <<<<<<<<<<<<<<
  *     cdef char **c_string = <char **>malloc(l * sizeof(char *))
  *     for i in range(l):
  */
@@ -2098,7 +2095,7 @@ static char **__pyx_f_5lz77c_to_c_string_list(PyObject *__pyx_v_str_list) {
 
   /* "lz77c.pyx":15
  * cdef char ** to_c_string_list(str_list):
- *     cdef unsigned int l = len(str_list)
+ *     cdef int l = len(str_list)
  *     cdef char **c_string = <char **>malloc(l * sizeof(char *))             # <<<<<<<<<<<<<<
  *     for i in range(l):
  *         c_string[i] = PyUnicode_AsUTF8(str_list[i])
@@ -2106,7 +2103,7 @@ static char **__pyx_f_5lz77c_to_c_string_list(PyObject *__pyx_v_str_list) {
   __pyx_v_c_string = ((char **)malloc((__pyx_v_l * (sizeof(char *)))));
 
   /* "lz77c.pyx":16
- *     cdef unsigned int l = len(str_list)
+ *     cdef int l = len(str_list)
  *     cdef char **c_string = <char **>malloc(l * sizeof(char *))
  *     for i in range(l):             # <<<<<<<<<<<<<<
  *         c_string[i] = PyUnicode_AsUTF8(str_list[i])
@@ -2124,7 +2121,7 @@ static char **__pyx_f_5lz77c_to_c_string_list(PyObject *__pyx_v_str_list) {
  *     return c_string
  * 
  */
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_str_list, __pyx_v_i, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_str_list, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     (__pyx_v_c_string[__pyx_v_i]) = PyUnicode_AsUTF8(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2144,7 +2141,7 @@ static char **__pyx_f_5lz77c_to_c_string_list(PyObject *__pyx_v_str_list) {
  *     np.ndarray
  * 
  * cdef char ** to_c_string_list(str_list):             # <<<<<<<<<<<<<<
- *     cdef unsigned int l = len(str_list)
+ *     cdef int l = len(str_list)
  *     cdef char **c_string = <char **>malloc(l * sizeof(char *))
  */
 
@@ -2169,12 +2166,12 @@ static char **__pyx_f_5lz77c_to_c_string_list(PyObject *__pyx_v_str_list) {
 static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
   unsigned int __pyx_v_l;
   char **__pyx_v_data;
-  unsigned int __pyx_v__sliding_window;
-  unsigned int __pyx_v_current_location;
+  int __pyx_v__sliding_window;
+  int __pyx_v_current_location;
   PyArrayObject *__pyx_v_triplets = 0;
   PyObject *__pyx_v_triplet = 0;
-  unsigned int __pyx_v_ols;
-  unsigned int __pyx_v_i;
+  int __pyx_v_ols;
+  int __pyx_v_i;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_triplets;
   __Pyx_Buffer __pyx_pybuffer_triplets;
   PyObject *__pyx_r = NULL;
@@ -2186,11 +2183,10 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
   PyObject *__pyx_t_5 = NULL;
   PyArrayObject *__pyx_t_6 = NULL;
   int __pyx_t_7;
-  size_t __pyx_t_8;
+  Py_ssize_t __pyx_t_8;
   int __pyx_t_9;
   PyObject **__pyx_t_10;
   int __pyx_t_11;
-  unsigned int __pyx_t_12;
   __Pyx_RefNannySetupContext("lz77compress", 0);
   __pyx_pybuffer_triplets.pybuffer.buf = NULL;
   __pyx_pybuffer_triplets.refcount = 0;
@@ -2202,7 +2198,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  * cdef tuple lz77compress(list dat):
  *     cdef unsigned int l = len(dat)             # <<<<<<<<<<<<<<
  *     cdef char **data = to_c_string_list(dat)
- *     cdef unsigned int _sliding_window = 512
+ *     cdef int _sliding_window = 256
  */
   if (unlikely(__pyx_v_dat == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
@@ -2215,35 +2211,35 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  * cdef tuple lz77compress(list dat):
  *     cdef unsigned int l = len(dat)
  *     cdef char **data = to_c_string_list(dat)             # <<<<<<<<<<<<<<
- *     cdef unsigned int _sliding_window = 512
- *     cdef unsigned int current_location = 0
+ *     cdef int _sliding_window = 256
+ *     cdef int current_location = 0
  */
   __pyx_v_data = __pyx_f_5lz77c_to_c_string_list(__pyx_v_dat);
 
   /* "lz77c.pyx":23
  *     cdef unsigned int l = len(dat)
  *     cdef char **data = to_c_string_list(dat)
- *     cdef unsigned int _sliding_window = 512             # <<<<<<<<<<<<<<
- *     cdef unsigned int current_location = 0
+ *     cdef int _sliding_window = 256             # <<<<<<<<<<<<<<
+ *     cdef int current_location = 0
  *     cdef np.ndarray[dtype=object, ndim=1] triplets = np.empty(l, dtype=object)
  */
-  __pyx_v__sliding_window = 0x200;
+  __pyx_v__sliding_window = 0x100;
 
   /* "lz77c.pyx":24
  *     cdef char **data = to_c_string_list(dat)
- *     cdef unsigned int _sliding_window = 512
- *     cdef unsigned int current_location = 0             # <<<<<<<<<<<<<<
+ *     cdef int _sliding_window = 256
+ *     cdef int current_location = 0             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[dtype=object, ndim=1] triplets = np.empty(l, dtype=object)
  *     cdef tuple triplet
  */
   __pyx_v_current_location = 0;
 
   /* "lz77c.pyx":25
- *     cdef unsigned int _sliding_window = 512
- *     cdef unsigned int current_location = 0
+ *     cdef int _sliding_window = 256
+ *     cdef int current_location = 0
  *     cdef np.ndarray[dtype=object, ndim=1] triplets = np.empty(l, dtype=object)             # <<<<<<<<<<<<<<
  *     cdef tuple triplet
- *     cdef unsigned int ols
+ *     cdef int ols
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2281,16 +2277,16 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
 
   /* "lz77c.pyx":28
  *     cdef tuple triplet
- *     cdef unsigned int ols
- *     cdef unsigned int i = 0             # <<<<<<<<<<<<<<
+ *     cdef int ols
+ *     cdef int i = 0             # <<<<<<<<<<<<<<
  *     while current_location < l:
  *         triplet = triplet_encode(data, current_location, _sliding_window, l)
  */
   __pyx_v_i = 0;
 
   /* "lz77c.pyx":29
- *     cdef unsigned int ols
- *     cdef unsigned int i = 0
+ *     cdef int ols
+ *     cdef int i = 0
  *     while current_location < l:             # <<<<<<<<<<<<<<
  *         triplet = triplet_encode(data, current_location, _sliding_window, l)
  *         triplets[i] = triplet
@@ -2300,7 +2296,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
     if (!__pyx_t_7) break;
 
     /* "lz77c.pyx":30
- *     cdef unsigned int i = 0
+ *     cdef int i = 0
  *     while current_location < l:
  *         triplet = triplet_encode(data, current_location, _sliding_window, l)             # <<<<<<<<<<<<<<
  *         triplets[i] = triplet
@@ -2320,7 +2316,10 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  */
     __pyx_t_8 = __pyx_v_i;
     __pyx_t_9 = -1;
-    if (unlikely(__pyx_t_8 >= (size_t)__pyx_pybuffernd_triplets.diminfo[0].shape)) __pyx_t_9 = 0;
+    if (__pyx_t_8 < 0) {
+      __pyx_t_8 += __pyx_pybuffernd_triplets.diminfo[0].shape;
+      if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 0;
+    } else if (unlikely(__pyx_t_8 >= __pyx_pybuffernd_triplets.diminfo[0].shape)) __pyx_t_9 = 0;
     if (unlikely(__pyx_t_9 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_9);
       __PYX_ERR(0, 31, __pyx_L1_error)
@@ -2391,9 +2390,9 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
       }
       __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_12 = __Pyx_PyInt_As_unsigned_int(__pyx_t_5); if (unlikely((__pyx_t_12 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_v_ols = __pyx_t_12;
+      __pyx_v_ols = __pyx_t_9;
     }
     __pyx_L5:;
 
@@ -2415,7 +2414,7 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __Pyx_PyInt_From_unsigned_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2466,16 +2465,16 @@ static PyObject *__pyx_f_5lz77c_lz77compress(PyObject *__pyx_v_dat) {
  *     return triplets, i
  * 
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
- *     cdef unsigned int _match_len = 0
- *     cdef unsigned int match_offset = 0
+ *     cdef int _match_len = 0
+ *     cdef int match_offset = 0
  */
 
 static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_current_location, int __pyx_v_sliding_window, int __pyx_v_l) {
-  unsigned int __pyx_v__match_len;
-  unsigned int __pyx_v_match_offset;
-  unsigned int __pyx_v_buffer_start;
+  int __pyx_v__match_len;
+  int __pyx_v_match_offset;
+  int __pyx_v_buffer_start;
   int __pyx_v_buffer_slide;
-  unsigned int __pyx_v_matchlen;
+  int __pyx_v_matchlen;
   PyObject *__pyx_v_mo = NULL;
   PyObject *__pyx_v__ml = NULL;
   char *__pyx_v_literal;
@@ -2490,42 +2489,42 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
   /* "lz77c.pyx":41
  * 
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
- *     cdef unsigned int _match_len = 0             # <<<<<<<<<<<<<<
- *     cdef unsigned int match_offset = 0
- *     cdef unsigned int buffer_start = 1
+ *     cdef int _match_len = 0             # <<<<<<<<<<<<<<
+ *     cdef int match_offset = 0
+ *     cdef int buffer_start = 1
  */
   __pyx_v__match_len = 0;
 
   /* "lz77c.pyx":42
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):
- *     cdef unsigned int _match_len = 0
- *     cdef unsigned int match_offset = 0             # <<<<<<<<<<<<<<
- *     cdef unsigned int buffer_start = 1
+ *     cdef int _match_len = 0
+ *     cdef int match_offset = 0             # <<<<<<<<<<<<<<
+ *     cdef int buffer_start = 1
  *     cdef signed int buffer_slide = current_location - buffer_start
  */
   __pyx_v_match_offset = 0;
 
   /* "lz77c.pyx":43
- *     cdef unsigned int _match_len = 0
- *     cdef unsigned int match_offset = 0
- *     cdef unsigned int buffer_start = 1             # <<<<<<<<<<<<<<
+ *     cdef int _match_len = 0
+ *     cdef int match_offset = 0
+ *     cdef int buffer_start = 1             # <<<<<<<<<<<<<<
  *     cdef signed int buffer_slide = current_location - buffer_start
- *     cdef unsigned int matchlen
+ *     cdef int matchlen
  */
   __pyx_v_buffer_start = 1;
 
   /* "lz77c.pyx":44
- *     cdef unsigned int match_offset = 0
- *     cdef unsigned int buffer_start = 1
+ *     cdef int match_offset = 0
+ *     cdef int buffer_start = 1
  *     cdef signed int buffer_slide = current_location - buffer_start             # <<<<<<<<<<<<<<
- *     cdef unsigned int matchlen
+ *     cdef int matchlen
  *     while buffer_slide >= 0 and buffer_start < sliding_window:
  */
   __pyx_v_buffer_slide = (__pyx_v_current_location - __pyx_v_buffer_start);
 
   /* "lz77c.pyx":46
  *     cdef signed int buffer_slide = current_location - buffer_start
- *     cdef unsigned int matchlen
+ *     cdef int matchlen
  *     while buffer_slide >= 0 and buffer_start < sliding_window:             # <<<<<<<<<<<<<<
  *         matchlen = match(data, current_location, buffer_slide, l)
  *         if matchlen > _match_len:
@@ -2543,7 +2542,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
     if (!__pyx_t_1) break;
 
     /* "lz77c.pyx":47
- *     cdef unsigned int matchlen
+ *     cdef int matchlen
  *     while buffer_slide >= 0 and buffer_start < sliding_window:
  *         matchlen = match(data, current_location, buffer_slide, l)             # <<<<<<<<<<<<<<
  *         if matchlen > _match_len:
@@ -2655,7 +2654,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
  *     cdef char *literal = data[current_location + _match_len]
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_match_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_match_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v_mo = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -2667,7 +2666,7 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
  *     cdef char *literal = data[current_location + _match_len]
  *     return mo, _ml, literal
  */
-    __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v__match_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v__match_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v__ml = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -2712,8 +2711,8 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
  *     return triplets, i
  * 
  * cdef tuple triplet_encode(char **data, int current_location, int sliding_window, int l):             # <<<<<<<<<<<<<<
- *     cdef unsigned int _match_len = 0
- *     cdef unsigned int match_offset = 0
+ *     cdef int _match_len = 0
+ *     cdef int match_offset = 0
  */
 
   /* function exit code */
@@ -2734,12 +2733,12 @@ static PyObject *__pyx_f_5lz77c_triplet_encode(char **__pyx_v_data, int __pyx_v_
  *     return mo, _ml, literal
  * 
  * cdef int match(char **data, int current_location, int buffer_slide, int l):             # <<<<<<<<<<<<<<
- *     cdef unsigned int matchlen = 0
+ *     cdef int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  */
 
 static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_location, int __pyx_v_buffer_slide, int __pyx_v_l) {
-  unsigned int __pyx_v_matchlen;
+  int __pyx_v_matchlen;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -2748,7 +2747,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
   /* "lz77c.pyx":63
  * 
  * cdef int match(char **data, int current_location, int buffer_slide, int l):
- *     cdef unsigned int matchlen = 0             # <<<<<<<<<<<<<<
+ *     cdef int matchlen = 0             # <<<<<<<<<<<<<<
  *     while current_location + matchlen + 1 < l:
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
  */
@@ -2756,7 +2755,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
 
   /* "lz77c.pyx":64
  * cdef int match(char **data, int current_location, int buffer_slide, int l):
- *     cdef unsigned int matchlen = 0
+ *     cdef int matchlen = 0
  *     while current_location + matchlen + 1 < l:             # <<<<<<<<<<<<<<
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:
  *             break
@@ -2766,7 +2765,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
     if (!__pyx_t_1) break;
 
     /* "lz77c.pyx":65
- *     cdef unsigned int matchlen = 0
+ *     cdef int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:             # <<<<<<<<<<<<<<
  *             break
@@ -2785,7 +2784,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
       goto __pyx_L4_break;
 
       /* "lz77c.pyx":65
- *     cdef unsigned int matchlen = 0
+ *     cdef int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  *         if data[current_location + matchlen] != data[buffer_slide + matchlen]:             # <<<<<<<<<<<<<<
  *             break
@@ -2818,7 +2817,7 @@ static int __pyx_f_5lz77c_match(char **__pyx_v_data, int __pyx_v_current_locatio
  *     return mo, _ml, literal
  * 
  * cdef int match(char **data, int current_location, int buffer_slide, int l):             # <<<<<<<<<<<<<<
- *     cdef unsigned int matchlen = 0
+ *     cdef int matchlen = 0
  *     while current_location + matchlen + 1 < l:
  */
 
@@ -2840,14 +2839,14 @@ static PyObject *__pyx_pw_5lz77c_1lz77_compress(PyObject *__pyx_self, PyObject *
 static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *__pyx_v_data, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_tripletss = 0;
   PyArrayObject *__pyx_v_triplet = 0;
-  unsigned int __pyx_v_i;
+  int __pyx_v_i;
   PyArrayObject *__pyx_v_compressed = 0;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_compressed;
   __Pyx_Buffer __pyx_pybuffer_compressed;
   PyArrayObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  unsigned int __pyx_t_2;
+  int __pyx_t_2;
   PyArrayObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("lz77_compress", 0);
   __pyx_pybuffer_compressed.pybuffer.buf = NULL;
@@ -2860,7 +2859,7 @@ static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *__pyx_v_data, CYTHO
  * cpdef np.ndarray lz77_compress(list data):
  *     cdef tuple tripletss = lz77compress(data)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray triplet = tripletss[0]
- *     cdef unsigned int i = tripletss[1]
+ *     cdef int i = tripletss[1]
  */
   __pyx_t_1 = __pyx_f_5lz77c_lz77compress(__pyx_v_data); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2871,7 +2870,7 @@ static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *__pyx_v_data, CYTHO
  * cpdef np.ndarray lz77_compress(list data):
  *     cdef tuple tripletss = lz77compress(data)
  *     cdef np.ndarray triplet = tripletss[0]             # <<<<<<<<<<<<<<
- *     cdef unsigned int i = tripletss[1]
+ *     cdef int i = tripletss[1]
  *     cdef np.ndarray[dtype=object, ndim=1] compressed = triplet[:i]
  */
   if (unlikely(__pyx_v_tripletss == Py_None)) {
@@ -2887,7 +2886,7 @@ static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *__pyx_v_data, CYTHO
   /* "lz77c.pyx":73
  *     cdef tuple tripletss = lz77compress(data)
  *     cdef np.ndarray triplet = tripletss[0]
- *     cdef unsigned int i = tripletss[1]             # <<<<<<<<<<<<<<
+ *     cdef int i = tripletss[1]             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[dtype=object, ndim=1] compressed = triplet[:i]
  *     return compressed
  */
@@ -2897,13 +2896,13 @@ static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *__pyx_v_data, CYTHO
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_tripletss, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_i = __pyx_t_2;
 
   /* "lz77c.pyx":74
  *     cdef np.ndarray triplet = tripletss[0]
- *     cdef unsigned int i = tripletss[1]
+ *     cdef int i = tripletss[1]
  *     cdef np.ndarray[dtype=object, ndim=1] compressed = triplet[:i]             # <<<<<<<<<<<<<<
  *     return compressed
  * 
@@ -2925,7 +2924,7 @@ static PyArrayObject *__pyx_f_5lz77c_lz77_compress(PyObject *__pyx_v_data, CYTHO
   __pyx_t_1 = 0;
 
   /* "lz77c.pyx":75
- *     cdef unsigned int i = tripletss[1]
+ *     cdef int i = tripletss[1]
  *     cdef np.ndarray[dtype=object, ndim=1] compressed = triplet[:i]
  *     return compressed             # <<<<<<<<<<<<<<
  * 
@@ -3019,10 +3018,10 @@ static PyObject *__pyx_pf_5lz77c_lz77_compress(CYTHON_UNUSED PyObject *__pyx_sel
 static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_compressed, int __pyx_v_n_rows) {
   PyObject *__pyx_v_triplet = 0;
   PyObject *__pyx_v_decompressed = 0;
-  unsigned int __pyx_v_offset;
-  unsigned int __pyx_v_length;
-  unsigned int __pyx_v_current_location;
-  CYTHON_UNUSED unsigned int __pyx_v_i;
+  int __pyx_v_offset;
+  int __pyx_v_length;
+  int __pyx_v_current_location;
+  CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_v_literal = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3033,10 +3032,10 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  unsigned int __pyx_t_8;
+  int __pyx_t_8;
   Py_ssize_t __pyx_t_9;
-  unsigned int __pyx_t_10;
-  unsigned int __pyx_t_11;
+  int __pyx_t_10;
+  int __pyx_t_11;
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("__pyx_fuse_0lz77decompress", 0);
 
@@ -3044,7 +3043,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  * cdef list lz77decompress(list_arr compressed, int n_rows):
  *     cdef tuple triplet
  *     cdef list decompressed = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int offset, length, current_location, i#, l
+ *     cdef int offset, length, current_location, i#, l
  *     #cdef str decomp
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -3053,7 +3052,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
   __pyx_t_1 = 0;
 
   /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, current_location, i#, l
+ *     cdef int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3170,7 +3169,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
       }
       __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_8 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_offset = __pyx_t_8;
 
@@ -3187,7 +3186,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
       }
       __pyx_t_3 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyInt_As_unsigned_int(__pyx_t_3); if (unlikely((__pyx_t_8 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_length = __pyx_t_8;
 
@@ -3218,9 +3217,9 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *                 current_location += length
  *             else:
  */
-        __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_6 = PyList_New(1 * (__pyx_v_length)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_6 = PyList_New(1 * ((__pyx_v_length<0) ? 0:__pyx_v_length)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < __pyx_v_length; __pyx_temp++) {
@@ -3275,7 +3274,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
  *                     current_location += 1
  *         decompressed.append(literal)
  */
-          __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 97, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3348,7 +3347,7 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
     }
 
     /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, current_location, i#, l
+ *     cdef int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3398,10 +3397,10 @@ static PyObject *__pyx_fuse_0__pyx_f_5lz77c_lz77decompress(PyObject *__pyx_v_com
 static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_v_compressed, int __pyx_v_n_rows) {
   PyObject *__pyx_v_triplet = 0;
   PyObject *__pyx_v_decompressed = 0;
-  unsigned int __pyx_v_offset;
-  unsigned int __pyx_v_length;
-  unsigned int __pyx_v_current_location;
-  CYTHON_UNUSED unsigned int __pyx_v_i;
+  int __pyx_v_offset;
+  int __pyx_v_length;
+  int __pyx_v_current_location;
+  CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_v_literal = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3413,10 +3412,10 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  unsigned int __pyx_t_9;
+  int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  unsigned int __pyx_t_11;
-  unsigned int __pyx_t_12;
+  int __pyx_t_11;
+  int __pyx_t_12;
   int __pyx_t_13;
   __Pyx_RefNannySetupContext("__pyx_fuse_1lz77decompress", 0);
 
@@ -3424,7 +3423,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  * cdef list lz77decompress(list_arr compressed, int n_rows):
  *     cdef tuple triplet
  *     cdef list decompressed = []             # <<<<<<<<<<<<<<
- *     cdef unsigned int offset, length, current_location, i#, l
+ *     cdef int offset, length, current_location, i#, l
  *     #cdef str decomp
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
@@ -3433,7 +3432,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
   __pyx_t_1 = 0;
 
   /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, current_location, i#, l
+ *     cdef int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -3576,7 +3575,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
       }
       __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_9 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_v_offset = __pyx_t_9;
 
@@ -3593,7 +3592,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
       }
       __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_triplet, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_9 = __Pyx_PyInt_As_unsigned_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_v_length = __pyx_t_9;
 
@@ -3624,9 +3623,9 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *                 current_location += length
  *             else:
  */
-        __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_7 = PyList_New(1 * (__pyx_v_length)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_7 = PyList_New(1 * ((__pyx_v_length<0) ? 0:__pyx_v_length)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < __pyx_v_length; __pyx_temp++) {
@@ -3681,7 +3680,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
  *                     current_location += 1
  *         decompressed.append(literal)
  */
-          __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_decompressed, __pyx_v_current_location, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_decompressed, __pyx_t_4); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 97, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -3754,7 +3753,7 @@ static PyObject *__pyx_fuse_1__pyx_f_5lz77c_lz77decompress(PyArrayObject *__pyx_
     }
 
     /* "lz77c.pyx":82
- *     cdef unsigned int offset, length, current_location, i#, l
+ *     cdef int offset, length, current_location, i#, l
  *     #cdef str decomp
  *     for triplet in compressed:             # <<<<<<<<<<<<<<
  *         literal = triplet[2]
@@ -11270,6 +11269,37 @@ static void __Pyx_ReleaseBuffer(Py_buffer *view) {
     }
 
 /* CIntToPy */
+  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntToPy */
   static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value) {
     const unsigned int neg_one = (unsigned int) ((unsigned int) 0 - (unsigned int) 1), const_zero = (unsigned int) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -11609,37 +11639,6 @@ static void __Pyx_ReleaseBuffer(Py_buffer *view) {
 #endif
 
 /* CIntToPy */
-  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
-    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(int) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(int) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(int),
-                                     little, !is_unsigned);
-    }
-}
-
-/* CIntToPy */
   static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__NPY_TYPES(enum NPY_TYPES value) {
     const enum NPY_TYPES neg_one = (enum NPY_TYPES) ((enum NPY_TYPES) 0 - (enum NPY_TYPES) 1), const_zero = (enum NPY_TYPES) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -11857,195 +11856,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to int");
     return (int) -1;
-}
-
-/* CIntFromPy */
-  static CYTHON_INLINE unsigned int __Pyx_PyInt_As_unsigned_int(PyObject *x) {
-    const unsigned int neg_one = (unsigned int) ((unsigned int) 0 - (unsigned int) 1), const_zero = (unsigned int) 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(unsigned int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(unsigned int, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (unsigned int) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (unsigned int) 0;
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int, digit, digits[0])
-                case 2:
-                    if (8 * sizeof(unsigned int) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) >= 2 * PyLong_SHIFT) {
-                            return (unsigned int) (((((unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0]));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(unsigned int) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) >= 3 * PyLong_SHIFT) {
-                            return (unsigned int) (((((((unsigned int)digits[2]) << PyLong_SHIFT) | (unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0]));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(unsigned int) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) >= 4 * PyLong_SHIFT) {
-                            return (unsigned int) (((((((((unsigned int)digits[3]) << PyLong_SHIFT) | (unsigned int)digits[2]) << PyLong_SHIFT) | (unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0]));
-                        }
-                    }
-                    break;
-            }
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-#else
-            {
-                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
-                if (unlikely(result < 0))
-                    return (unsigned int) -1;
-                if (unlikely(result == 1))
-                    goto raise_neg_overflow;
-            }
-#endif
-            if (sizeof(unsigned int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(unsigned int, unsigned long, PyLong_AsUnsignedLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(unsigned int) <= sizeof(unsigned PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(unsigned int, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
-#endif
-            }
-        } else {
-#if CYTHON_USE_PYLONG_INTERNALS
-            const digit* digits = ((PyLongObject*)x)->ob_digit;
-            switch (Py_SIZE(x)) {
-                case  0: return (unsigned int) 0;
-                case -1: __PYX_VERIFY_RETURN_INT(unsigned int, sdigit, (sdigit) (-(sdigit)digits[0]))
-                case  1: __PYX_VERIFY_RETURN_INT(unsigned int,  digit, +digits[0])
-                case -2:
-                    if (8 * sizeof(unsigned int) - 1 > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) - 1 > 2 * PyLong_SHIFT) {
-                            return (unsigned int) (((unsigned int)-1)*(((((unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0])));
-                        }
-                    }
-                    break;
-                case 2:
-                    if (8 * sizeof(unsigned int) > 1 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) - 1 > 2 * PyLong_SHIFT) {
-                            return (unsigned int) ((((((unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0])));
-                        }
-                    }
-                    break;
-                case -3:
-                    if (8 * sizeof(unsigned int) - 1 > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) - 1 > 3 * PyLong_SHIFT) {
-                            return (unsigned int) (((unsigned int)-1)*(((((((unsigned int)digits[2]) << PyLong_SHIFT) | (unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0])));
-                        }
-                    }
-                    break;
-                case 3:
-                    if (8 * sizeof(unsigned int) > 2 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) - 1 > 3 * PyLong_SHIFT) {
-                            return (unsigned int) ((((((((unsigned int)digits[2]) << PyLong_SHIFT) | (unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0])));
-                        }
-                    }
-                    break;
-                case -4:
-                    if (8 * sizeof(unsigned int) - 1 > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) - 1 > 4 * PyLong_SHIFT) {
-                            return (unsigned int) (((unsigned int)-1)*(((((((((unsigned int)digits[3]) << PyLong_SHIFT) | (unsigned int)digits[2]) << PyLong_SHIFT) | (unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0])));
-                        }
-                    }
-                    break;
-                case 4:
-                    if (8 * sizeof(unsigned int) > 3 * PyLong_SHIFT) {
-                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
-                            __PYX_VERIFY_RETURN_INT(unsigned int, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if (8 * sizeof(unsigned int) - 1 > 4 * PyLong_SHIFT) {
-                            return (unsigned int) ((((((((((unsigned int)digits[3]) << PyLong_SHIFT) | (unsigned int)digits[2]) << PyLong_SHIFT) | (unsigned int)digits[1]) << PyLong_SHIFT) | (unsigned int)digits[0])));
-                        }
-                    }
-                    break;
-            }
-#endif
-            if (sizeof(unsigned int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT_EXC(unsigned int, long, PyLong_AsLong(x))
-#ifdef HAVE_LONG_LONG
-            } else if (sizeof(unsigned int) <= sizeof(PY_LONG_LONG)) {
-                __PYX_VERIFY_RETURN_INT_EXC(unsigned int, PY_LONG_LONG, PyLong_AsLongLong(x))
-#endif
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            unsigned int val;
-            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (unsigned int) -1;
-        }
-    } else {
-        unsigned int val;
-        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
-        if (!tmp) return (unsigned int) -1;
-        val = __Pyx_PyInt_As_unsigned_int(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to unsigned int");
-    return (unsigned int) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to unsigned int");
-    return (unsigned int) -1;
 }
 
 /* ImportNumPyArray */

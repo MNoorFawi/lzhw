@@ -11,10 +11,10 @@ import numpy as np
 # Putting everything together in one class
 # Lempel-Ziv-Huffman-Welch. I invented it :D
 class LZHW:
-    def __init__(self, uncompressed):
-        self._compress(uncompressed)
+    def __init__(self, uncompressed, sliding_window = 256):
+        self._compress(uncompressed, sliding_window)
 
-    def _compress(self, uncompressed):
+    def _compress(self, uncompressed, sliding_window):
         self.__original_size = getsizeof(uncompressed)
 
         if not isinstance(uncompressed, np.ndarray):

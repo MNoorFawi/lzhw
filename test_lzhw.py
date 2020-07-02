@@ -8,8 +8,10 @@ def test_weather():
     weather = ["Sunny", "Sunny", "Overcast", "Rain", "Rain", "Rain", "Overcast", "Sunny", "Sunny",
                "Rain", "Sunny", "Overcast", "Overcast", "Rain", "Rain", "Sunny", "Sunny"]
     comp_weather = lzhw.LZHW(weather)
+    comp_weather2 = lzhw.LZHW(weather, sliding_window = 5)
     assert getsizeof(weather) > comp_weather.size()
     assert all(weather == comp_weather.decompress())
+    assert all(weather == comp_weather2.decompress())
 
 
 def test_num():
@@ -32,7 +34,9 @@ def test_comp_df():
     df = pd.DataFrame({"a": [1, 1, 2, 2, 1, 3, 4, 4],
                        "b": ["A", "A", "B", "B", "A", "C,D", "D C", "D C"]})
     comp_df = lzhw.CompressedDF(df, parallel=True)
+    comp_df2 = lzhw.CompressedDF(df, sliding_window = 10)
     assert all(comp_df.compressed[1].decompress() == df.b)
+    assert all(comp_df2.compressed[0].decompress() == df.a)
 
 
 def test_comp_chunks():

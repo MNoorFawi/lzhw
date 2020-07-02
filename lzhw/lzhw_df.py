@@ -9,18 +9,18 @@ from tqdm import tqdm
 
 
 class CompressedDF:
-    def __init__(self, df, selected_cols="all", parallel=False, n_jobs=2):
+    def __init__(self, df, sliding_window = 256, selected_cols="all", parallel=False, n_jobs=2):
         if selected_cols == "all":
             selected = range(df.shape[1])
         else:
             selected = selected_cols
         self.columns = list(itemgetter(*selected)(df.columns))
         if parallel:
-            self.compressed = lzhw_para(df, selected, n_jobs)
+            self.compressed = lzhw_para(df, selected, sliding_window, n_jobs)
         else:
             self.compressed = []
             for i in tqdm(selected):
-                comp_col = LZHW(df.iloc[:, i].values)
+                comp_col = LZHW(df.iloc[:, i].values, sliding_window)
                 self.compressed.append(comp_col)
 
     def save_to_file(self, file):

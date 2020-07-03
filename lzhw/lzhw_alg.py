@@ -23,7 +23,7 @@ class LZHW:
         else:
             is_num = any(i in str(uncompressed.dtype) for i in nums)
 
-        if len(set(uncompressed)) / len(uncompressed) >= 0.8:
+        if len(set(uncompressed)) / len(uncompressed) >= 0.75:
             self.sequences = {"lz77": True}
             self.compressed = uncompressed
         else:

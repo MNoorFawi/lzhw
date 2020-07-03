@@ -60,9 +60,8 @@ Let's try to compress a real-world dataframe **german_credit.xlsx** file from [U
 Original txt file is **219 KB** on desk.
 
 ```python
-gc_original = pd.read_excel("examples/german_credit.xlsx", 
-                            parallel = True, n_jobs = -3) # default value all CPUs but 2
-comp_gc = lzhw.CompressedDF(gc_original)
+gc_original = pd.read_excel("examples/german_credit.xlsx") 
+comp_gc = lzhw.CompressedDF(gc_original, parallel = True, n_jobs = -3) # default value all CPUs but 2
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 257.95it/s]
 
 ## Compare sizes in Python:
@@ -103,6 +102,13 @@ print(gc_original.shape == gc_original2.shape)
 ```
 
 **Perfect! There is no information loss at all.**
+
+**We can also adjust the sliding window of the LZ77 algorithm**
+```python
+comp_gc512 = lzhw.CompressedDF(gc_original, sliding_window = 512)
+# 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00<00:00, 353.21it/s]
+```
+Sliding window can be very useful in case we want more compressed output.
 
 ##### Reference
  		[1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.

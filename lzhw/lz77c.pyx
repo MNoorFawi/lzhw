@@ -39,7 +39,7 @@ cdef tuple update_dict(dict sb, char *v, int loc):
 cdef int get_buffer(list indices, int iter, int current_buffer):
     cdef signed int buffer
     if iter > len(indices):
-        buffer = current_buffer - 1
+        buffer = -1
     else:
         buffer = indices[-iter]
     return buffer

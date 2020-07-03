@@ -200,10 +200,17 @@ print(gc_original.shape == gc_original2.shape)
 
 **Perfect! There is no information loss at all.**
 
-With **lzhw** also you can choose what columns you are interested in compressing from a data frame.
-**CompressedDF** class has an argument **selected_cols**. And how many rows you want to decompress with **n_rows** argument. 
+## More Functionalities
 
-Please see [documentation](https://mnoorfawi.github.io/lzhw/) for deeper look
+With **lzhw** also you can choose what columns you are interested in compressing from a data frame.
+**CompressedDF** class has an argument **selected_cols**. And how many rows you want to decompress with **n_rows** argument.
+
+**You can also determine **sliding_window** argument to control more compression speed or compressing to a smaller size.**
+Default value is 256, meaning that the algorithm will search in previous 256 values for similar sequences. Increasing this number can give smaller compressed size but can slow down a little bit the algorithm but not so much as **lz77_compress is able to scale up reasonably.**
+
+Also one can compress large csv files in chunks while reading them in chunks without opening the whole file in memory using **CompressedFromCSV** class which reads a file in chunks using *pandas chunksize* and compress each chunk separately.
+
+**Please see [documentation](https://mnoorfawi.github.io/lzhw/) for deeper look**
 
 ## LZHW Comparison with joblib algorithms
 

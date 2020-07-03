@@ -70,16 +70,42 @@ The main two functions in the library which apply the lempel-ziv77 algorithm:
 lz77_ex = lzhw.lz77_compress(example)
 print(lz77_ex)
 # [(None, None, b'A') (1, 1, b'C') (1, 1, b'A') (4, 3, b'C')
-#  (None, None, b'B') (1, 1, b'A') (3, 2, b'C') (7, 2, b'C') (1, 1, b'B')]
+#  (None, None, b'B') (1, 1, b'A') (3, 2, b'C') (12, 1, b'B') (15, 2, b'B')]
 
 lz77_decomp = lzhw.lz77_decompress(lz77_ex)
 print(all(lz77_decomp == example))
 # True
 ```
-
 Also we can selected how many elements we want to decompress from the original list instead of decompressing it all:
 
 ```python
 print(lzhw.lz77_decompress(lz77_ex, 3))
 # ['A', 'A', 'C']
 ```
+
+We can adjust the **sliding_window** argument in case we want more speed, i.e. lower sliding window, or more compression, i.e. higher sliding window.
+
+The sliding window is where the algorithm looks for previous sequences, its default value is 256 meaning that the algorithm will look for matches in 265 previous values from the current location.
+
+```python
+from sys import getsizeof
+from time import time
+
+random.seed(1191)
+example = random.choices(["A", "B", "C"], k = 10000)
+start = time()
+lz77_ex256 = lzhw.lz77_compress(example, sliding_window = 256)
+print(time() - start)
+# 0.0010254383087158203
+print(len(lz77_ex256))
+# 2136
+
+start = time()
+lz77_ex1024 = lzhw.lz77_compress(example, sliding_window = 1024)
+print(time() - start)
+# 0.003989458084106445
+print(len(lz77_ex1024))
+# 1769
+```
+As you can see the difference in time to look in 4X the default sliding_window is not big, you may not even notice it, because the algorithm uses **hash tables** to look for sequences instead of looping inside the 1024 window, so it can scale up well.
+Also worth noting that the difference in the compressed object is somewhat big and the object is smaller. That is advantageous when dealing with large data that we want to control how much compressed we would like it to be.

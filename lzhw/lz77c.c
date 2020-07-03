@@ -2357,7 +2357,7 @@ static PyObject *__pyx_f_5lz77c_update_dict(PyObject *__pyx_v_sb, char *__pyx_v_
  *     if iter > len(indices):
  */
 
-static int __pyx_f_5lz77c_get_buffer(PyObject *__pyx_v_indices, int __pyx_v_iter, int __pyx_v_current_buffer) {
+static int __pyx_f_5lz77c_get_buffer(PyObject *__pyx_v_indices, int __pyx_v_iter, CYTHON_UNUSED int __pyx_v_current_buffer) {
   int __pyx_v_buffer;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -2372,7 +2372,7 @@ static int __pyx_f_5lz77c_get_buffer(PyObject *__pyx_v_indices, int __pyx_v_iter
  * cdef int get_buffer(list indices, int iter, int current_buffer):
  *     cdef signed int buffer
  *     if iter > len(indices):             # <<<<<<<<<<<<<<
- *         buffer = current_buffer - 1
+ *         buffer = -1
  *     else:
  */
   if (unlikely(__pyx_v_indices == Py_None)) {
@@ -2386,24 +2386,24 @@ static int __pyx_f_5lz77c_get_buffer(PyObject *__pyx_v_indices, int __pyx_v_iter
     /* "lz77c.pyx":42
  *     cdef signed int buffer
  *     if iter > len(indices):
- *         buffer = current_buffer - 1             # <<<<<<<<<<<<<<
+ *         buffer = -1             # <<<<<<<<<<<<<<
  *     else:
  *         buffer = indices[-iter]
  */
-    __pyx_v_buffer = (__pyx_v_current_buffer - 1);
+    __pyx_v_buffer = -1;
 
     /* "lz77c.pyx":41
  * cdef int get_buffer(list indices, int iter, int current_buffer):
  *     cdef signed int buffer
  *     if iter > len(indices):             # <<<<<<<<<<<<<<
- *         buffer = current_buffer - 1
+ *         buffer = -1
  *     else:
  */
     goto __pyx_L3;
   }
 
   /* "lz77c.pyx":44
- *         buffer = current_buffer - 1
+ *         buffer = -1
  *     else:
  *         buffer = indices[-iter]             # <<<<<<<<<<<<<<
  *     return buffer

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Compressing Large CSVs in Chunks - lzhw</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Compressing Large CSVs in Chunks";
+    var mkdocs_page_input_path = "4 Compressing Large CSVs in Chunks.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> lzhw</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">lzhw (DataFrame Compression)</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../1%20Quick%20Start/">Quick Start</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../2%20Compressing%20DataFrames/">Compressing DataFrames (in Parallel)</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/">(De)Compressing specific columns or rows from a dataframe (in Parallel)</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Compressing Large CSVs in Chunks</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#compressed-chunks">Compressed Chunks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dictionary-of-compressed-chunks">Dictionary of Compressed Chunks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#saving-and-reading-compressed-chunks">Saving and Reading Compressed Chunks</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#reference">Reference</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../5%20More%20Compression%20Functions/">More Compression Functions</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../6%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../7%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">lzhw</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Compressing Large CSVs in Chunks</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="compressing-large-csvs-in-chunks">Compressing Large CSVs in Chunks</h1>
+<h4 id="compressed-chunks">Compressed Chunks</h4>
+<p>With <strong>lzhw</strong> we can also compressed a large csv file without needing to read it all in memory using <strong>CompressedFromCSV</strong> method.</p>
+<p>It uses <strong>pandas chunksize</strong> argument to read the file in chunks and compress each chunk and return a <strong>dictionary of compressed chunks.</strong></p>
+<p>We can also specify <strong>selected_cols</strong> argument to get only specific columns from a file. And <strong>parallel</strong> argument in case we want to compress each chunk in parallel.</p>
+<p>Default chunk size is 1 million. So it is preferably to be used with very large files.</p>
+<p>Let's assume that <strong>german Credit</strong>[1] data is a big one just for illustration.</p>
+<p>Because the data is in excel and CompressedFromCSV only works with csv we will change the file into csv first.</p>
+<pre><code class="python">import pandas as pd
+gc = pd.read_excel(&quot;examples/german_credit.xlsx&quot;)
+gc.to_csv(&quot;german_credit.csv&quot;, index = False)
+
+chunks = gc.shape[0] / 4 ## to have 4 chunks
+compressed_chunks = lzhw.CompressedFromCSV(&quot;german_credit.csv&quot;, chunksize = chunks)
+# Compressing Chunk 0 ...
+# 100%|█████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 1478.93it/s]
+# Compressing Chunk 1 ...
+# 100%|█████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 1515.10it/s]
+# Compressing Chunk 2 ...
+# 100%|█████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 1678.66it/s]
+# Compressing Chunk 3 ...
+# 100%|█████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 1635.98it/s]
+# File was compressed in 4 chunk(s)
+</code></pre>
+
+<h4 id="dictionary-of-compressed-chunks">Dictionary of Compressed Chunks</h4>
+<p>We now have a dictionary of four compressed chunks.
+Let's look at it.</p>
+<pre><code class="python">## How many chunks
+print(compressed_chunks.chunk_ind)
+# 4
+
+## Chunk id is the key to get the compressed chunk of data frame
+print(compressed_chunks.all_comp.keys())
+# dict_keys([0, 1, 2, 3])
+
+## the dicionary
+print(compressed_chunks.all_comp)
+# {0: &lt;lzhw.lzhw_df.CompressedDF at 0x23e29ae75c8&gt;,
+#  1: &lt;lzhw.lzhw_df.CompressedDF at 0x23e2c467f08&gt;,
+#  2: &lt;lzhw.lzhw_df.CompressedDF at 0x23e29bb7408&gt;,
+#  3: &lt;lzhw.lzhw_df.CompressedDF at 0x23e29cfb4c8&gt;}
+</code></pre>
+
+<p>As we can see, <strong>4 chunks of 4 CompressedDF class</strong>, we can now treat them separately.</p>
+<pre><code class="python">## Let's decompress column 0 from chunk 0 and compare it with original 0 column in data
+gc_chunk00 = compressed_chunks.all_comp[0].compressed[0].decompress()
+print(all(gc_chunk00 == gc.iloc[:int(chunks), 0])) # because each chunk has a slice of the original dataframe
+# True
+</code></pre>
+
+<h4 id="saving-and-reading-compressed-chunks">Saving and Reading Compressed Chunks</h4>
+<p>Finally, we can save the dictionary to desk using <strong>save_to_file</strong> method and read it using <strong>decompress_df_from_file</strong> method.</p>
+<pre><code class="python">compressed_chunks.save_to_file(&quot;compressed_chunks.txt&quot;, chunks = &quot;all&quot;)
+</code></pre>
+
+<p><strong>We can specify the chunks we want to save to file. Default is "all".</strong></p>
+<p><strong>Also while decompressing we can only get specific chunks</strong></p>
+<pre><code class="python">decomp_chunks = lzhw.decompress_df_from_file(&quot;compressed_chunks.txt&quot;,
+                                             selected_chunks = [0, 3])
+# 100%|█████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 3265.44it/s]
+# 100%|█████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 3113.33it/s]
+</code></pre>
+
+<p>Each chunk contains a decompressed data frame inside it. Let's check that only two chunks were decompressed:</p>
+<pre><code class="python">print(decomp_chunks.keys())
+# dict_keys([0, 3])
+
+total_rows = 0
+for k in decomp_chunks.keys():
+    total_rows += decomp_chunks[k].shape[0]
+print(total_rows)
+# 500
+</code></pre>
+
+<p>Seems perfect! Data was compressed in 4 chunks 250 rows each, as all data is of 1000 rows.</p>
+<p>Let's look at the contained data frames</p>
+<pre><code class="python">print(decomp_chunks[0].iloc[:4, :3])
+#   Duration    Amount  InstallmentRatePercentage
+# 0        6      1169                          4
+# 1       48      5951                          2
+# 2       12      2096                          2
+# 3       42      7882                          2
+</code></pre>
+
+<h5 id="reference">Reference</h5>
+<pre><code>    [1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../5%20More%20Compression%20Functions/" class="btn btn-neutral float-right" title="More Compression Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" class="btn btn-neutral" title="(De)Compressing specific columns or rows from a dataframe (in Parallel)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../5%20More%20Compression%20Functions/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

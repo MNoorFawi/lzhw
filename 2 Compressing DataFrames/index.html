@@ -76,15 +76,19 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../4%20More%20Compression%20Functions/">More Compression Functions</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../4%20Compressing%20Large%20CSVs%20in%20Chunks/">Compressing Large CSVs in Chunks</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../5%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../5%20More%20Compression%20Functions/">More Compression Functions</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../6%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../6%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../7%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
                     </li>
                 </ul>
       </div>
@@ -136,10 +140,10 @@ for i in range(len(comp_df.compressed)):
     comp_space += comp_df.compressed[i].size()
 
 print(comp_space, getsizeof(df))
-# 144 712
+# 296 712
 
 ## Test information loss
-print(all(comp_df.compressed[0].decompress() == list(map(str, df.a))))
+print(list(map(int, comp_df.compressed[0].decompress())) == list(df.a))
 # True
 </code></pre>
 
@@ -169,9 +173,8 @@ print(original)
 <h4 id="compressing-bigger-dataframes">Compressing Bigger DataFrames</h4>
 <p>Let's try to compress a real-world dataframe <strong>german_credit.xlsx</strong> file from <a href="https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)">UCI Machine Learning Repository</a> [1].</p>
 <p>Original txt file is <strong>219 KB</strong> on desk.</p>
-<pre><code class="python">gc_original = pd.read_excel(&quot;examples/german_credit.xlsx&quot;, 
-                            parallel = True, n_jobs = -3) # default value all CPUs but 2
-comp_gc = lzhw.CompressedDF(gc_original)
+<pre><code class="python">gc_original = pd.read_excel(&quot;examples/german_credit.xlsx&quot;) 
+comp_gc = lzhw.CompressedDF(gc_original, parallel = True, n_jobs = -3) # default value all CPUs but 2
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 257.95it/s]
 
 ## Compare sizes in Python:
@@ -182,7 +185,7 @@ for i in range(len(comp_gc.compressed)):
 print(comp_space, getsizeof(gc_original))
 # 4488 548852
 
-print(all(comp_gc.compressed[0].decompress() == list(map(str, gc_original.iloc[:, 0]))))
+print(list(map(int, comp_gc.compressed[0].decompress())) == list(gc_original.iloc[:, 0]))
 # True
 </code></pre>
 
@@ -198,7 +201,7 @@ Future versions will be optimized to save more space.</p>
 gc_original2 = lzhw.decompress_df_from_file(&quot;gc_compressed.txt&quot;)
 # 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 259.46it/s]
 
-print(list(gc_original2.iloc[:, 13]) == list(map(str, gc_original.iloc[:, 13])))
+print(list(map(int, gc_original2.iloc[:, 13])) == list(gc_original.iloc[:, 13]))
 # True
 
 print(gc_original.shape == gc_original2.shape)
@@ -206,6 +209,12 @@ print(gc_original.shape == gc_original2.shape)
 </code></pre>
 
 <p><strong>Perfect! There is no information loss at all.</strong></p>
+<p><strong>We can also adjust the sliding window of the LZ77 algorithm</strong></p>
+<pre><code class="python">comp_gc512 = lzhw.CompressedDF(gc_original, sliding_window = 512)
+# 100%|█████████████████████████████████████████████████████████████████████████████████| 62/62 [00:00&lt;00:00, 353.21it/s]
+</code></pre>
+
+<p>Sliding window can be very useful in case we want more compressed output.</p>
 <h5 id="reference">Reference</h5>
 <pre><code>    [1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
 </code></pre>

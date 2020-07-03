@@ -19,7 +19,7 @@
   <script>
     // Current page data
     var mkdocs_page_name = "More Compression Functions";
-    var mkdocs_page_input_path = "4 More Compression Functions.md";
+    var mkdocs_page_input_path = "5 More Compression Functions.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -63,6 +63,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/">(De)Compressing specific columns or rows from a dataframe (in Parallel)</a>
                     </li>
                 </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../4%20Compressing%20Large%20CSVs%20in%20Chunks/">Compressing Large CSVs in Chunks</a>
+                    </li>
+                </ul>
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">More Compression Functions</a>
     <ul class="current">
@@ -80,11 +84,11 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../5%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../6%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../6%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../7%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
                     </li>
                 </ul>
       </div>
@@ -177,7 +181,7 @@ print(huff20)
 <pre><code class="python">lz77_ex = lzhw.lz77_compress(example)
 print(lz77_ex)
 # [(None, None, b'A') (1, 1, b'C') (1, 1, b'A') (4, 3, b'C')
-#  (None, None, b'B') (1, 1, b'A') (3, 2, b'C') (7, 2, b'C') (1, 1, b'B')]
+#  (None, None, b'B') (1, 1, b'A') (3, 2, b'C') (12, 1, b'B') (15, 2, b'B')]
 
 lz77_decomp = lzhw.lz77_decompress(lz77_ex)
 print(all(lz77_decomp == example))
@@ -188,6 +192,31 @@ print(all(lz77_decomp == example))
 <pre><code class="python">print(lzhw.lz77_decompress(lz77_ex, 3))
 # ['A', 'A', 'C']
 </code></pre>
+
+<p>We can adjust the <strong>sliding_window</strong> argument in case we want more speed, i.e. lower sliding window, or more compression, i.e. higher sliding window.</p>
+<p>The sliding window is where the algorithm looks for previous sequences, its default value is 256 meaning that the algorithm will look for matches in 265 previous values from the current location.</p>
+<pre><code class="python">from sys import getsizeof
+from time import time
+
+random.seed(1191)
+example = random.choices([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], k = 10000)
+start = time()
+lz77_ex256 = lzhw.lz77_compress(example, sliding_window = 256)
+print(time() - start)
+# 0.0010254383087158203
+print(len(lz77_ex256))
+# 2136
+
+start = time()
+lz77_ex1024 = lzhw.lz77_compress(example, sliding_window = 1024)
+print(time() - start)
+# 0.003989458084106445
+print(len(lz77_ex1024))
+# 1769
+</code></pre>
+
+<p>As you can see the difference in time to look in 4X the default sliding_window is not big, you may not even notice it, because the algorithm uses <strong>hash tables</strong> to look for sequences instead of looping inside the 1024 window, so it can scale up well.
+Also worth noting that the difference in the compressed object is somewhat big and the object is smaller. That is advantageous when dealing with large data that we want to control how much compressed we would like it to be.</p>
               
             </div>
           </div>
@@ -195,10 +224,10 @@ print(all(lz77_decomp == example))
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../5%20Using%20the%20lzhw%20command%20line%20tool/" class="btn btn-neutral float-right" title="Using the lzhw Command Line tool">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../6%20Using%20the%20lzhw%20command%20line%20tool/" class="btn btn-neutral float-right" title="Using the lzhw Command Line tool">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" class="btn btn-neutral" title="(De)Compressing specific columns or rows from a dataframe (in Parallel)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../4%20Compressing%20Large%20CSVs%20in%20Chunks/" class="btn btn-neutral" title="Compressing Large CSVs in Chunks"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -224,10 +253,10 @@ print(all(lz77_decomp == example))
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../3%20%28De%29Compressing%20Specific%20columns%20or%20rows%20from%20a%20dataframe/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../4%20Compressing%20Large%20CSVs%20in%20Chunks/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../5%20Using%20the%20lzhw%20command%20line%20tool/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../6%20Using%20the%20lzhw%20command%20line%20tool/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

@@ -60,6 +60,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#a-long-list-to-3-numbers">A Long List to 3 Numbers</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adjusting-sliding-window">Adjusting Sliding Window</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#writing-to-reading-from-files">Writing to &amp; Reading from Files</a>
     </li>
     </ul>
@@ -74,15 +76,19 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../4%20More%20Compression%20Functions/">More Compression Functions</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../4%20Compressing%20Large%20CSVs%20in%20Chunks/">Compressing Large CSVs in Chunks</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../5%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../5%20More%20Compression%20Functions/">More Compression Functions</a>
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../6%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../6%20Using%20the%20lzhw%20command%20line%20tool/">Using the lzhw Command Line tool</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../7%20Comparing%20LZHW%20with%20Others/">Comparing LZHW with Others</a>
                     </li>
                 </ul>
       </div>
@@ -178,6 +184,37 @@ LZHW class has an attribute called <strong>compressed</strong> which is a tuple 
 # (1048576, 1048576, 43175655208435)
 </code></pre>
 
+<h4 id="adjusting-sliding-window">Adjusting Sliding Window</h4>
+<p>LZHW class has <strong>sliding_window</strong> argument which we can adjust in case we want more compression. </p>
+<p>The sliding window is where the algorithm looks back for previous sequences matching the current location in the input stream. </p>
+<p>The default value of the argument is 265 meaning that the algorithm will look for matches in the previous 265 values from the current location.</p>
+<p>We can make this number bigger to allow the algorithm to look for matches in a wider window that can potentially lead to more compression. The algorithm then will behave a little bit slower, you may even not notice it, because <strong>lzhw uses hash table, python dictionaries, to look up the matches, i.e. it doesn't loop over the window elements.</strong></p>
+<pre><code class="python">from time import time
+from sys import getsizeof
+sample_data = [&quot;Sunny&quot;, &quot;Sunny&quot;, &quot;Overcast&quot;, &quot;Rain&quot;, &quot;Rain&quot;, &quot;Rain&quot;, &quot;Overcast&quot;, 
+               &quot;Sunny&quot;, &quot;Sunny&quot;, &quot;Rain&quot;, &quot;Sunny&quot;, &quot;Overcast&quot;, &quot;Overcast&quot;, &quot;Rain&quot;, 
+               &quot;Rain&quot;, &quot;Rain&quot;, &quot;Sunny&quot;, &quot;Sunny&quot;, &quot;Overcaste&quot;] * 10000
+print(&quot;Original size:&quot;, getsizeof(sample_data))
+# Original size: 1520064
+
+start = time()
+lzhw265 = lzhw.LZHW(sample_data, sliding_window = 265)
+print(&quot;sliding window 265 compression time:&quot;, time() - start)
+# sliding window 265 compression time: 0.5186636447906494
+
+print(&quot;sliding window 265 size:&quot;, lzhw265.size())
+# sliding window 265 size: 72
+
+start = time()
+lzhw1024 = lzhw.LZHW(sample_data, sliding_window = 1024)
+print(&quot;sliding window 1024 compression time:&quot;, time() - start)
+# sliding window 1024 compression time: 0.5305755138397217
+
+print(&quot;sliding window 1024 size:&quot;, lzhw1024.size())
+# sliding window 1024 size: 72
+</code></pre>
+
+<p>Time difference is almost not noticeable, and size is the same because the output is a tuple of 3 integers and the data itself is repeated 10k times so changing the sliding window will not help. Here it is for illustration only but you will notice the difference with real data when you save it into desk.</p>
 <h4 id="writing-to-reading-from-files">Writing to &amp; Reading from Files</h4>
 <p>We can also write the compressed data to files using <strong>save_to_file</strong> method, 
 and read it back and decompress it using <strong>decompress_from_file</strong> function.</p>

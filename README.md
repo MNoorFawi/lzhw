@@ -1,5 +1,5 @@
 # lzhw
-##### Compression library for data frames and tabular data files, csv, excel etc.
+## Compression library for data frames and tabular data files, csv, excel etc.
 
 ![lzhw logo](./img/lzhw_logo.jpg)
 

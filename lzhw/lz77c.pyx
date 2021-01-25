@@ -36,6 +36,7 @@ cdef tuple update_dict(dict sb, char *v, int loc):
         buffer = loc - 1
     return sb, buffer
 
+# to guide the algorithm where to find matches
 cdef int get_buffer(list indices, int iter, int current_buffer):
     cdef signed int buffer
     if iter > len(indices):

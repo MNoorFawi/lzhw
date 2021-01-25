@@ -8,7 +8,7 @@ before_install:
   #- export PYTHONPATH=$PYTHONPATH:$(pwd)
 # command to install dependencies
 install:
-  - pip install numpy
+  - pip install Cython numpy
   - python setup.py install
   - pip install -r requirements.txt
 # command to run tests

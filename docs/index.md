@@ -37,6 +37,10 @@ Then [Lempel-Ziv-Welch](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%9
 The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both LZSS, which is a variant of LZ77, and huffman coding, but I am not sure how the huffman coding further compresses the triplets. I believe it compresses the triplets altogether not as 3 separate lists as lzhw.
  And also it doesn't use the lempel-ziv-welch for further compression.
 
+LZHW also uses a **modified version of LZ77**, in which it uses a dictionary, **key-value data structure, to store the already-seen patterns with their locations during the compression process, so that the algorithm instead of blindly going back looking for matching, it knows where exactly to go**. This **speeds up the compression process**.
+
+For example, let's say the algorithm now has found "A", it needs to see in previous sequences where is the longest match. It will do so using the dictionary {"A": [1, 4, 5, 8]}. So it will go and start looking starting from these locations instead of blindly looking for "A"'s indices. 
+
 DEFLATE Algorithm may be more complicated than lzhw, discussed here, but the latter is designed specifically for **tabular data** types to help in **data science** and **data analysis** projects.
 
 #### Putting all together with LZHW Class

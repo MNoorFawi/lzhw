@@ -1,7 +1,7 @@
 # lzhw
 ## Compression library for data frames and tabular data files, csv, excel etc.
 
-![lzhw logo](./img/lzhw-logo.jpg)
+![lzhw logo](./img/lzhw_logo.jpg)
 
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
 [![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
@@ -370,6 +370,14 @@ for index, value in enumerate(file_sizes):
 ![](./img/lzhw_size2.jpg)
 
 **By far LZHW outperforms others with acceptable time difference**, especially with all other functionalities it enables to deal with compressed data.
+
+#### DEFLATE Note
+The techniques may seem similar to the [**DEFLATE**](https://en.wikipedia.org/wiki/DEFLATE) algorithm which uses both LZSS, which is a variant of LZ77, and huffman coding, but I am not sure how the huffman coding further compresses the triplets. I believe it compresses the triplets altogether not as 3 separate lists as lzhw.
+ And also it doesn't use the lempel-ziv-welch for further compression.
+
+LZHW also uses a **modified version of LZ77**, in which it uses a dictionary, **key-value data structure, to store the already-seen patterns with their locations during the compression process, so that the algorithm instead of blindly going back looking for matching, it knows where exactly to go**. This **speeds up the compression process**.
+
+For example, let's say the algorithm now has found "A", it needs to see in previous sequences where is the longest match. It will do so using the dictionary {"A": [1, 4, 5, 8]}. So it will go and start looking starting from these locations instead of blindly looking for "A"'s indices. 
 
 ##### Reference
  		[1] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.

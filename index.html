@@ -146,6 +146,8 @@ Where <em>offset</em> is how many steps should we return back word to find the b
 <h4 id="deflate-note">DEFLATE Note</h4>
 <p>The techniques may seem similar to the <a href="https://en.wikipedia.org/wiki/DEFLATE"><strong>DEFLATE</strong></a> algorithm which uses both LZSS, which is a variant of LZ77, and huffman coding, but I am not sure how the huffman coding further compresses the triplets. I believe it compresses the triplets altogether not as 3 separate lists as lzhw.
  And also it doesn't use the lempel-ziv-welch for further compression.</p>
+<p>LZHW also uses a <strong>modified version of LZ77</strong>, in which it uses a dictionary, <strong>key-value data structure, to store the already-seen patterns with their locations during the compression process, so that the algorithm instead of blindly going back looking for matching, it knows where exactly to go</strong>. This <strong>speeds up the compression process</strong>.</p>
+<p>For example, let's say the algorithm now has found "A", it needs to see in previous sequences where is the longest match. It will do so using the dictionary {"A": [1, 4, 5, 8]}. So it will go and start looking starting from these locations instead of blindly looking for "A"'s indices. </p>
 <p>DEFLATE Algorithm may be more complicated than lzhw, discussed here, but the latter is designed specifically for <strong>tabular data</strong> types to help in <strong>data science</strong> and <strong>data analysis</strong> projects.</p>
 <h4 id="putting-all-together-with-lzhw-class">Putting all together with LZHW Class</h4>
 <p>All of the steps can be done at once using <strong>LZHW</strong> class as follows and as shown in the Quick Start section:</p>
@@ -224,5 +226,5 @@ print(sys.getsizeof(lzhw_comp.sequences) + sys.getsizeof(lzhw_comp.compressed))
 
 <!--
 MkDocs version : 1.1
-Build Date UTC : 2020-07-03 18:50:00
+Build Date UTC : 2021-01-25 12:02:24
 -->

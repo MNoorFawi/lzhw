@@ -1,10 +1,10 @@
-cdef extern from "Python.h":
-    char* PyUnicode_AsUTF8(object unicode)
-
 cimport numpy as np
 import numpy as np
 from libc.stdlib cimport malloc#, free
 from cpython cimport dict
+
+cdef extern from "Python.h":
+    char* PyUnicode_AsUTF8(object unicode)
 
 ctypedef fused list_arr:
     list

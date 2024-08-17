@@ -4,7 +4,6 @@
 ![lzhw logo](./img/lzhw_logo.jpg)
 
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://mnoorfawi.github.io/lzhw/) 
-[![Build Status](https://travis-ci.com/MNoorFawi/lzhw.svg?branch=master)](https://travis-ci.com/MNoorFawi/lzhw)
 [![Downloads](https://static.pepy.tech/personalized-badge/lzhw?period=total&units=international_system&left_color=grey&right_color=yellowgreen&left_text=Downloads)](https://pepy.tech/project/lzhw)
 
 **Compression** library to compress big lists and/or pandas dataframes using an **optimized algorithm (lzhw)** developed from Lempel-Ziv, Huffman and LZ-Welch techniques.
